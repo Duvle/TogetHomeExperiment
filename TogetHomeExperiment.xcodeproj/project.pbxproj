@@ -11,6 +11,10 @@
 		4A60F71E29D7367900DEE86F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A60F71D29D7367900DEE86F /* ContentView.swift */; };
 		4A60F72029D7367A00DEE86F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4A60F71F29D7367A00DEE86F /* Assets.xcassets */; };
 		4A60F72329D7367A00DEE86F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4A60F72229D7367A00DEE86F /* Preview Assets.xcassets */; };
+		4A60F72A29D73F0900DEE86F /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A60F72929D73F0900DEE86F /* HomeView.swift */; };
+		4A60F72C29D73FF800DEE86F /* BeaconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A60F72B29D73FF800DEE86F /* BeaconView.swift */; };
+		4A60F72E29D7400A00DEE86F /* ConnectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A60F72D29D7400A00DEE86F /* ConnectionView.swift */; };
+		4A60F73029D740BC00DEE86F /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A60F72F29D740BC00DEE86F /* SettingsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +23,10 @@
 		4A60F71D29D7367900DEE86F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		4A60F71F29D7367A00DEE86F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4A60F72229D7367A00DEE86F /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		4A60F72929D73F0900DEE86F /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		4A60F72B29D73FF800DEE86F /* BeaconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeaconView.swift; sourceTree = "<group>"; };
+		4A60F72D29D7400A00DEE86F /* ConnectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionView.swift; sourceTree = "<group>"; };
+		4A60F72F29D740BC00DEE86F /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +61,10 @@
 			children = (
 				4A60F71B29D7367900DEE86F /* TogetHomeExperimentApp.swift */,
 				4A60F71D29D7367900DEE86F /* ContentView.swift */,
+				4A60F72929D73F0900DEE86F /* HomeView.swift */,
+				4A60F72B29D73FF800DEE86F /* BeaconView.swift */,
+				4A60F72D29D7400A00DEE86F /* ConnectionView.swift */,
+				4A60F72F29D740BC00DEE86F /* SettingsView.swift */,
 				4A60F71F29D7367A00DEE86F /* Assets.xcassets */,
 				4A60F72129D7367A00DEE86F /* Preview Content */,
 			);
@@ -137,7 +149,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4A60F72A29D73F0900DEE86F /* HomeView.swift in Sources */,
+				4A60F72E29D7400A00DEE86F /* ConnectionView.swift in Sources */,
 				4A60F71E29D7367900DEE86F /* ContentView.swift in Sources */,
+				4A60F73029D740BC00DEE86F /* SettingsView.swift in Sources */,
+				4A60F72C29D73FF800DEE86F /* BeaconView.swift in Sources */,
 				4A60F71C29D7367900DEE86F /* TogetHomeExperimentApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -265,11 +281,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = E0401A;
 				DEVELOPMENT_ASSET_PATHS = "\"TogetHomeExperiment/Preview Content\"";
 				DEVELOPMENT_TEAM = VEL246Z47F;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Toget Home [EXP]";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -294,11 +312,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = E0401;
 				DEVELOPMENT_ASSET_PATHS = "\"TogetHomeExperiment/Preview Content\"";
 				DEVELOPMENT_TEAM = VEL246Z47F;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Toget Home [EXP]";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

@@ -8,14 +8,26 @@
 import SwiftUI
 
 struct ContentView: View {
+    
     var body: some View {
-        VStack {
-            Image(systemName: "wave.3.right.circle.fill")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Toget Home Experiment")
+        TabView {
+            HomeView()
+                .tabItem {
+                    Label("Home", systemImage: "house")
+                }
+            BeaconView()
+                .tabItem {
+                    Label("Beacon", systemImage: "wave.3.right")
+                }
+            ConnectionView()
+                .tabItem {
+                    Label("Conection", systemImage: "network")
+                }
+            SettingsView()
+                .tabItem {
+                    Label("Settings", systemImage: "gear")
+                }
         }
-        .padding()
     }
 }
 
