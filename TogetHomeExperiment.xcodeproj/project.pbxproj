@@ -15,6 +15,7 @@
 		4A60F72C29D73FF800DEE86F /* BeaconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A60F72B29D73FF800DEE86F /* BeaconView.swift */; };
 		4A60F72E29D7400A00DEE86F /* ConnectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A60F72D29D7400A00DEE86F /* ConnectionView.swift */; };
 		4A60F73029D740BC00DEE86F /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A60F72F29D740BC00DEE86F /* SettingsView.swift */; };
+		4AD2324D29D819A3000D3A9B /* SplashScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD2324C29D819A3000D3A9B /* SplashScreenView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +28,12 @@
 		4A60F72B29D73FF800DEE86F /* BeaconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeaconView.swift; sourceTree = "<group>"; };
 		4A60F72D29D7400A00DEE86F /* ConnectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionView.swift; sourceTree = "<group>"; };
 		4A60F72F29D740BC00DEE86F /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		4AD2324C29D819A3000D3A9B /* SplashScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreenView.swift; sourceTree = "<group>"; };
+		4AD2325929D81E6B000D3A9B /* SamsungOneKorean-300.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SamsungOneKorean-300.ttf"; sourceTree = "<group>"; };
+		4AD2325A29D81E6B000D3A9B /* SamsungOneKorean-700.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SamsungOneKorean-700.ttf"; sourceTree = "<group>"; };
+		4AD2325B29D81E6C000D3A9B /* SamsungOneKorean-400.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SamsungOneKorean-400.ttf"; sourceTree = "<group>"; };
+		4AD2325C29D81E6C000D3A9B /* SamsungOneKorean-200.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SamsungOneKorean-200.ttf"; sourceTree = "<group>"; };
+		4AD2325D29D81E6D000D3A9B /* SamsungOneKorean-600.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SamsungOneKorean-600.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,7 +72,9 @@
 				4A60F72B29D73FF800DEE86F /* BeaconView.swift */,
 				4A60F72D29D7400A00DEE86F /* ConnectionView.swift */,
 				4A60F72F29D740BC00DEE86F /* SettingsView.swift */,
+				4AD2324C29D819A3000D3A9B /* SplashScreenView.swift */,
 				4A60F71F29D7367A00DEE86F /* Assets.xcassets */,
+				4AD2324E29D81E42000D3A9B /* Fonts */,
 				4A60F72129D7367A00DEE86F /* Preview Content */,
 			);
 			path = TogetHomeExperiment;
@@ -77,6 +86,18 @@
 				4A60F72229D7367A00DEE86F /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		4AD2324E29D81E42000D3A9B /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				4AD2325C29D81E6C000D3A9B /* SamsungOneKorean-200.ttf */,
+				4AD2325929D81E6B000D3A9B /* SamsungOneKorean-300.ttf */,
+				4AD2325B29D81E6C000D3A9B /* SamsungOneKorean-400.ttf */,
+				4AD2325D29D81E6D000D3A9B /* SamsungOneKorean-600.ttf */,
+				4AD2325A29D81E6B000D3A9B /* SamsungOneKorean-700.ttf */,
+			);
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -149,6 +170,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4AD2324D29D819A3000D3A9B /* SplashScreenView.swift in Sources */,
 				4A60F72A29D73F0900DEE86F /* HomeView.swift in Sources */,
 				4A60F72E29D7400A00DEE86F /* ConnectionView.swift in Sources */,
 				4A60F71E29D7367900DEE86F /* ContentView.swift in Sources */,
@@ -211,7 +233,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -265,7 +287,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -282,17 +304,19 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = E0401A;
+				CURRENT_PROJECT_VERSION = E041D;
 				DEVELOPMENT_ASSET_PATHS = "\"TogetHomeExperiment/Preview Content\"";
 				DEVELOPMENT_TEAM = VEL246Z47F;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = "Toget Home [EXP]";
+				INFOPLIST_FILE = TogetHomeExperiment/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Toget Home E";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -313,17 +337,19 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = E0401;
+				CURRENT_PROJECT_VERSION = E041D;
 				DEVELOPMENT_ASSET_PATHS = "\"TogetHomeExperiment/Preview Content\"";
 				DEVELOPMENT_TEAM = VEL246Z47F;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = "Toget Home [EXP]";
+				INFOPLIST_FILE = TogetHomeExperiment/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Toget Home E";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

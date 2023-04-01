@@ -11,7 +11,17 @@ struct HomeView: View {
     var body: some View {
         NavigationView {
             Form{
-                Text("Total Data Homepage")
+                HStack{
+                    Spacer()
+                    VStack {
+                        Image(systemName: "questionmark.folder")
+                            .scaleEffect(2)
+                            .foregroundColor(Color("OutlineColor"))
+                        Text("\nNo Data")
+                            .bold()
+                    }.frame(height: 500)
+                    Spacer()
+                }
             }.navigationTitle("Home")
         }
     }
