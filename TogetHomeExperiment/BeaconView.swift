@@ -10,10 +10,70 @@ import SwiftUI
 struct BeaconView: View {
     var body: some View {
         NavigationView {
-            Form{
-                Text("Beacon Scanning Data Page")
+            Form {
+                NavigationLink(
+                    destination: BeaconAllView(),
+                    label: {
+                        HStack {
+                            Image(systemName: "globe.asia.australia")
+                                .font(.system(size: 60, weight: .light))
+                                .foregroundColor(Color("BluetoothColor"))
+                                .padding(10)
+                            VStack {
+                                Text("All Beacon")
+                                    .font(.custom("SamsungOneKorean-700", size: 35))
+                                    .frame(width: 250, alignment: .leading)
+                                    .padding(.bottom, 1)
+                                Text("Find all the Toget-Home's Beacon Broadcast Data.")
+                                    .font(.custom("SamsungOneKorean-300", size: 10))
+                                    .frame(width: 250, alignment: .leading)
+                            }
+                        }
+                    }).frame(height: 150)
+                NavigationLink(
+                    destination: BeaconSpecView(),
+                    label: {
+                        HStack {
+                            Image(systemName: "mappin.and.ellipse")
+                                .font(.system(size: 60, weight: .light))
+                                .foregroundColor(Color("BluetoothColor"))
+                                .padding(10)
+                            VStack {
+                                Text("Specific Beacon")
+                                    .font(.custom("SamsungOneKorean-700", size: 35))
+                                    .frame(width: 250, alignment: .leading)
+                                    .padding(.bottom, 1)
+                                Text("Find a specific Toget-Home's Beacon Broadcast Data.")
+                                    .font(.custom("SamsungOneKorean-300", size: 10))
+                                    .frame(width: 250, alignment: .leading)
+                            }
+                        }
+                    }).frame(height: 150)
             }.navigationTitle("Beacon")
         }
+    }
+}
+
+struct BeaconAllView: View {
+    var body: some View {
+        NavigationView {
+            Form {
+                Text("TEST")
+                Text("TEST")
+                Text("TEST")
+                Text("TEST")
+            }
+        }.navigationTitle("All Beacon")
+    }
+}
+
+struct BeaconSpecView: View {
+    var body: some View {
+        NavigationView {
+            Form {
+                Text("TEST")
+            }
+        }.navigationTitle("Specific Beacon")
     }
 }
 

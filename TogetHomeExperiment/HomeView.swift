@@ -15,9 +15,9 @@ struct HomeView: View {
                     Spacer()
                     VStack {
                         Image(systemName: "questionmark.folder")
-                            .scaleEffect(2)
+                            .font(.system(size: 40, weight: .medium))
                             .foregroundColor(Color("OutlineColor"))
-                        Text("\nNo Data")
+                        Text("No Data")
                             .bold()
                     }.frame(height: 500)
                     Spacer()
