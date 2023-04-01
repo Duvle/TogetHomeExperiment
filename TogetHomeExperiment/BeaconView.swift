@@ -7,43 +7,54 @@
 
 import SwiftUI
 
+enum ViewOption {
+    case all
+    case specific
+    case primary
+}
+
+struct BeaconOption {
+    var mainTitle: String
+    var subTitle: String
+    var icon: String
+    var targetView: ViewOption
+}
+
+@ViewBuilder func viewSelect(for viewoption: ViewOption) -> some View {
+    switch viewoption {
+    case .all:
+        BeaconAllView()
+    case .specific:
+        BeaconSpecView()
+    case .primary:
+        BeaconPriView()
+    }
+}
+
 struct BeaconView: View {
+    @State var optionList = [
+        BeaconOption(mainTitle: "All Beacon", subTitle: "Find all the Toget-Home's Beacon Broadcast Data.", icon: "globe.asia.australia", targetView: .all),
+        BeaconOption(mainTitle: "Specific Beacon", subTitle: "Find a specific Toget-Home's Beacon Broadcast Data.", icon: "square.split.bottomrightquarter", targetView: .specific),
+        BeaconOption(mainTitle: "Primary Beacon", subTitle: "Find a primary Toget-Home's Beacon Broadcast Data.", icon: "flag.checkered.circle", targetView: .primary)
+    ]
     var body: some View {
-        NavigationView {
-            Form {
+        
+        NavigationStack {
+            List(optionList, id: \.mainTitle) { optionListData in
                 NavigationLink(
-                    destination: BeaconAllView(),
+                    destination: viewSelect(for: optionListData.targetView),
                     label: {
                         HStack {
-                            Image(systemName: "globe.asia.australia")
+                            Image(systemName: optionListData.icon)
                                 .font(.system(size: 60, weight: .light))
                                 .foregroundColor(Color("BluetoothColor"))
                                 .padding(10)
                             VStack {
-                                Text("All Beacon")
+                                Text(optionListData.mainTitle)
                                     .font(.custom("SamsungOneKorean-700", size: 35))
                                     .frame(width: 250, alignment: .leading)
                                     .padding(.bottom, 1)
-                                Text("Find all the Toget-Home's Beacon Broadcast Data.")
-                                    .font(.custom("SamsungOneKorean-400", size: 10))
-                                    .frame(width: 250, alignment: .leading)
-                            }
-                        }
-                    }).frame(height: 150)
-                NavigationLink(
-                    destination: BeaconSpecView(),
-                    label: {
-                        HStack {
-                            Image(systemName: "mappin.and.ellipse")
-                                .font(.system(size: 60, weight: .light))
-                                .foregroundColor(Color("BluetoothColor"))
-                                .padding(10)
-                            VStack {
-                                Text("Specific Beacon")
-                                    .font(.custom("SamsungOneKorean-700", size: 35))
-                                    .frame(width: 250, alignment: .leading)
-                                    .padding(.bottom, 1)
-                                Text("Find a specific Toget-Home's Beacon Broadcast Data.")
+                                Text(optionListData.subTitle)
                                     .font(.custom("SamsungOneKorean-400", size: 10))
                                     .frame(width: 250, alignment: .leading)
                             }
@@ -56,26 +67,55 @@ struct BeaconView: View {
 
 struct BeaconAllView: View {
     var body: some View {
-        NavigationView {
-            Form {
-                Text("TEST")
-                Text("TEST")
-                Text("TEST")
+        NavigationStack {
+            List {
                 Text("TEST")
             }
-        }.navigationTitle("All Beacon")
-            .navigationBarTitleDisplayMode(.inline)
+        }
+        .navigationTitle("All Beacon")
+        .toolbar {
+            ToolbarItem {
+                Button("Scan") {}
+            }
+        }
+        .refreshable {
+        }
     }
 }
 
 struct BeaconSpecView: View {
     var body: some View {
-        NavigationView {
-            Form {
+        NavigationStack {
+            List {
                 Text("TEST")
             }
-        }.navigationTitle("Specific Beacon")
-            .navigationBarTitleDisplayMode(.inline)
+        }
+        .navigationTitle("Specific Beacon")
+        .toolbar {
+            ToolbarItem {
+                Button("Scan") {}
+            }
+        }
+        .refreshable {
+        }
+    }
+}
+
+struct BeaconPriView: View {
+    var body: some View {
+        NavigationStack {
+            List {
+                Text("TEST")
+            }
+        }
+        .navigationTitle("Primary Beacon")
+        .toolbar {
+            ToolbarItem {
+                Button("Scan") {}
+            }
+        }
+        .refreshable {
+        }
     }
 }
 

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ConnectionView: View {
     var body: some View {
-        NavigationView {
+        NavigationStack {
             Form{
                 Text("Server Connection Page")
             }.navigationTitle("Connection")
