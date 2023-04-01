@@ -25,7 +25,7 @@ struct BeaconView: View {
                                     .frame(width: 250, alignment: .leading)
                                     .padding(.bottom, 1)
                                 Text("Find all the Toget-Home's Beacon Broadcast Data.")
-                                    .font(.custom("SamsungOneKorean-300", size: 10))
+                                    .font(.custom("SamsungOneKorean-400", size: 10))
                                     .frame(width: 250, alignment: .leading)
                             }
                         }
@@ -44,7 +44,7 @@ struct BeaconView: View {
                                     .frame(width: 250, alignment: .leading)
                                     .padding(.bottom, 1)
                                 Text("Find a specific Toget-Home's Beacon Broadcast Data.")
-                                    .font(.custom("SamsungOneKorean-300", size: 10))
+                                    .font(.custom("SamsungOneKorean-400", size: 10))
                                     .frame(width: 250, alignment: .leading)
                             }
                         }
@@ -64,6 +64,7 @@ struct BeaconAllView: View {
                 Text("TEST")
             }
         }.navigationTitle("All Beacon")
+            .navigationBarTitleDisplayMode(.inline)
     }
 }
 
@@ -74,6 +75,7 @@ struct BeaconSpecView: View {
                 Text("TEST")
             }
         }.navigationTitle("Specific Beacon")
+            .navigationBarTitleDisplayMode(.inline)
     }
 }
 
