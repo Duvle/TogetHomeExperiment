@@ -17,6 +17,7 @@ struct SplashScreenView: View {
         }
         else {
             Color("BackgroundColor")
+                .ignoresSafeArea()
                 .overlay{
                     VStack{
                         Spacer()

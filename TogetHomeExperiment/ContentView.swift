@@ -15,7 +15,7 @@ struct ContentView: View {
                 .tabItem {
                     Label("Home", systemImage: "house")
                 }
-                .toolbarBackground(Color("BackgorundColor"), for: .tabBar)
+                .toolbarBackground(Color("BackgroundColor"), for: .tabBar)
             BeaconView()
                 .tabItem {
                     Label("Beacon", systemImage: "wave.3.right")
