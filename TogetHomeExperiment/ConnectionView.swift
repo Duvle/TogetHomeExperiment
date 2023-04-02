@@ -10,9 +10,15 @@ import SwiftUI
 struct ConnectionView: View {
     var body: some View {
         NavigationStack {
-            Form{
-                Text("Server Connection Page")
-            }.navigationTitle("Connection")
+            List {
+                HStack{
+                    Spacer()
+                    Text("Developing features...")
+                        .font(.custom("SamsungOneKorean-400", size: 20))
+                    Spacer()
+                }
+            }
+            .navigationTitle("Connection")
         }
     }
 }

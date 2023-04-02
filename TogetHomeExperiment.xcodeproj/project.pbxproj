@@ -21,6 +21,7 @@
 		4AD2326129D86314000D3A9B /* SamsungOneKorean-400.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4AD2325B29D81E6C000D3A9B /* SamsungOneKorean-400.ttf */; };
 		4AD2326229D86317000D3A9B /* SamsungOneKorean-600.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4AD2325D29D81E6D000D3A9B /* SamsungOneKorean-600.ttf */; };
 		4AD2326329D8631A000D3A9B /* SamsungOneKorean-700.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4AD2325A29D81E6B000D3A9B /* SamsungOneKorean-700.ttf */; };
+		4AD2326529D8B30F000D3A9B /* Eddystone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD2326429D8B30F000D3A9B /* Eddystone.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +40,7 @@
 		4AD2325B29D81E6C000D3A9B /* SamsungOneKorean-400.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SamsungOneKorean-400.ttf"; sourceTree = "<group>"; };
 		4AD2325C29D81E6C000D3A9B /* SamsungOneKorean-200.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SamsungOneKorean-200.ttf"; sourceTree = "<group>"; };
 		4AD2325D29D81E6D000D3A9B /* SamsungOneKorean-600.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SamsungOneKorean-600.ttf"; sourceTree = "<group>"; };
+		4AD2326429D8B30F000D3A9B /* Eddystone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Eddystone.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +73,7 @@
 		4A60F71A29D7367900DEE86F /* TogetHomeExperiment */ = {
 			isa = PBXGroup;
 			children = (
+				4AD2326429D8B30F000D3A9B /* Eddystone.swift */,
 				4A60F71B29D7367900DEE86F /* TogetHomeExperimentApp.swift */,
 				4A60F71D29D7367900DEE86F /* ContentView.swift */,
 				4A60F72929D73F0900DEE86F /* HomeView.swift */,
@@ -181,6 +184,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4AD2324D29D819A3000D3A9B /* SplashScreenView.swift in Sources */,
+				4AD2326529D8B30F000D3A9B /* Eddystone.swift in Sources */,
 				4A60F72A29D73F0900DEE86F /* HomeView.swift in Sources */,
 				4A60F72E29D7400A00DEE86F /* ConnectionView.swift in Sources */,
 				4A60F71E29D7367900DEE86F /* ContentView.swift in Sources */,
@@ -314,7 +318,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = E042A;
+				CURRENT_PROJECT_VERSION = E042B;
 				DEVELOPMENT_ASSET_PATHS = "\"TogetHomeExperiment/Preview Content\"";
 				DEVELOPMENT_TEAM = VEL246Z47F;
 				ENABLE_PREVIEWS = YES;
@@ -322,6 +326,8 @@
 				INFOPLIST_FILE = TogetHomeExperiment/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Toget Home E";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "\"This will allow \"Toget Home E\" to scan and find for nearby Beacon devices.\"";
+				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "\"This will allow \"Toget Home E\" to scan and find for nearby Beacon devices.\"";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -348,7 +354,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = E042A;
+				CURRENT_PROJECT_VERSION = E042B;
 				DEVELOPMENT_ASSET_PATHS = "\"TogetHomeExperiment/Preview Content\"";
 				DEVELOPMENT_TEAM = VEL246Z47F;
 				ENABLE_PREVIEWS = YES;
@@ -356,6 +362,8 @@
 				INFOPLIST_FILE = TogetHomeExperiment/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Toget Home E";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "\"This will allow \"Toget Home E\" to scan and find for nearby Beacon devices.\"";
+				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "\"This will allow \"Toget Home E\" to scan and find for nearby Beacon devices.\"";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

@@ -10,9 +10,15 @@ import SwiftUI
 struct SettingsView: View {
     var body: some View {
         NavigationStack {
-            Form{
-                Text("Application Settings Page")
-            }.navigationTitle("Settings")
+            List {
+                HStack{
+                    Spacer()
+                    Text("Developing features...")
+                        .font(.custom("SamsungOneKorean-400", size: 20))
+                    Spacer()
+                }
+            }
+            .navigationTitle("Settings")
         }
     }
 }

@@ -87,7 +87,12 @@ struct BeaconSpecView: View {
     var body: some View {
         NavigationStack {
             List {
-                Text("TEST")
+                HStack{
+                    Spacer()
+                    Text("Developing features...")
+                        .font(.custom("SamsungOneKorean-400", size: 20))
+                    Spacer()
+                }
             }
         }
         .navigationTitle("Specific Beacon")
@@ -105,7 +110,12 @@ struct BeaconPriView: View {
     var body: some View {
         NavigationStack {
             List {
-                Text("TEST")
+                HStack{
+                    Spacer()
+                    Text("Developing features...")
+                        .font(.custom("SamsungOneKorean-400", size: 20))
+                    Spacer()
+                }
             }
         }
         .navigationTitle("Primary Beacon")
