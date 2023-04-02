@@ -23,7 +23,6 @@
 		4AD2326329D8631A000D3A9B /* SamsungOneKorean-700.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4AD2325A29D81E6B000D3A9B /* SamsungOneKorean-700.ttf */; };
 		4AD2326529D8B30F000D3A9B /* Eddystone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD2326429D8B30F000D3A9B /* Eddystone.swift */; };
 		4AD2326729D99660000D3A9B /* BeaconScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD2326629D99660000D3A9B /* BeaconScanner.swift */; };
-		4AD2326929D9C64A000D3A9B /* DispatchTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD2326829D9C64A000D3A9B /* DispatchTimer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,7 +43,6 @@
 		4AD2325D29D81E6D000D3A9B /* SamsungOneKorean-600.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SamsungOneKorean-600.ttf"; sourceTree = "<group>"; };
 		4AD2326429D8B30F000D3A9B /* Eddystone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Eddystone.swift; sourceTree = "<group>"; };
 		4AD2326629D99660000D3A9B /* BeaconScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeaconScanner.swift; sourceTree = "<group>"; };
-		4AD2326829D9C64A000D3A9B /* DispatchTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DispatchTimer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,7 +59,6 @@
 		4A60F70F29D7367900DEE86F = {
 			isa = PBXGroup;
 			children = (
-				4AD2326829D9C64A000D3A9B /* DispatchTimer.swift */,
 				4A60F71A29D7367900DEE86F /* TogetHomeExperiment */,
 				4A60F71929D7367900DEE86F /* Products */,
 			);
@@ -194,7 +191,6 @@
 				4A60F72A29D73F0900DEE86F /* HomeView.swift in Sources */,
 				4A60F72E29D7400A00DEE86F /* ConnectionView.swift in Sources */,
 				4AD2326729D99660000D3A9B /* BeaconScanner.swift in Sources */,
-				4AD2326929D9C64A000D3A9B /* DispatchTimer.swift in Sources */,
 				4A60F71E29D7367900DEE86F /* ContentView.swift in Sources */,
 				4A60F73029D740BC00DEE86F /* SettingsView.swift in Sources */,
 				4A60F72C29D73FF800DEE86F /* BeaconView.swift in Sources */,
