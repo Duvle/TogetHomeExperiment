@@ -28,20 +28,14 @@ class BeaconID: NSObject {
         let hexNamespaceID = inttohex(intData: self.namespaceID)
         let hexInstanceID = inttohex(intData: self.instanceID)
         
-        return "BeaconID [NamespaceID] : \(hexInstanceID), [InstanceID] : \(hexInstanceID)"
+        return "BeaconID [NamespaceID] : \(hexNamespaceID), [InstanceID] : \(hexInstanceID)"
     }
     
-    class func beaconIDfromData(beaconIDRawData: [UInt8]) -> BeaconID? {
-        if beaconIDRawData.count == 16 {
-            let namespaceID: [UInt8] = Array(beaconIDRawData[0..<10])
-            let instanceID: [UInt8] = Array(beaconIDRawData[10..<16])
-            
-            return BeaconID(namespaceID: namespaceID, instanceID: instanceID)
-        }
-        else {
-            NSLog("This BeaconID Data is not available.")
-            return nil
-        }
+    class func beaconIDfromData(beaconIDRawData: [UInt8]) -> BeaconID {
+        let namespaceID: [UInt8] = Array(beaconIDRawData[0..<10])
+        let instanceID: [UInt8] = Array(beaconIDRawData[10..<16])
+        
+        return BeaconID(namespaceID: namespaceID, instanceID: instanceID)
     }
     
     // BeaconID String Output
@@ -101,9 +95,9 @@ class BeaconState: NSObject {
         case .Normal:
             stateString = "Normal"
         case .Triggered:
-            stateString = "Triggred"
+            stateString = "Triggreed"
         case .LowBattery:
-            stateString = "[Warning] Low Battery"
+            stateString = "Low Battery"
         case .Unknown:
             stateString = "Uknown State"
         }
@@ -149,11 +143,41 @@ class BeaconInfo: NSObject {
     let beaconState: BeaconState?
     let RSSI: Int
     
+    enum EddystoneFrameType {
+        case UID
+        case Unknown
+        
+        var description: String {
+            switch  self {
+            case .UID:
+                return "UID Frame"
+            case .Unknown:
+                return "Unknown Frame Type"
+            }
+        }
+    }
+    
     private init(txPower: Int, beaconID: BeaconID?, beaconState: BeaconState?, RSSI: Int) {
         self.txPower = txPower
         self.beaconID = beaconID
         self.beaconState = beaconState
         self.RSSI = RSSI
+    }
+    
+    class func frameTypefromData(advertisementFrameList: [NSObject : AnyObject]) -> EddystoneFrameType {
+        let uuid = CBUUID(string: "FEAA")
+        if let frameData = advertisementFrameList[uuid] as? NSData {
+            if frameData.length > 1 {
+                let count = frameData.length
+                var frameBytes = [UInt8](repeating: 0, count: count)
+                frameData.getBytes(&frameBytes, length: count)
+                
+                if frameBytes[0] == EddystoneUID {
+                    return EddystoneFrameType.UID
+                }
+            }
+        }
+        return EddystoneFrameType.Unknown
     }
     
     class func beaconInfoFromData(frameData: NSData, RSSI: Int) -> BeaconInfo? {
@@ -175,7 +199,7 @@ class BeaconInfo: NSObject {
                 let beaconIDData: [UInt8] = Array(frameByte[2..<18])
                 let beaconStateData: [UInt8] = Array(frameByte[18..<20])
                 
-                let _beaconID: BeaconID? = BeaconID.beaconIDfromData(beaconIDRawData: beaconIDData)
+                let _beaconID: BeaconID = BeaconID.beaconIDfromData(beaconIDRawData: beaconIDData)
                 let _beaconState: BeaconState? = BeaconState.stateTypeFromData(stateRawData: beaconStateData)
                 
                 return BeaconInfo(txPower: _txPower, beaconID: _beaconID, beaconState: _beaconState, RSSI: RSSI)
@@ -185,5 +209,9 @@ class BeaconInfo: NSObject {
             NSLog("[Warning] This data is not available.")
             return nil
         }
+    }
+    
+    override var description: String {
+        return "Eddystone \(String(describing: self.beaconID)), \(String(describing: self.beaconState)), txPower: \(self.txPower), RSSI: \(self.RSSI)"
     }
 }

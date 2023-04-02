@@ -20,6 +20,13 @@ struct BeaconOption {
     var targetView: ViewOption
 }
 
+struct BeaconScanResult {
+    var instanceID: String
+    var state: String
+    var batteryLevel: Int
+    var rssiData: [Int]
+}
+
 @ViewBuilder func viewSelect(for viewoption: ViewOption) -> some View {
     switch viewoption {
     case .all:
@@ -38,7 +45,6 @@ struct BeaconView: View {
         BeaconOption(mainTitle: "Primary Beacon", subTitle: "Find a primary Toget-Home's Beacon Broadcast Data.", icon: "flag.checkered.circle", targetView: .primary)
     ]
     var body: some View {
-        
         NavigationStack {
             List(optionList, id: \.mainTitle) { optionListData in
                 NavigationLink(
@@ -65,25 +71,127 @@ struct BeaconView: View {
     }
 }
 
-struct BeaconAllView: View {
+struct BeaconAllView: View, BeaconScannerDelegate {
+    @State var beaconScanner: BeaconScanner!
+    @State var isScanning: Bool = false
+    @State var beaconIDList: [String] = []
+    @State var beaconScanDataList: [BeaconScanResult] = []
+    
+    var colorDictionary: [String : String] = [
+        "Normal" : "BeaconNormalColor",
+        "Triggered" : "BeaconTriggeredColor",
+        "Low Battery" : "BeaconLowBatteryColor",
+        "Default" : "BeaconDefaultColor"
+    ]
+    
+    func didFindBeacon(beaconScanner: BeaconScanner, beaconInfo: BeaconInfo) {
+        let _instanceID = beaconInfo.beaconID?.idtostring(idType: .Instance) ?? "FFFFFFFFFFFF"
+        let _state = beaconInfo.beaconState?.deviceState
+        let _batteryLevel = beaconInfo.beaconState?.batteryAmout ?? 0
+        let _rssi = beaconInfo.RSSI
+        
+        let indexID = self.beaconIDList.firstIndex(of: _instanceID)
+        let stateString: String
+        
+        switch _state {
+        case .Normal:
+            stateString = "Normal"
+        case .Triggered:
+            stateString = "Triggered"
+        case .LowBattery:
+            stateString = "Low Battery"
+        case .Unknown:
+            stateString = "Unknown State"
+        default:
+            stateString = "Unknown State"
+        }
+        
+        if indexID != nil {
+            if self.beaconScanDataList[indexID!].rssiData.count < 10 {
+                self.beaconScanDataList[indexID!].rssiData.append(_rssi)
+            }
+        }
+        else
+        {
+            self.beaconIDList.append(_instanceID)
+            self.beaconScanDataList.append(BeaconScanResult(instanceID: _instanceID, state: stateString, batteryLevel: _batteryLevel, rssiData: [_rssi]))
+        }
+    }
+    
     var body: some View {
         NavigationStack {
-            List {
-                Text("TEST")
+            if beaconScanDataList.isEmpty {
+                List {
+                    HStack{
+                        Spacer()
+                        Text("No Beacons")
+                            .font(.custom("SamsungOneKorean-400", size: 20))
+                            .foregroundColor(Color("BeaconDefaultColor"))
+                        Spacer()
+                    }
+                }
+            }
+            else {
+                List(beaconScanDataList, id: \.instanceID) { beaconData in
+                    HStack {
+                        Image(systemName: "wave.3.right.circle.fill")
+                            .font(.system(size: 30, weight: .medium))
+                            .foregroundColor(Color(colorDictionary[beaconData.state] ?? "BeaconDefaultColor"))
+                            .padding(5)
+                        VStack {
+                            Text("ID : \(beaconData.instanceID)")
+                                .font(.custom("SamsungOneKorean-600", size: 20))
+                                .frame(width: 300, alignment: .leading)
+                                .padding(.bottom, 1)
+                            Text("State : \(beaconData.state)\nBattery : \(beaconData.batteryLevel)%")
+                                .font(.custom("SamsungOneKorean-400", size: 15))
+                                .frame(width: 300, alignment: .leading)
+                                .padding(.bottom, 1)
+                            Text("RSSI : \(beaconData.rssiData.map(String.init).joined(separator: " "))")
+                                .font(.custom("SamsungOneKorean-200", size: 10))
+                                .frame(width: 300, alignment: .leading)
+                                .padding(.bottom, 1)
+                        }
+                    }
+                }
             }
         }
         .navigationTitle("All Beacon")
         .toolbar {
             ToolbarItem {
-                Button("Scan") {}
+                Button {
+                    isScanning.toggle()
+                    if isScanning {
+                        self.beaconScanner.startScanning()
+                    }
+                    else {
+                        self.beaconScanner.stopScanning()
+                    }
+                } label: {
+                    Text(isScanning ? "Stop" : "Scan")
+                        .font(.custom("SamsungOneKorean-700", size: 18))
+                        .frame(width: 80, height: 30)
+                        .background(isScanning ? Color("ScanStopColor") : Color("ScanStartColor"))
+                        .foregroundColor(Color("BackgroundColor"))
+                        .cornerRadius(15)
+                }
             }
         }
         .refreshable {
+            isScanning = false
+            beaconIDList = []
+            beaconScanDataList = []
+        }
+        .onAppear {
+            self.beaconScanner = BeaconScanner()
+            self.beaconScanner.delegate = self
         }
     }
 }
 
 struct BeaconSpecView: View {
+    @State var isScanning: Bool = false
+    
     var body: some View {
         NavigationStack {
             List {
@@ -98,7 +206,16 @@ struct BeaconSpecView: View {
         .navigationTitle("Specific Beacon")
         .toolbar {
             ToolbarItem {
-                Button("Scan") {}
+                Button {
+                    isScanning.toggle()
+                } label: {
+                    Text(isScanning ? "Stop" : "Scan")
+                        .font(.custom("SamsungOneKorean-700", size: 18))
+                        .frame(width: 80, height: 30)
+                        .background(isScanning ? Color("ScanStopColor") : Color("ScanStartColor"))
+                        .foregroundColor(Color("BackgroundColor"))
+                        .cornerRadius(15)
+                }
             }
         }
         .refreshable {
@@ -107,6 +224,8 @@ struct BeaconSpecView: View {
 }
 
 struct BeaconPriView: View {
+    @State var isScanning: Bool = false
+    
     var body: some View {
         NavigationStack {
             List {
@@ -121,7 +240,16 @@ struct BeaconPriView: View {
         .navigationTitle("Primary Beacon")
         .toolbar {
             ToolbarItem {
-                Button("Scan") {}
+                Button {
+                    isScanning.toggle()
+                } label: {
+                    Text(isScanning ? "Stop" : "Scan")
+                        .font(.custom("SamsungOneKorean-700", size: 18))
+                        .frame(width: 80, height: 30)
+                        .background(isScanning ? Color("ScanStopColor") : Color("ScanStartColor"))
+                        .foregroundColor(Color("BackgroundColor"))
+                        .cornerRadius(15)
+                }
             }
         }
         .refreshable {

@@ -22,6 +22,8 @@
 		4AD2326229D86317000D3A9B /* SamsungOneKorean-600.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4AD2325D29D81E6D000D3A9B /* SamsungOneKorean-600.ttf */; };
 		4AD2326329D8631A000D3A9B /* SamsungOneKorean-700.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4AD2325A29D81E6B000D3A9B /* SamsungOneKorean-700.ttf */; };
 		4AD2326529D8B30F000D3A9B /* Eddystone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD2326429D8B30F000D3A9B /* Eddystone.swift */; };
+		4AD2326729D99660000D3A9B /* BeaconScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD2326629D99660000D3A9B /* BeaconScanner.swift */; };
+		4AD2326929D9C64A000D3A9B /* DispatchTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD2326829D9C64A000D3A9B /* DispatchTimer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +43,8 @@
 		4AD2325C29D81E6C000D3A9B /* SamsungOneKorean-200.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SamsungOneKorean-200.ttf"; sourceTree = "<group>"; };
 		4AD2325D29D81E6D000D3A9B /* SamsungOneKorean-600.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SamsungOneKorean-600.ttf"; sourceTree = "<group>"; };
 		4AD2326429D8B30F000D3A9B /* Eddystone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Eddystone.swift; sourceTree = "<group>"; };
+		4AD2326629D99660000D3A9B /* BeaconScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeaconScanner.swift; sourceTree = "<group>"; };
+		4AD2326829D9C64A000D3A9B /* DispatchTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DispatchTimer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +61,7 @@
 		4A60F70F29D7367900DEE86F = {
 			isa = PBXGroup;
 			children = (
+				4AD2326829D9C64A000D3A9B /* DispatchTimer.swift */,
 				4A60F71A29D7367900DEE86F /* TogetHomeExperiment */,
 				4A60F71929D7367900DEE86F /* Products */,
 			);
@@ -74,6 +79,7 @@
 			isa = PBXGroup;
 			children = (
 				4AD2326429D8B30F000D3A9B /* Eddystone.swift */,
+				4AD2326629D99660000D3A9B /* BeaconScanner.swift */,
 				4A60F71B29D7367900DEE86F /* TogetHomeExperimentApp.swift */,
 				4A60F71D29D7367900DEE86F /* ContentView.swift */,
 				4A60F72929D73F0900DEE86F /* HomeView.swift */,
@@ -187,6 +193,8 @@
 				4AD2326529D8B30F000D3A9B /* Eddystone.swift in Sources */,
 				4A60F72A29D73F0900DEE86F /* HomeView.swift in Sources */,
 				4A60F72E29D7400A00DEE86F /* ConnectionView.swift in Sources */,
+				4AD2326729D99660000D3A9B /* BeaconScanner.swift in Sources */,
+				4AD2326929D9C64A000D3A9B /* DispatchTimer.swift in Sources */,
 				4A60F71E29D7367900DEE86F /* ContentView.swift in Sources */,
 				4A60F73029D740BC00DEE86F /* SettingsView.swift in Sources */,
 				4A60F72C29D73FF800DEE86F /* BeaconView.swift in Sources */,
@@ -317,10 +325,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = ExpAppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = E042B;
+				CURRENT_PROJECT_VERSION = E043A;
 				DEVELOPMENT_ASSET_PATHS = "\"TogetHomeExperiment/Preview Content\"";
-				DEVELOPMENT_TEAM = VEL246Z47F;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TogetHomeExperiment/Info.plist;
@@ -341,6 +350,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = net.itdice.TogetHomeExperiment;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -353,10 +363,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = ExpAppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = E042B;
+				CURRENT_PROJECT_VERSION = E043A;
 				DEVELOPMENT_ASSET_PATHS = "\"TogetHomeExperiment/Preview Content\"";
-				DEVELOPMENT_TEAM = VEL246Z47F;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TogetHomeExperiment/Info.plist;
@@ -377,6 +388,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = net.itdice.TogetHomeExperiment;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
