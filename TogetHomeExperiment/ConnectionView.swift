@@ -15,6 +15,7 @@ struct ConnectionView: View {
                     Spacer()
                     Text("Developing features...")
                         .font(.custom("SamsungOneKorean-400", size: 20))
+                        .foregroundColor(.gray)
                     Spacer()
                 }
             }

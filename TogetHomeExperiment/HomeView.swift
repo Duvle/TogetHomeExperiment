@@ -18,6 +18,7 @@ struct HomeView: View {
                             .font(.system(size: 40, weight: .medium))
                             .foregroundColor(Color("OutlineColor"))
                         Text("No Data")
+                            .foregroundColor(.gray)
                             .bold()
                     }.frame(height: 500)
                     Spacer()
