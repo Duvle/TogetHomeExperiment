@@ -78,9 +78,9 @@ struct BeaconAllView: View, BeaconScannerDelegate {
     @State var beaconIDList: [String] = []
     @State var beaconScanDataList: [BeaconScanResult] = []
     
-    @State private var searchID = UserDefaults.standard.value(forKey: "allBeaconNoRSSI") as? String ?? "17fd1cefff705e7f803e"
-    @State private var noRSSI = UserDefaults.standard.value(forKey: "allBeaconNoRSSI") as? Int ?? 10
-    @State private var time = UserDefaults.standard.value(forKey: "allBeaconScanTime") as? Int ?? 60
+    @State private var searchID: String = ""
+    @State private var noRSSI: Int = 10
+    @State private var time: Int = 60
     
     var colorDictionary: [String : String] = [
         "Normal" : "BeaconNormalColor",
@@ -200,10 +200,18 @@ struct BeaconAllView: View, BeaconScannerDelegate {
             self.beaconScanner.stopScanning()
             beaconIDList = []
             beaconScanDataList = []
+            
+            self.searchID = UserDefaults.standard.value(forKey: "allBeaconNoRSSI") as? String ?? "17fd1cefff705e7f803e"
+            self.noRSSI = UserDefaults.standard.value(forKey: "allBeaconNoRSSI") as? Int ?? 10
+            self.time = UserDefaults.standard.value(forKey: "allBeaconScanTime") as? Int ?? 60
         }
         .onAppear {
             self.beaconScanner = BeaconScanner()
             self.beaconScanner.delegate = self
+            
+            self.searchID = UserDefaults.standard.value(forKey: "allBeaconNoRSSI") as? String ?? "17fd1cefff705e7f803e"
+            self.noRSSI = UserDefaults.standard.value(forKey: "allBeaconNoRSSI") as? Int ?? 10
+            self.time = UserDefaults.standard.value(forKey: "allBeaconScanTime") as? Int ?? 60
         }
     }
 }
@@ -218,6 +226,7 @@ struct BeaconSpecView: View {
                     Spacer()
                     Text("Developing features...")
                         .font(.custom("SamsungOneKorean-400", size: 20))
+                        .foregroundColor(.gray)
                     Spacer()
                 }
             }
@@ -252,6 +261,7 @@ struct BeaconPriView: View {
                     Spacer()
                     Text("Developing features...")
                         .font(.custom("SamsungOneKorean-400", size: 20))
+                        .foregroundColor(.gray)
                     Spacer()
                 }
             }
