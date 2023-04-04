@@ -23,6 +23,7 @@
 		4AD2326329D8631A000D3A9B /* SamsungOneKorean-700.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4AD2325A29D81E6B000D3A9B /* SamsungOneKorean-700.ttf */; };
 		4AD2326529D8B30F000D3A9B /* Eddystone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD2326429D8B30F000D3A9B /* Eddystone.swift */; };
 		4AD2326729D99660000D3A9B /* BeaconScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD2326629D99660000D3A9B /* BeaconScanner.swift */; };
+		4AD2326C29DC7735000D3A9B /* DataPackage.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4AD2326A29DC7735000D3A9B /* DataPackage.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,6 +44,7 @@
 		4AD2325D29D81E6D000D3A9B /* SamsungOneKorean-600.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SamsungOneKorean-600.ttf"; sourceTree = "<group>"; };
 		4AD2326429D8B30F000D3A9B /* Eddystone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Eddystone.swift; sourceTree = "<group>"; };
 		4AD2326629D99660000D3A9B /* BeaconScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeaconScanner.swift; sourceTree = "<group>"; };
+		4AD2326B29DC7735000D3A9B /* DataPackage.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataPackage.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,6 +86,7 @@
 				4A60F72D29D7400A00DEE86F /* ConnectionView.swift */,
 				4A60F72F29D740BC00DEE86F /* SettingsView.swift */,
 				4AD2324C29D819A3000D3A9B /* SplashScreenView.swift */,
+				4AD2326A29DC7735000D3A9B /* DataPackage.xcdatamodeld */,
 				4A60F71F29D7367A00DEE86F /* Assets.xcassets */,
 				4AD2324E29D81E42000D3A9B /* Fonts */,
 				4A60F72129D7367A00DEE86F /* Preview Content */,
@@ -194,6 +197,7 @@
 				4A60F71E29D7367900DEE86F /* ContentView.swift in Sources */,
 				4A60F73029D740BC00DEE86F /* SettingsView.swift in Sources */,
 				4A60F72C29D73FF800DEE86F /* BeaconView.swift in Sources */,
+				4AD2326C29DC7735000D3A9B /* DataPackage.xcdatamodeld in Sources */,
 				4A60F71C29D7367900DEE86F /* TogetHomeExperimentApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -413,6 +417,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		4AD2326A29DC7735000D3A9B /* DataPackage.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				4AD2326B29DC7735000D3A9B /* DataPackage.xcdatamodel */,
+			);
+			currentVersion = 4AD2326B29DC7735000D3A9B /* DataPackage.xcdatamodel */;
+			path = DataPackage.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 4A60F71029D7367900DEE86F /* Project object */;
 }

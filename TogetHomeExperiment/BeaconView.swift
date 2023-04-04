@@ -24,6 +24,7 @@ struct BeaconScanResult {
     var instanceID: String
     var state: String
     var batteryLevel: Int
+    var txPower: Int
     var rssiData: [Int]
 }
 
@@ -77,7 +78,9 @@ struct BeaconAllView: View, BeaconScannerDelegate {
     @State var beaconIDList: [String] = []
     @State var beaconScanDataList: [BeaconScanResult] = []
     
-    @State private var time = 60.0
+    @State private var searchID = UserDefaults.standard.value(forKey: "allBeaconNoRSSI") as? String ?? "17fd1cefff705e7f803e"
+    @State private var noRSSI = UserDefaults.standard.value(forKey: "allBeaconNoRSSI") as? Int ?? 10
+    @State private var time = UserDefaults.standard.value(forKey: "allBeaconScanTime") as? Int ?? 60
     
     var colorDictionary: [String : String] = [
         "Normal" : "BeaconNormalColor",
@@ -88,10 +91,12 @@ struct BeaconAllView: View, BeaconScannerDelegate {
     
     // If find the Eddystone Beacon Data
     func didFindBeacon(beaconScanner: BeaconScanner, beaconInfo: BeaconInfo) {
+        let _namespaceID = beaconInfo.beaconID?.idtostring(idType: .Namespace) ?? "17fd1cefff705e7f803e"
         let _instanceID = beaconInfo.beaconID?.idtostring(idType: .Instance) ?? "ffffffffffff"
         let _state = beaconInfo.beaconState?.deviceState
         let _batteryLevel = beaconInfo.beaconState?.batteryAmout ?? 0
         let _rssi = (beaconInfo.RSSI < -100 || beaconInfo.RSSI > 0) ? -100 : beaconInfo.RSSI
+        let _txPower = beaconInfo.txPower
         
         let indexID = self.beaconIDList.firstIndex(of: _instanceID)
         let stateString: String
@@ -109,15 +114,17 @@ struct BeaconAllView: View, BeaconScannerDelegate {
             stateString = "Unknown State"
         }
         
-        if indexID != nil {
-            if self.beaconScanDataList[indexID!].rssiData.count < 10 {
-                self.beaconScanDataList[indexID!].rssiData.append(_rssi)
+        if _namespaceID == searchID {
+            if indexID != nil {
+                if self.beaconScanDataList[indexID!].rssiData.count < noRSSI {
+                    self.beaconScanDataList[indexID!].rssiData.append(_rssi)
+                }
             }
-        }
-        else
-        {
-            self.beaconIDList.append(_instanceID)
-            self.beaconScanDataList.append(BeaconScanResult(instanceID: _instanceID, state: stateString, batteryLevel: _batteryLevel, rssiData: [_rssi]))
+            else
+            {
+                self.beaconIDList.append(_instanceID)
+                self.beaconScanDataList.append(BeaconScanResult(instanceID: _instanceID, state: stateString, batteryLevel: _batteryLevel, txPower: _txPower, rssiData: [_rssi]))
+            }
         }
     }
     
@@ -150,6 +157,10 @@ struct BeaconAllView: View, BeaconScannerDelegate {
                                 .font(.custom("SamsungOneKorean-400", size: 15))
                                 .frame(width: 300, alignment: .leading)
                                 .padding(.bottom, 1)
+                            Text("RSSI at 1m : \(beaconData.txPower)")
+                                .font(.custom("SamsungOneKorean-200", size: 10))
+                                .frame(width: 300, alignment: .leading)
+                                .padding(.bottom, 1)
                             Text("RSSI : \(beaconData.rssiData.map(String.init).joined(separator: " "))")
                                 .font(.custom("SamsungOneKorean-200", size: 10))
                                 .frame(width: 300, alignment: .leading)
@@ -166,7 +177,7 @@ struct BeaconAllView: View, BeaconScannerDelegate {
                     isScanning.toggle()
                     if isScanning {
                         self.beaconScanner.startScanning()
-                        DispatchQueue.main.asyncAfter(deadline: .now() + time) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + DispatchTimeInterval.seconds(time)) {
                             isScanning = false
                             self.beaconScanner.stopScanning()
                         }
