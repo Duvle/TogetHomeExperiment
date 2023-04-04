@@ -37,7 +37,7 @@ class BeaconScanner: NSObject, CBCentralManagerDelegate {
             self.shoudBeScanning = true
         }
         else {
-            NSLog("Start to Scan")
+            NSLog("Start Scanning")
             let services = [CBUUID(string: "FEAA")]
             let options = [CBCentralManagerScanOptionAllowDuplicatesKey : true]
             self.centralManager.scanForPeripherals(withServices: services, options: options)
@@ -46,6 +46,7 @@ class BeaconScanner: NSObject, CBCentralManagerDelegate {
     
     // Stop Scanning
     public func stopScanning() {
+        NSLog("Stop Scanning")
         self.centralManager.stopScan()
     }
     

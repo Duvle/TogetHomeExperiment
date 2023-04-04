@@ -77,6 +77,8 @@ struct BeaconAllView: View, BeaconScannerDelegate {
     @State var beaconIDList: [String] = []
     @State var beaconScanDataList: [BeaconScanResult] = []
     
+    @State private var time = 60.0
+    
     var colorDictionary: [String : String] = [
         "Normal" : "BeaconNormalColor",
         "Triggered" : "BeaconTriggeredColor",
@@ -84,11 +86,12 @@ struct BeaconAllView: View, BeaconScannerDelegate {
         "Default" : "BeaconDefaultColor"
     ]
     
+    // If find the Eddystone Beacon Data
     func didFindBeacon(beaconScanner: BeaconScanner, beaconInfo: BeaconInfo) {
-        let _instanceID = beaconInfo.beaconID?.idtostring(idType: .Instance) ?? "FFFFFFFFFFFF"
+        let _instanceID = beaconInfo.beaconID?.idtostring(idType: .Instance) ?? "ffffffffffff"
         let _state = beaconInfo.beaconState?.deviceState
         let _batteryLevel = beaconInfo.beaconState?.batteryAmout ?? 0
-        let _rssi = beaconInfo.RSSI
+        let _rssi = (beaconInfo.RSSI < -100 || beaconInfo.RSSI > 0) ? -100 : beaconInfo.RSSI
         
         let indexID = self.beaconIDList.firstIndex(of: _instanceID)
         let stateString: String
@@ -163,6 +166,10 @@ struct BeaconAllView: View, BeaconScannerDelegate {
                     isScanning.toggle()
                     if isScanning {
                         self.beaconScanner.startScanning()
+                        DispatchQueue.main.asyncAfter(deadline: .now() + time) {
+                            isScanning = false
+                            self.beaconScanner.stopScanning()
+                        }
                     }
                     else {
                         self.beaconScanner.stopScanning()
@@ -179,6 +186,7 @@ struct BeaconAllView: View, BeaconScannerDelegate {
         }
         .refreshable {
             isScanning = false
+            self.beaconScanner.stopScanning()
             beaconIDList = []
             beaconScanDataList = []
         }
