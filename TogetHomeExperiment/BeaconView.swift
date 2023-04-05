@@ -114,7 +114,7 @@ struct BeaconAllView: View, BeaconScannerDelegate {
             stateString = "Unknown State"
         }
         
-        if _namespaceID == searchID {
+        if _namespaceID == self.searchID {
             if indexID != nil {
                 if self.beaconScanDataList[indexID!].rssiData.count < noRSSI {
                     self.beaconScanDataList[indexID!].rssiData.append(_rssi)
@@ -201,7 +201,7 @@ struct BeaconAllView: View, BeaconScannerDelegate {
             beaconIDList = []
             beaconScanDataList = []
             
-            self.searchID = UserDefaults.standard.value(forKey: "allBeaconNoRSSI") as? String ?? "17fd1cefff705e7f803e"
+            self.searchID = UserDefaults.standard.value(forKey: "allBeaconNamespaceID") as? String ?? "17fd1cefff705e7f803e"
             self.noRSSI = UserDefaults.standard.value(forKey: "allBeaconNoRSSI") as? Int ?? 10
             self.time = UserDefaults.standard.value(forKey: "allBeaconScanTime") as? Int ?? 60
         }
@@ -209,7 +209,7 @@ struct BeaconAllView: View, BeaconScannerDelegate {
             self.beaconScanner = BeaconScanner()
             self.beaconScanner.delegate = self
             
-            self.searchID = UserDefaults.standard.value(forKey: "allBeaconNoRSSI") as? String ?? "17fd1cefff705e7f803e"
+            self.searchID = UserDefaults.standard.value(forKey: "allBeaconNamespaceID") as? String ?? "17fd1cefff705e7f803e"
             self.noRSSI = UserDefaults.standard.value(forKey: "allBeaconNoRSSI") as? Int ?? 10
             self.time = UserDefaults.standard.value(forKey: "allBeaconScanTime") as? Int ?? 60
         }
