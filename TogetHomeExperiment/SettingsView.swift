@@ -12,10 +12,14 @@ struct SettingsView: View {
     @State private var allBeaconNoRSSI: Int = UserDefaults.standard.value(forKey: "allBeaconNoRSSI") as? Int ?? 10
     @State private var allBeaconScanTime: Int = UserDefaults.standard.value(forKey: "allBeaconScanTime") as? Int ?? 60
     
+    @State private var appVersion: String = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? ""
+    @State private var appBuild: String = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? ""
+    
     var body: some View {
         NavigationStack {
             List {
-                Section(header: Text("All Beacon Settings").bold()){
+                Section(header: Text("All Beacon Settings").bold(),
+                        footer: Text("NamespaceID should be represented by Hex String.")){
                     HStack{
                         Text("Namespace ID")
                             .frame(width: 140, alignment: .leading)
@@ -57,6 +61,24 @@ struct SettingsView: View {
                             .font(.custom("SamsungOneKorean-400", size: 20))
                             .foregroundColor(.gray)
                         Spacer()
+                    }
+                }
+                Section(header: Text("System Version").bold()) {
+                    HStack{
+                        Text("Version")
+                            .frame(width: 140, alignment: .leading)
+                            .foregroundColor(.gray)
+                            .bold()
+                        Divider()
+                        Text("\(appVersion)")
+                    }
+                    HStack{
+                        Text("Build")
+                            .frame(width: 140, alignment: .leading)
+                            .foregroundColor(.gray)
+                            .bold()
+                        Divider()
+                        Text("\(appBuild)")
                     }
                 }
             }
