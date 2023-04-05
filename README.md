@@ -1,4 +1,6 @@
-# UI 1차 설계 (Toget Home E)
+# Toget Home Experiment
+
+### UI 1차 설계 (Toget Home E)
 
 ![Design01](README/UI_11.png)
 
