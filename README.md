@@ -12,21 +12,9 @@
 - View 상단에는 해당하는 View의 Title을 항시 나타내고 있다. 이 또한 List가 넘어가지 않은 경우에는 배경색과 같은색을 이용하여 구분 없이 표시되고, List가 넘어가는 경우에는 글자를 작게 만들고 별도의 배경색을 표시하여 구분한다.
 - iOS SwiftUI 기본 배경색상 : **#f2f2f7**
 
-**<List가 상단, 하단 영역 침범 시 대처 참고용 영상>**
-
-[Top_UI_Test_Video](README/UIV_11.gif)
-
-[Bottom_UI_Test_Video](README/UIV_12.gif)
-
 ![Design03](README/UI_13.png)
 
 - All Beacon View는 모든 Toget Home Beacon을 Scan하여 정보를 출력해주는 역할을 하고 있다. SettingView에서 설정한 NamespaceID, RSSI 저장 횟수, 최대 Scan Time을 지정해 Scan에 이용하고 있다.
 - All Beacon View는 BeaconView에 소속되어 있는 View 이므로, 다른 View로 넘어갔다가 돌아오더라도 해당 View가 계속 표시되고 있어야 한다.
 - “Save”, “Scan”, “Stop” 버튼은 항상 오른쪽 상단바 영역 안에 표시되고 있어야 한다.
 - Beacon List에서는 InstanceID를 가장 크게 표시하며, State, Battery, RSSI at 1m, RSSI 순으로 표시한다. 시각적으로 State는 바로 알아보기 쉽도록 오른쪽 Beacon로고를 지정된 색상으로 표시한다.
-
-**<소속 View 유지 테스트 영상>**
-
-[View_Test_Video](README/UIV_13.gif)
-
-- UI 설계에 사용한 로고, 이미지, 폰트는 [Drive](https://drive.itdice.net)의 **“[4;1] 캡스톤 설계 > [8] UX UI개발 > 1차 디자인 설계 > ImageDataSet”**에 있습니다.
