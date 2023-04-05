@@ -111,7 +111,7 @@ struct BeaconAllView: View, BeaconScannerDelegate {
         case .Unknown:
             stateString = "Unknown State"
         default:
-            stateString = "Unknown State"
+            stateString = "Default"
         }
         
         if _namespaceID == self.searchID {
