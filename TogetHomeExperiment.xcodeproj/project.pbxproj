@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4A18751829EDA3A700E22076 /* SocketIO in Frameworks */ = {isa = PBXBuildFile; productRef = 4A18751729EDA3A700E22076 /* SocketIO */; };
+		4A18751D29EDA4A600E22076 /* BeaconAllView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A18751C29EDA4A600E22076 /* BeaconAllView.swift */; };
 		4A60F71C29D7367900DEE86F /* TogetHomeExperimentApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A60F71B29D7367900DEE86F /* TogetHomeExperimentApp.swift */; };
 		4A60F71E29D7367900DEE86F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A60F71D29D7367900DEE86F /* ContentView.swift */; };
 		4A60F72029D7367A00DEE86F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4A60F71F29D7367A00DEE86F /* Assets.xcassets */; };
@@ -27,6 +29,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4A18751C29EDA4A600E22076 /* BeaconAllView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeaconAllView.swift; sourceTree = "<group>"; };
 		4A60F71829D7367900DEE86F /* TogetHomeExperiment.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TogetHomeExperiment.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A60F71B29D7367900DEE86F /* TogetHomeExperimentApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TogetHomeExperimentApp.swift; sourceTree = "<group>"; };
 		4A60F71D29D7367900DEE86F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -52,12 +55,48 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4A18751829EDA3A700E22076 /* SocketIO in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4A18751B29EDA44200E22076 /* Beacon */ = {
+			isa = PBXGroup;
+			children = (
+				4AD2326429D8B30F000D3A9B /* Eddystone.swift */,
+				4AD2326629D99660000D3A9B /* BeaconScanner.swift */,
+				4A60F72B29D73FF800DEE86F /* BeaconView.swift */,
+				4A18751C29EDA4A600E22076 /* BeaconAllView.swift */,
+			);
+			path = Beacon;
+			sourceTree = "<group>";
+		};
+		4A18751E29EDA58900E22076 /* Connection */ = {
+			isa = PBXGroup;
+			children = (
+				4A60F72D29D7400A00DEE86F /* ConnectionView.swift */,
+			);
+			path = Connection;
+			sourceTree = "<group>";
+		};
+		4A18752029EDA61900E22076 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				4A60F72929D73F0900DEE86F /* HomeView.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		4A18752129EDA62900E22076 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				4A60F72F29D740BC00DEE86F /* SettingsView.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
 		4A60F70F29D7367900DEE86F = {
 			isa = PBXGroup;
 			children = (
@@ -77,14 +116,12 @@
 		4A60F71A29D7367900DEE86F /* TogetHomeExperiment */ = {
 			isa = PBXGroup;
 			children = (
-				4AD2326429D8B30F000D3A9B /* Eddystone.swift */,
-				4AD2326629D99660000D3A9B /* BeaconScanner.swift */,
 				4A60F71B29D7367900DEE86F /* TogetHomeExperimentApp.swift */,
 				4A60F71D29D7367900DEE86F /* ContentView.swift */,
-				4A60F72929D73F0900DEE86F /* HomeView.swift */,
-				4A60F72B29D73FF800DEE86F /* BeaconView.swift */,
-				4A60F72D29D7400A00DEE86F /* ConnectionView.swift */,
-				4A60F72F29D740BC00DEE86F /* SettingsView.swift */,
+				4A18752029EDA61900E22076 /* Home */,
+				4A18751B29EDA44200E22076 /* Beacon */,
+				4A18751E29EDA58900E22076 /* Connection */,
+				4A18752129EDA62900E22076 /* Settings */,
 				4AD2324C29D819A3000D3A9B /* SplashScreenView.swift */,
 				4AD2326A29DC7735000D3A9B /* DataPackage.xcdatamodeld */,
 				4A60F71F29D7367A00DEE86F /* Assets.xcassets */,
@@ -130,6 +167,9 @@
 			dependencies = (
 			);
 			name = TogetHomeExperiment;
+			packageProductDependencies = (
+				4A18751729EDA3A700E22076 /* SocketIO */,
+			);
 			productName = TogetHomeExperiment;
 			productReference = 4A60F71829D7367900DEE86F /* TogetHomeExperiment.app */;
 			productType = "com.apple.product-type.application";
@@ -158,6 +198,9 @@
 				Base,
 			);
 			mainGroup = 4A60F70F29D7367900DEE86F;
+			packageReferences = (
+				4A18751629EDA3A700E22076 /* XCRemoteSwiftPackageReference "socket.io-client-swift" */,
+			);
 			productRefGroup = 4A60F71929D7367900DEE86F /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -190,6 +233,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4AD2324D29D819A3000D3A9B /* SplashScreenView.swift in Sources */,
+				4A18751D29EDA4A600E22076 /* BeaconAllView.swift in Sources */,
 				4AD2326529D8B30F000D3A9B /* Eddystone.swift in Sources */,
 				4A60F72A29D73F0900DEE86F /* HomeView.swift in Sources */,
 				4A60F72E29D7400A00DEE86F /* ConnectionView.swift in Sources */,
@@ -327,7 +371,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = E046C;
+				CURRENT_PROJECT_VERSION = E047A;
 				DEVELOPMENT_ASSET_PATHS = "\"TogetHomeExperiment/Preview Content\"";
 				DEVELOPMENT_TEAM = VEL246Z47F;
 				ENABLE_PREVIEWS = YES;
@@ -347,7 +391,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = net.itdice.TogetHomeExperiment;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -365,7 +409,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = E046C;
+				CURRENT_PROJECT_VERSION = E047A;
 				DEVELOPMENT_ASSET_PATHS = "\"TogetHomeExperiment/Preview Content\"";
 				DEVELOPMENT_TEAM = VEL246Z47F;
 				ENABLE_PREVIEWS = YES;
@@ -385,7 +429,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = net.itdice.TogetHomeExperiment;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -417,6 +461,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		4A18751629EDA3A700E22076 /* XCRemoteSwiftPackageReference "socket.io-client-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/socketio/socket.io-client-swift.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		4A18751729EDA3A700E22076 /* SocketIO */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4A18751629EDA3A700E22076 /* XCRemoteSwiftPackageReference "socket.io-client-swift" */;
+			productName = SocketIO;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		4AD2326A29DC7735000D3A9B /* DataPackage.xcdatamodeld */ = {
