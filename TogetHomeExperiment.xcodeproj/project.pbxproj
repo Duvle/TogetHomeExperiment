@@ -118,11 +118,11 @@
 			children = (
 				4A60F71B29D7367900DEE86F /* TogetHomeExperimentApp.swift */,
 				4A60F71D29D7367900DEE86F /* ContentView.swift */,
+				4AD2324C29D819A3000D3A9B /* SplashScreenView.swift */,
 				4A18752029EDA61900E22076 /* Home */,
 				4A18751B29EDA44200E22076 /* Beacon */,
 				4A18751E29EDA58900E22076 /* Connection */,
 				4A18752129EDA62900E22076 /* Settings */,
-				4AD2324C29D819A3000D3A9B /* SplashScreenView.swift */,
 				4AD2326A29DC7735000D3A9B /* DataPackage.xcdatamodeld */,
 				4A60F71F29D7367A00DEE86F /* Assets.xcassets */,
 				4AD2324E29D81E42000D3A9B /* Fonts */,

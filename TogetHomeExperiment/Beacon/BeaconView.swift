@@ -7,20 +7,20 @@
 
 import SwiftUI
 
-enum ViewOption {
+enum BeaconViewOption {
     case all
     case specific
     case primary
 }
 
-struct BeaconOption {
+struct BeaconListOption {
     var mainTitle: String
     var subTitle: String
     var icon: String
-    var targetView: ViewOption
+    var targetView: BeaconViewOption
 }
 
-@ViewBuilder func viewSelect(for viewoption: ViewOption) -> some View {
+@ViewBuilder func viewSelect(for viewoption: BeaconViewOption) -> some View {
     switch viewoption {
     case .all:
         BeaconAllView()
@@ -33,9 +33,9 @@ struct BeaconOption {
 
 struct BeaconView: View {
     @State var optionList = [
-        BeaconOption(mainTitle: "All Beacon", subTitle: "Find all the Toget-Home's Beacon Broadcast Data.", icon: "globe.asia.australia", targetView: .all),
-        BeaconOption(mainTitle: "Specific Beacon", subTitle: "Find a specific Toget-Home's Beacon Broadcast Data.", icon: "square.split.bottomrightquarter", targetView: .specific),
-        BeaconOption(mainTitle: "Primary Beacon", subTitle: "Find a primary Toget-Home's Beacon Broadcast Data.", icon: "flag.checkered.circle", targetView: .primary)
+        BeaconListOption(mainTitle: "All Beacon", subTitle: "Find all the Toget-Home's Beacon Broadcast Data.", icon: "globe.asia.australia", targetView: .all),
+        BeaconListOption(mainTitle: "Specific Beacon", subTitle: "Find a specific Toget-Home's Beacon Broadcast Data.", icon: "square.split.bottomrightquarter", targetView: .specific),
+        BeaconListOption(mainTitle: "Primary Beacon", subTitle: "Find a primary Toget-Home's Beacon Broadcast Data.", icon: "flag.checkered.circle", targetView: .primary)
     ]
     var body: some View {
         NavigationStack {
