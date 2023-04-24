@@ -29,6 +29,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4A0651CB29F1C2B100A039A4 /* TogetHomeExperiment.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TogetHomeExperiment.entitlements; sourceTree = "<group>"; };
 		4A18751C29EDA4A600E22076 /* BeaconAllView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeaconAllView.swift; sourceTree = "<group>"; };
 		4A60F71829D7367900DEE86F /* TogetHomeExperiment.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TogetHomeExperiment.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A60F71B29D7367900DEE86F /* TogetHomeExperimentApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TogetHomeExperimentApp.swift; sourceTree = "<group>"; };
@@ -116,6 +117,7 @@
 		4A60F71A29D7367900DEE86F /* TogetHomeExperiment */ = {
 			isa = PBXGroup;
 			children = (
+				4A0651CB29F1C2B100A039A4 /* TogetHomeExperiment.entitlements */,
 				4A60F71B29D7367900DEE86F /* TogetHomeExperimentApp.swift */,
 				4A60F71D29D7367900DEE86F /* ContentView.swift */,
 				4AD2324C29D819A3000D3A9B /* SplashScreenView.swift */,
@@ -369,11 +371,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = ExpAppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
+				CODE_SIGN_ENTITLEMENTS = TogetHomeExperiment/TogetHomeExperiment.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = E049A;
 				DEVELOPMENT_ASSET_PATHS = "\"TogetHomeExperiment/Preview Content\"";
-				DEVELOPMENT_TEAM = VEL246Z47F;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = VEL246Z47F;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TogetHomeExperiment/Info.plist;
@@ -395,6 +400,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = net.itdice.TogetHomeExperiment;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Toget Home E Provision";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -407,11 +413,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = ExpAppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
+				CODE_SIGN_ENTITLEMENTS = TogetHomeExperiment/TogetHomeExperiment.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = E049A;
 				DEVELOPMENT_ASSET_PATHS = "\"TogetHomeExperiment/Preview Content\"";
-				DEVELOPMENT_TEAM = VEL246Z47F;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = VEL246Z47F;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TogetHomeExperiment/Info.plist;
@@ -433,6 +442,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = net.itdice.TogetHomeExperiment;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Toget Home E Ad Hoc";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

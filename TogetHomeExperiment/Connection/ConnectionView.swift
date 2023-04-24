@@ -65,7 +65,7 @@ struct ConnectionView: View {
                             }
                         }
                     }).frame(height: 150)
-            }.navigationTitle("Beacon")
+            }.navigationTitle("Connection")
         }
     }
 }
@@ -168,7 +168,7 @@ struct ConnectionTestView: View {
         .refreshable {
             self.isConnect = false
             self.socket.disconnect()
-            self.logList = []
+            self.logList = [ConnectionLogListOption(keyValue: "Waiting", dataValue: "")]
         }
         .onAppear {
             self.ipAddress = UserDefaults.standard.value(forKey: "testConnectionIP") as? String ?? "127.0.0.1"
