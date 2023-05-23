@@ -52,12 +52,13 @@ struct ConnectionTestView: View, MainStationFinderDelegate {
         self.socket.on("test_response") { dataArray, socketAck in
             self.logList.append(ConnectionLogListOption(keyValue: "Receive", dataValue: "Test Data from Server"))
             
-            let incomeData = dataArray[0] as! NSDictionary
+            let responseData = dataArray[0] as! NSArray
+            let incomeData = responseData as! [[String : Any]]
             
-            let messageData = incomeData["message"] as! String
-            let hexData = incomeData["hex"] as! Int
-            let intData = incomeData["int"] as! Int
-            let floatCFData = incomeData["float"] as! CFNumber
+            let messageData = incomeData[0]["message"] as! String
+            let hexData = incomeData[0]["hex"] as! Int
+            let intData = incomeData[0]["int"] as! Int
+            let floatCFData = incomeData[0]["float"] as! CFNumber
             
             var floatData: Float = 0
             CFNumberGetValue(floatCFData, .floatType, &floatData)
