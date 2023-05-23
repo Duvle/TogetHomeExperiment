@@ -12,8 +12,8 @@ struct SettingsView: View {
     @State private var allBeaconNoRSSI: Int = UserDefaults.standard.value(forKey: "allBeaconNoRSSI") as? Int ?? 10
     @State private var allBeaconScanTime: Int = UserDefaults.standard.value(forKey: "allBeaconScanTime") as? Int ?? 60
     
-    @State private var testConnectionIP: String = UserDefaults.standard.value(forKey: "testConnectionIP") as? String ?? "127.0.0.1"
     @State private var testConnectionPort: String = UserDefaults.standard.value(forKey: "testConnectionPort") as? String ?? "8710"
+    @State private var testConnectionUDPPort: String = UserDefaults.standard.value(forKey: "testConnectionUDPPort") as? String ?? "8711"
     
     @State private var appVersion: String = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? ""
     @State private var appBuild: String = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? ""
@@ -69,20 +69,20 @@ struct SettingsView: View {
                 Section(header: Text("Test Connect").bold(),
                         footer: Text("The ip address and port number must be entered correctly.")) {
                     HStack{
-                        Text("IP Address")
-                            .frame(width: 140, alignment: .leading)
-                            .foregroundColor(.gray)
-                            .bold()
-                        Divider()
-                        TextField("IPv4 Format", text: $testConnectionIP)
-                    }
-                    HStack{
-                        Text("Port Number")
+                        Text("Main Port")
                             .frame(width: 140, alignment: .leading)
                             .foregroundColor(.gray)
                             .bold()
                         Divider()
                         TextField("1024 ~ 49151", text: $testConnectionPort)
+                    }
+                    HStack{
+                        Text("UDP Port")
+                            .frame(width: 140, alignment: .leading)
+                            .foregroundColor(.gray)
+                            .bold()
+                        Divider()
+                        TextField("1024 ~ 49151", text: $testConnectionUDPPort)
                     }
                 }
                 Section(header: Text("Data Transfer").bold()) {
@@ -129,8 +129,8 @@ struct SettingsView: View {
                         UserDefaults.standard.setValue(allBeaconNamespaceID, forKey: "allBeaconNamespaceID")
                         UserDefaults.standard.setValue(allBeaconNoRSSI, forKey: "allBeaconNoRSSI")
                         UserDefaults.standard.setValue(allBeaconScanTime, forKey: "allBeaconScanTime")
-                        UserDefaults.standard.setValue(testConnectionIP, forKey: "testConnectionIP")
                         UserDefaults.standard.setValue(testConnectionPort, forKey: "testConnectionPort")
+                        UserDefaults.standard.setValue(testConnectionUDPPort, forKey: "testConnectionUDPPort")
                     } label: {
                         Text("Save")
                             .font(.custom("SamsungOneKorean-700", size: 18))

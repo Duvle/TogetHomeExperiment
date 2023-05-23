@@ -17,6 +17,13 @@
 		4A60F72C29D73FF800DEE86F /* BeaconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A60F72B29D73FF800DEE86F /* BeaconView.swift */; };
 		4A60F72E29D7400A00DEE86F /* ConnectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A60F72D29D7400A00DEE86F /* ConnectionView.swift */; };
 		4A60F73029D740BC00DEE86F /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A60F72F29D740BC00DEE86F /* SettingsView.swift */; };
+		4AC811DB2A1CB2E900E8E895 /* ConnectionTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC811DA2A1CB2E900E8E895 /* ConnectionTestView.swift */; };
+		4AC811DD2A1CB30900E8E895 /* ConnectionTransferView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC811DC2A1CB30900E8E895 /* ConnectionTransferView.swift */; };
+		4AC811DF2A1CB31E00E8E895 /* ConnectionCalculateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC811DE2A1CB31E00E8E895 /* ConnectionCalculateView.swift */; };
+		4AC811E12A1CB3A100E8E895 /* BeaconSpecView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC811E02A1CB3A100E8E895 /* BeaconSpecView.swift */; };
+		4AC811E32A1CB3AF00E8E895 /* BeaconPriView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC811E22A1CB3AF00E8E895 /* BeaconPriView.swift */; };
+		4AC811E52A1CFC3100E8E895 /* MainStationConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC811E42A1CFC3100E8E895 /* MainStationConnector.swift */; };
+		4AC811E72A1CFC3E00E8E895 /* MainStationFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC811E62A1CFC3E00E8E895 /* MainStationFinder.swift */; };
 		4AD2324D29D819A3000D3A9B /* SplashScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD2324C29D819A3000D3A9B /* SplashScreenView.swift */; };
 		4AD2325F29D8630C000D3A9B /* SamsungOneKorean-200.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4AD2325C29D81E6C000D3A9B /* SamsungOneKorean-200.ttf */; };
 		4AD2326029D86311000D3A9B /* SamsungOneKorean-300.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4AD2325929D81E6B000D3A9B /* SamsungOneKorean-300.ttf */; };
@@ -40,6 +47,13 @@
 		4A60F72B29D73FF800DEE86F /* BeaconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeaconView.swift; sourceTree = "<group>"; };
 		4A60F72D29D7400A00DEE86F /* ConnectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionView.swift; sourceTree = "<group>"; };
 		4A60F72F29D740BC00DEE86F /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		4AC811DA2A1CB2E900E8E895 /* ConnectionTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionTestView.swift; sourceTree = "<group>"; };
+		4AC811DC2A1CB30900E8E895 /* ConnectionTransferView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionTransferView.swift; sourceTree = "<group>"; };
+		4AC811DE2A1CB31E00E8E895 /* ConnectionCalculateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionCalculateView.swift; sourceTree = "<group>"; };
+		4AC811E02A1CB3A100E8E895 /* BeaconSpecView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeaconSpecView.swift; sourceTree = "<group>"; };
+		4AC811E22A1CB3AF00E8E895 /* BeaconPriView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeaconPriView.swift; sourceTree = "<group>"; };
+		4AC811E42A1CFC3100E8E895 /* MainStationConnector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainStationConnector.swift; sourceTree = "<group>"; };
+		4AC811E62A1CFC3E00E8E895 /* MainStationFinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainStationFinder.swift; sourceTree = "<group>"; };
 		4AD2324C29D819A3000D3A9B /* SplashScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreenView.swift; sourceTree = "<group>"; };
 		4AD2325929D81E6B000D3A9B /* SamsungOneKorean-300.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SamsungOneKorean-300.ttf"; sourceTree = "<group>"; };
 		4AD2325A29D81E6B000D3A9B /* SamsungOneKorean-700.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SamsungOneKorean-700.ttf"; sourceTree = "<group>"; };
@@ -70,6 +84,8 @@
 				4AD2326629D99660000D3A9B /* BeaconScanner.swift */,
 				4A60F72B29D73FF800DEE86F /* BeaconView.swift */,
 				4A18751C29EDA4A600E22076 /* BeaconAllView.swift */,
+				4AC811E02A1CB3A100E8E895 /* BeaconSpecView.swift */,
+				4AC811E22A1CB3AF00E8E895 /* BeaconPriView.swift */,
 			);
 			path = Beacon;
 			sourceTree = "<group>";
@@ -78,6 +94,11 @@
 			isa = PBXGroup;
 			children = (
 				4A60F72D29D7400A00DEE86F /* ConnectionView.swift */,
+				4AC811DA2A1CB2E900E8E895 /* ConnectionTestView.swift */,
+				4AC811DC2A1CB30900E8E895 /* ConnectionTransferView.swift */,
+				4AC811DE2A1CB31E00E8E895 /* ConnectionCalculateView.swift */,
+				4AC811E42A1CFC3100E8E895 /* MainStationConnector.swift */,
+				4AC811E62A1CFC3E00E8E895 /* MainStationFinder.swift */,
 			);
 			path = Connection;
 			sourceTree = "<group>";
@@ -235,15 +256,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				4AD2324D29D819A3000D3A9B /* SplashScreenView.swift in Sources */,
+				4AC811DF2A1CB31E00E8E895 /* ConnectionCalculateView.swift in Sources */,
 				4A18751D29EDA4A600E22076 /* BeaconAllView.swift in Sources */,
 				4AD2326529D8B30F000D3A9B /* Eddystone.swift in Sources */,
 				4A60F72A29D73F0900DEE86F /* HomeView.swift in Sources */,
+				4AC811DD2A1CB30900E8E895 /* ConnectionTransferView.swift in Sources */,
 				4A60F72E29D7400A00DEE86F /* ConnectionView.swift in Sources */,
 				4AD2326729D99660000D3A9B /* BeaconScanner.swift in Sources */,
+				4AC811DB2A1CB2E900E8E895 /* ConnectionTestView.swift in Sources */,
 				4A60F71E29D7367900DEE86F /* ContentView.swift in Sources */,
 				4A60F73029D740BC00DEE86F /* SettingsView.swift in Sources */,
 				4A60F72C29D73FF800DEE86F /* BeaconView.swift in Sources */,
+				4AC811E52A1CFC3100E8E895 /* MainStationConnector.swift in Sources */,
+				4AC811E72A1CFC3E00E8E895 /* MainStationFinder.swift in Sources */,
+				4AC811E32A1CB3AF00E8E895 /* BeaconPriView.swift in Sources */,
 				4AD2326C29DC7735000D3A9B /* DataPackage.xcdatamodeld in Sources */,
+				4AC811E12A1CB3A100E8E895 /* BeaconSpecView.swift in Sources */,
 				4A60F71C29D7367900DEE86F /* TogetHomeExperimentApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -375,7 +403,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = E049A;
+				CURRENT_PROJECT_VERSION = E051A;
 				DEVELOPMENT_ASSET_PATHS = "\"TogetHomeExperiment/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = VEL246Z47F;
@@ -396,7 +424,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.3;
+				MARKETING_VERSION = 1.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = net.itdice.TogetHomeExperiment;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -417,7 +445,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = E049A;
+				CURRENT_PROJECT_VERSION = E051A;
 				DEVELOPMENT_ASSET_PATHS = "\"TogetHomeExperiment/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = VEL246Z47F;
@@ -438,7 +466,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.3;
+				MARKETING_VERSION = 1.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = net.itdice.TogetHomeExperiment;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
