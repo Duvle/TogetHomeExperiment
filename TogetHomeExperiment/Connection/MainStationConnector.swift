@@ -142,6 +142,13 @@ class MainStationConnector: NSObject, MainStationFinderDelegate {
             self.responseDictionaryData = transferData
             self.isDictionaryDataResponsed = true
         }
+        // Beacon Power Update Response -> [String : Any]
+        self.socket.on("beacon_power_update_response") {dataArray, socketAck in
+            let receivedData = dataArray[0] as! NSDictionary
+            let transferData = receivedData as! [String : Any]
+            self.responseDictionaryData = transferData
+            self.isDictionaryDataResponsed = true
+        }
         // Data Update Response -> [String : Any]
         self.socket.on("data_update_response") {dataArray, socketAck in
             let receivedData = dataArray[0] as! NSDictionary
@@ -208,7 +215,7 @@ class MainStationConnector: NSObject, MainStationFinderDelegate {
         self.dataRequest(optionData: optionData)
         receivedData = waitResponseArrayData()
         
-        return receivedData[0]
+        return receivedData[0]  // valid: Bool, `msg: String, `home_name: String, `interval_time: Int, `expire_count: Int
     }
     
     public func homeRegister(homeName: String) -> [String : Any] {
@@ -218,7 +225,7 @@ class MainStationConnector: NSObject, MainStationFinderDelegate {
         self.socket.emit("home_setup", optionData)
         receivedData = waitResponseDictionaryData()
         
-        return receivedData
+        return receivedData  // valid: Bool, `msg: String, `home_name: String, `interval_time: Int, `expire_count: Int
     }
     
     public func settingUpdate(homeName: String, intervalTime: Int, expireCount: Int) -> [String : Any] {
@@ -228,7 +235,7 @@ class MainStationConnector: NSObject, MainStationFinderDelegate {
         self.dataUpdate(optionData: optionData)
         receivedData = waitResponseDictionaryData()
         
-        return receivedData
+        return receivedData  // valid: Bool, msg: String
     }
     
     // Space Part
@@ -239,7 +246,7 @@ class MainStationConnector: NSObject, MainStationFinderDelegate {
         self.dataRequest(optionData: optionData)
         receivedData = waitResponseArrayData()
         
-        return receivedData
+        return receivedData  // valid: Bool, `msg: String, `id: String, `familiar_name: String, `size_x: Float, `size_y: Float
     }
     
     public func spaceRegister(spaceName: String, sizeX: Float, sizeY: Float) -> [String : Any] {
@@ -249,27 +256,189 @@ class MainStationConnector: NSObject, MainStationFinderDelegate {
         self.dataRegister(optionData: optionData)
         receivedData = waitResponseDictionaryData()
         
-        return receivedData
+        return receivedData  // valid: Bool, msg: String, `id: String
     }
     
     public func spaceUpdate(spaceID: String, sizeX: Float, sizeY: Float) -> [String : Any] {
-        var optionData: [String : Any] = ["data_type": "Space", "space_id": spaceID, "size_x": sizeX, "size_y": sizeY]
+        var optionData: [String : Any] = ["data_type": "Space", "id": spaceID, "size_x": sizeX, "size_y": sizeY]
         var receivedData: [String : Any] = [:]
         
         self.dataUpdate(optionData: optionData)
         receivedData = waitResponseDictionaryData()
         
-        return receivedData
+        return receivedData  // valid: Bool, msg: String
     }
     
     public func spaceDelete(spaceID: String) -> [String : Any] {
-        var optionData: [String : Any] = ["data_type": "Space", "space_id": spaceID]
+        var optionData: [String : Any] = ["data_type": "Space", "id": spaceID]
         var receivedData: [String : Any] = [:]
         
         self.dataDelete(optionData: optionData)
         receivedData = waitResponseDictionaryData()
         
-        return receivedData
+        return receivedData  // valid: Bool, msg: String
     }
     
+    // User Part
+    public func userRequest() -> [[String : Any]] {
+        var optionData: [String : Any] = ["data_type": "User"]
+        var receivedData: [[String : Any]] = []
+        
+        self.dataRequest(optionData: optionData)
+        receivedData = waitResponseArrayData()
+        
+        return receivedData  // valid: Bool, `msg: String, `id: String, `user_name: String
+    }
+    
+    public func userRegister(userName: String) -> [String : Any] {
+        var optionData: [String : Any] = ["data_type": "User", "user_name": userName]
+        var receivedData: [String : Any] = [:]
+        
+        self.dataRegister(optionData: optionData)
+        receivedData = waitResponseDictionaryData()
+        
+        return receivedData  // valid: Bool, msg: String, `id: String
+    }
+    
+    public func userUpdate(userID: String, userName: String) -> [String : Any] {
+        var optionData: [String : Any] = ["data_type": "User", "id": userID, "user_name": userName]
+        var receivedData: [String : Any] = [:]
+        
+        self.dataUpdate(optionData: optionData)
+        receivedData = waitResponseDictionaryData()
+        
+        return receivedData  // valid: Bool, msg: String
+    }
+    
+    public func userDelete(userID: String) -> [String : Any] {
+        var optionData: [String : Any] = ["data_type": "Space", "id": userID]
+        var receivedData: [String : Any] = [:]
+        
+        self.dataDelete(optionData: optionData)
+        receivedData = waitResponseDictionaryData()
+        
+        return receivedData  // valid: Bool, msg: String
+    }
+    
+    // Device Part
+    public func deviceAllRequest() -> [[String : Any]] {
+        var optionData: [String : Any] = ["data_type": "Device"]
+        var receivedData: [[String : Any]] = []
+        
+        self.dataRequest(optionData: optionData)
+        receivedData = waitResponseArrayData()
+        
+        return receivedData  // valid: Bool, `msg: String, `id: String, `familiar_name: String, `state: String, `user_id: String
+    }
+    
+    public func deviceMyRequest(userID: String) -> [[String : Any]] {
+        var optionData: [String : Any] = ["data_type": "Device", "user_id": userID]
+        var receivedData: [[String : Any]] = []
+        
+        self.dataRequest(optionData: optionData)
+        receivedData = waitResponseArrayData()
+        
+        return receivedData  // valid: Bool, `msg: String, `id: String, `familiar_name: String, `state: String, `user_id: String
+    }
+    
+    public func deviceNewRegister(deviceName: String, userID: String) -> [String : Any] {
+        var optionData: [String : Any] = ["familiar_name": deviceName, "user_id": userID]
+        var receivedData: [String : Any] = [:]
+        
+        self.socket.emit("device_register", optionData)
+        receivedData = waitResponseDictionaryData()
+        
+        return receivedData  // valid: Bool, msg: String, `id: String
+    }
+    
+    public func deviceReRegister(deviceID: String, deviceName: String, userID: String) -> [String : Any] {
+        var optionData: [String : Any] = ["id": deviceID, "familiar_name": deviceName, "user_id": userID]
+        var receivedData: [String : Any] = [:]
+        
+        self.socket.emit("device_register", optionData)
+        receivedData = waitResponseDictionaryData()
+        
+        return receivedData  // valid: Bool, msg: String, `id: String
+    }
+    
+    public func deviceDelete(deviceID: String) -> [String : Any] {
+        var optionData: [String : Any] = ["data_type": "Device", "id": deviceID]
+        var receivedData: [String : Any] = [:]
+        
+        self.dataDelete(optionData: optionData)
+        receivedData = waitResponseDictionaryData()
+        
+        return receivedData  // valid: Bool, msg: String
+    }
+    
+    // Beacon Part
+    public func beaconAllRequest() -> [[String : Any]] {
+        var optionData: [String : Any] = ["data_type": "Beacon"]
+        var receivedData: [[String : Any]] = []
+        
+        self.dataRequest(optionData: optionData)
+        receivedData = waitResponseArrayData()
+        
+        return receivedData  // valid: Bool, `msg: String, `id: String, `state: String, `space_id: String, `pos_x: Float, `pos_y: Float, `power: Int, `isPrimary: Bool
+    }
+    
+    public func beaconSpaceRequest(spaceID: String) -> [[String : Any]] {
+        var optionData: [String : Any] = ["data_type": "Beacon", "space_id": spaceID]
+        var receivedData: [[String : Any]] = []
+        
+        self.dataRequest(optionData: optionData)
+        receivedData = waitResponseArrayData()
+        
+        return receivedData  // valid: Bool, `msg: String, `id: String, `state: String, `space_id: String, `pos_x: Float, `pos_y: Float, `power: Int, `isprimary: Bool
+    }
+    
+    public func beaconPriRequest() -> [[String : Any]] {
+        var optionData: [String : Any] = ["data_type": "Beacon", "isprimary": true]
+        var receivedData: [[String : Any]] = []
+        
+        self.dataRequest(optionData: optionData)
+        receivedData = waitResponseArrayData()
+        
+        return receivedData  // valid: Bool, `msg: String, `id: String, `state: String, `space_id: String, `pos_x: Float, `pos_y: Float, `power: Int, `isPrimary: Bool
+    }
+    
+    public func beaconRegister(beaconID: String, state: String, spaceID: String, posX: Float, posY: Float, power: Int, isPrimary: Bool) -> [String : Any] {
+        var optionData: [String : Any] = ["id": beaconID, "state": state, "space_id": spaceID, "pos_x": posX, "pos_y": posY, "power": power, "isprimary": isPrimary]
+        var receivedData: [String : Any] = [:]
+        
+        self.dataRegister(optionData: optionData)
+        receivedData = waitResponseDictionaryData()
+        
+        return receivedData  // valid: Bool, msg: String, `id: String
+    }
+    
+    public func beaconPowerUpdate(beaconID: String, state: String, rssiData: [Int]) -> [String : Any] {
+        var optionData: [String : Any] = ["id" : beaconID, "state": state, "rssi": rssiData]
+        var receivedData: [String :Any] = [:]
+        
+        self.socket.emit("beacon_power_update", optionData)
+        receivedData = waitResponseDictionaryData()
+        
+        return receivedData  // valid: Bool, msg: String
+    }
+    
+    public func beaconPriUpdate(beaconID: String, isPrimary: Bool) -> [String : Any] {
+        var optionData: [String : Any] = ["data_type": "Beacon", "id": beaconID, "isprimary": isPrimary]
+        var receivedData: [String : Any] = [:]
+        
+        self.dataUpdate(optionData: optionData)
+        receivedData = waitResponseDictionaryData()
+        
+        return receivedData  // valid: Bool, msg: String
+    }
+    
+    public func beaconDelete(beaconID: String) -> [String : Any] {
+        var optionData: [String : Any] = ["data_type": "Beacon", "id": beaconID]
+        var receivedData: [String : Any] = [:]
+        
+        self.dataDelete(optionData: optionData)
+        receivedData = waitResponseDictionaryData()
+        
+        return receivedData  // valid: Bool, msg: String
+    }
 }
