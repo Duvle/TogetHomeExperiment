@@ -135,6 +135,13 @@ class MainStationConnector: NSObject, MainStationFinderDelegate {
             self.responseDictionaryData = transferData
             self.isDictionaryDataResponsed = true
         }
+        // Primary Beacon Register Response ->  [String : Any]
+        self.socket.on("primary_beacon_register_response") {dataArray, socketAck in
+            let receivedData = dataArray[0] as! NSDictionary
+            let transferData = receivedData as! [String : Any]
+            self.responseDictionaryData = transferData
+            self.isDictionaryDataResponsed = true
+        }
         // Data Register Response -> [String : Any]
         self.socket.on("data_register_response") {dataArray, socketAck in
             let receivedData = dataArray[0] as! NSDictionary
@@ -437,6 +444,18 @@ class MainStationConnector: NSObject, MainStationFinderDelegate {
         var receivedData: [String : Any] = [:]
         
         self.dataDelete(optionData: optionData)
+        receivedData = waitResponseDictionaryData()
+        
+        return receivedData  // valid: Bool, msg: String
+    }
+    
+    // Primary Beacon Part
+    
+    public func primaryBeaconRegister(spaceID: String, beaconRssiData: [[String : Any]]) -> [String : Any] {
+        var optionData: [String : Any] = ["space_id": spaceID, "beacon_rssi_data": beaconRssiData]
+        var receivedData: [String : Any] = [:]
+        
+        self.socket.emit("primary_beacon_register", optionData)
         receivedData = waitResponseDictionaryData()
         
         return receivedData  // valid: Bool, msg: String
