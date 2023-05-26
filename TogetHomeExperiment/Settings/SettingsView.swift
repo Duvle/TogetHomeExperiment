@@ -18,6 +18,8 @@ struct SettingsView: View {
     @State private var homeName: String = UserDefaults.standard.value(forKey: "homeName") as? String ?? ""
     @State private var intervalTime: Int = UserDefaults.standard.value(forKey: "intervalTime") as? Int ?? 60
     @State private var expireCount: Int = UserDefaults.standard.value(forKey: "expireCount") as? Int ?? 5
+    @State private var userName: String = UserDefaults.standard.value(forKey: "userName") as? String ?? ""
+    @State private var userID: String = UserDefaults.standard.value(forKey: "userID") as? String ?? ""
     
     @State private var appVersion: String = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? ""
     @State private var appBuild: String = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? ""
@@ -114,6 +116,22 @@ struct SettingsView: View {
                         Divider()
                         Text("\(expireCount)")
                     }
+                    HStack{
+                        Text("User Name")
+                            .frame(width: 140, alignment: .leading)
+                            .foregroundColor(.gray)
+                            .bold()
+                        Divider()
+                        Text("\(userName)")
+                    }
+                    HStack{
+                        Text("User ID")
+                            .frame(width: 140, alignment: .leading)
+                            .foregroundColor(.gray)
+                            .bold()
+                        Divider()
+                        Text("\(userID)")
+                    }
                 }
                 Section(header: Text("Position Calculate").bold()) {
                     HStack{
@@ -178,6 +196,8 @@ struct SettingsView: View {
                 self.homeName = UserDefaults.standard.value(forKey: "homeName") as? String ?? ""
                 self.intervalTime = UserDefaults.standard.value(forKey: "intervalTime") as? Int ?? 60
                 self.expireCount = UserDefaults.standard.value(forKey: "expireCount") as? Int ?? 5
+                self.userName = UserDefaults.standard.value(forKey: "userName") as? String ?? ""
+                self.userID = UserDefaults.standard.value(forKey: "userID") as? String ?? ""
                 
                 self.appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? ""
                 self.appBuild = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? ""

@@ -379,7 +379,7 @@ class MainStationConnector: NSObject, MainStationFinderDelegate {
     }
     
     public func userDelete(userID: String) async throws -> [String : Any] {
-        let optionData: [String : Any] = ["data_type": "Space", "id": userID]
+        let optionData: [String : Any] = ["data_type": "User", "id": userID]
         var receivedData: [String : Any] = [:]
         
         self.dataDelete(optionData: optionData)
