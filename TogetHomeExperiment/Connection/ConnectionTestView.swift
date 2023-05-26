@@ -122,7 +122,9 @@ struct ConnectionTestView: View, MainStationFinderDelegate {
         }
         .refreshable {
             self.isConnect = false
-            self.socket.disconnect()
+            if isFind {
+                self.socket.disconnect()
+            }
             self.logList = [ConnectionLogListOption(keyValue: "Waiting", dataValue: "")]
         }
         .onAppear {
@@ -132,6 +134,11 @@ struct ConnectionTestView: View, MainStationFinderDelegate {
             self.finder = MainStationFinder(portNumber: self.udpPort)
             self.finder.delegate = self
             self.finder.findStation()
+        }
+        .onDisappear {
+            if isFind {
+                self.socket.disconnect()
+            }
         }
     }
 }
