@@ -26,7 +26,7 @@ struct ConnectionLogListOption {
     var dataValue: String
 }
 
-@ViewBuilder func viewSelect(for viewoption: ConnectionViewOption) -> some View {
+@ViewBuilder func connectionViewSelect(for viewoption: ConnectionViewOption) -> some View {
     switch viewoption {
     case .test:
         ConnectionTestView()
@@ -47,7 +47,7 @@ struct ConnectionView: View {
         NavigationStack {
             List(optionList, id: \.mainTitle) { optionListData in
                 NavigationLink(
-                    destination: viewSelect(for: optionListData.targetView),
+                    destination: connectionViewSelect(for: optionListData.targetView),
                     label: {
                         HStack {
                             Image(systemName: optionListData.icon)
