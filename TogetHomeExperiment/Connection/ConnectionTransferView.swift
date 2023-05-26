@@ -77,7 +77,7 @@ struct ConnectionTransferView: View, MainStationConnectorDelegate {
                                 .foregroundColor(Color("BeaconDefaultColor"))
                         }
                         .sheet(isPresented: $isHomeSetupView) {
-                            HomeSetupView(connector: self.$connector)
+                            HomeSetupView(connector: self.$connector, viewController: $isHomeSetupView)
                         }
                         .disabled(!isServerConnect)
                     }
@@ -122,7 +122,7 @@ struct ConnectionTransferView: View, MainStationConnectorDelegate {
             self.connector.delegate = self
         }
         .onDisappear {
-            if isServerFind {
+            if isServerFind && isServerConnect {
                 self.connector.setDisconnect()
             }
         }
@@ -131,66 +131,104 @@ struct ConnectionTransferView: View, MainStationConnectorDelegate {
 
 struct HomeSetupView: View {
     @Binding var connector: MainStationConnector!
+    @Binding var viewController: Bool
     
     @State private var responseValues: [String : Any] = [:]
     @State private var homeName: String = ""
+    @State private var intervalTime: Int = 60
+    @State private var expireCount: Int = 5
+    
     @State private var isAlreadyHome: Bool = false
+    @State private var isError: Bool = false
+    
+    @State private var message: String = "Unknown"
     
     var body: some View {
-        VStack {
-            Image("BeaconHomeImg")
-                .resizable()
-                .scaledToFit()
-                .frame(width: 400, height: 500)
-                .offset(x: -13)
-            
-            HStack {
-                Image("TogetHomeHLogo")
+        ScrollView {
+            VStack {
+                Image("BeaconHomeImg")
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 50, height: 50)
-                Text("Welcome! \nToget Home World.")
-                    .font(.custom("SamsungOneKorean-700", size: 32))
-                    .frame(alignment: .leading)
+                    .frame(width: 400, height: 500)
+                    .offset(x: -13)
                 
-            }
-            .frame(height: 130)
-            
-            HStack{
-                Text("Home Name")
-                    .frame(width: 120, alignment: .leading)
-                    .foregroundColor(.gray)
-                    .bold()
-                Divider()
-                TextField("Your Home Name", text:$homeName)
-                    .frame(width: 200, alignment: .leading)
-            }
-            .frame(width: 400, height: 40)
-            .background(Color("BackgroundColor"))
-            .overlay(
-                Capsule(style: .continuous)
-                    .stroke(Color("OutlineColor"), lineWidth: 2)
-            )
-            .padding(5)
-            Button {
+                HStack {
+                    Image("TogetHomeHLogo")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 50, height: 50)
+                    Text("Welcome! \nToget Home World.")
+                        .font(.custom("SamsungOneKorean-700", size: 32))
+                        .frame(alignment: .leading)
+                    
+                }
+                .frame(height: 130)
                 
-            } label: {
-                Text(isAlreadyHome ? "Start" : "Set the home name and Start")
-                    .font(.custom("SamsungOneKorean-700", size: 18))
-                    .frame(width: 400, height: 40)
-                    .background(isAlreadyHome ? Color("BeaconTriggeredColor") : Color("BeaconNormalColor"))
-                    .foregroundColor(Color("BackgroundColor"))
-                    .cornerRadius(20)
+                HStack{
+                    Text("Home Name")
+                        .frame(width: 120, alignment: .leading)
+                        .foregroundColor(.gray)
+                        .bold()
+                    Divider()
+                    TextField("Your Home Name", text:$homeName)
+                        .frame(width: 200, alignment: .leading)
+                        .disabled(isAlreadyHome)
+                }
+                .frame(width: 400, height: 40)
+                .background(Color("BackgroundColor"))
+                .overlay(
+                    Capsule(style: .continuous)
+                        .stroke(Color("OutlineColor"), lineWidth: 2)
+                )
+                .padding(5)
+                Button {
+                    if self.isAlreadyHome {
+                        UserDefaults.standard.setValue(self.homeName, forKey: "homeName")
+                        UserDefaults.standard.setValue(self.intervalTime, forKey: "intervalTime")
+                        UserDefaults.standard.setValue(self.expireCount, forKey: "expireCount")
+                        
+                        viewController.toggle()
+                    }
+                    else {
+                        Task {
+                            self.responseValues = try await self.connector.homeRegister(homeName: self.homeName)
+                            let isSuccess: Bool = responseValues["valid"] as! Bool
+                            
+                            if isSuccess {
+                                UserDefaults.standard.setValue(responseValues["home_name"] as! String, forKey: "homeName")
+                                UserDefaults.standard.setValue(responseValues["interval_time"] as! Int, forKey: "intervalTime")
+                                UserDefaults.standard.setValue(responseValues["expire_count"] as! Int, forKey: "expireCount")
+                                
+                                viewController.toggle()
+                            }
+                            else {
+                                self.message = responseValues["msg"] as! String
+                                isError.toggle()
+                            }
+                        }
+                    }
+                } label: {
+                    Text(isAlreadyHome ? "Start" : "Set the home name and Start")
+                        .font(.custom("SamsungOneKorean-700", size: 18))
+                        .frame(width: 400, height: 40)
+                        .background(isAlreadyHome ? Color("BeaconTriggeredColor") : Color("BeaconNormalColor"))
+                        .foregroundColor(Color("BackgroundColor"))
+                        .cornerRadius(20)
+                }
             }
+        }
+        .alert(isPresented: $isError) {
+            Alert(title: Text("Main Station Error"), message: Text(message), dismissButton: .default(Text("Confrim")))
         }
         .onAppear {
             Task {
                 self.responseValues = try await self.connector.homeCheck()
                 self.isAlreadyHome = responseValues["valid"] as! Bool
-                NSLog("HomeCheck Result => \(isAlreadyHome)")
                 
                 if self.isAlreadyHome {
                     self.homeName = responseValues["home_name"] as! String
+                    self.intervalTime = responseValues["interval_time"] as! Int
+                    self.expireCount = responseValues["expire_count"] as! Int
                 }
             }
         }

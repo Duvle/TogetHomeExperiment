@@ -15,6 +15,10 @@ struct SettingsView: View {
     @State private var testConnectionPort: String = UserDefaults.standard.value(forKey: "testConnectionPort") as? String ?? "8710"
     @State private var testConnectionUDPPort: String = UserDefaults.standard.value(forKey: "testConnectionUDPPort") as? String ?? "8711"
     
+    @State private var homeName: String = UserDefaults.standard.value(forKey: "homeName") as? String ?? ""
+    @State private var intervalTime: Int = UserDefaults.standard.value(forKey: "intervalTime") as? Int ?? 60
+    @State private var expireCount: Int = UserDefaults.standard.value(forKey: "expireCount") as? Int ?? 5
+    
     @State private var appVersion: String = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? ""
     @State private var appBuild: String = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? ""
     
@@ -87,11 +91,28 @@ struct SettingsView: View {
                 }
                 Section(header: Text("Data Transfer").bold()) {
                     HStack{
-                        Spacer()
-                        Text("Developing features...")
-                            .font(.custom("SamsungOneKorean-400", size: 20))
+                        Text("Home Name")
+                            .frame(width: 140, alignment: .leading)
                             .foregroundColor(.gray)
-                        Spacer()
+                            .bold()
+                        Divider()
+                        Text("\(homeName)")
+                    }
+                    HStack{
+                        Text("Interval Time")
+                            .frame(width: 140, alignment: .leading)
+                            .foregroundColor(.gray)
+                            .bold()
+                        Divider()
+                        Text("\(intervalTime)")
+                    }
+                    HStack{
+                        Text("Expire Count")
+                            .frame(width: 140, alignment: .leading)
+                            .foregroundColor(.gray)
+                            .bold()
+                        Divider()
+                        Text("\(expireCount)")
                     }
                 }
                 Section(header: Text("Position Calculate").bold()) {
@@ -123,14 +144,19 @@ struct SettingsView: View {
                 }
             }
             .navigationTitle("Settings")
-            .toolbar{
+            .toolbar {
                 ToolbarItem {
                     Button {
                         UserDefaults.standard.setValue(allBeaconNamespaceID, forKey: "allBeaconNamespaceID")
                         UserDefaults.standard.setValue(allBeaconNoRSSI, forKey: "allBeaconNoRSSI")
                         UserDefaults.standard.setValue(allBeaconScanTime, forKey: "allBeaconScanTime")
+                        
                         UserDefaults.standard.setValue(testConnectionPort, forKey: "testConnectionPort")
                         UserDefaults.standard.setValue(testConnectionUDPPort, forKey: "testConnectionUDPPort")
+                        
+                        UserDefaults.standard.setValue(homeName, forKey: "homeName")
+                        UserDefaults.standard.setValue(intervalTime, forKey: "intervalTime")
+                        UserDefaults.standard.setValue(expireCount, forKey: "expireCount")
                     } label: {
                         Text("Save")
                             .font(.custom("SamsungOneKorean-700", size: 18))
@@ -140,6 +166,21 @@ struct SettingsView: View {
                             .cornerRadius(15)
                     }
                 }
+            }
+            .onAppear {
+                self.allBeaconNamespaceID = UserDefaults.standard.value(forKey: "allBeaconNamespaceID") as? String ?? "17fd1cefff705e7f803e"
+                self.allBeaconNoRSSI = UserDefaults.standard.value(forKey: "allBeaconNoRSSI") as? Int ?? 10
+                self.allBeaconScanTime = UserDefaults.standard.value(forKey: "allBeaconScanTime") as? Int ?? 60
+                
+                self.testConnectionPort = UserDefaults.standard.value(forKey: "testConnectionPort") as? String ?? "8710"
+                self.testConnectionUDPPort = UserDefaults.standard.value(forKey: "testConnectionUDPPort") as? String ?? "8711"
+                
+                self.homeName = UserDefaults.standard.value(forKey: "homeName") as? String ?? ""
+                self.intervalTime = UserDefaults.standard.value(forKey: "intervalTime") as? Int ?? 60
+                self.expireCount = UserDefaults.standard.value(forKey: "expireCount") as? Int ?? 5
+                
+                self.appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? ""
+                self.appBuild = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? ""
             }
         }
     }
