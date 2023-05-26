@@ -20,6 +20,9 @@ struct SettingsView: View {
     @State private var expireCount: Int = UserDefaults.standard.value(forKey: "expireCount") as? Int ?? 5
     @State private var userName: String = UserDefaults.standard.value(forKey: "userName") as? String ?? ""
     @State private var userID: String = UserDefaults.standard.value(forKey: "userID") as? String ?? ""
+    @State private var deviceName: String = UserDefaults.standard.value(forKey: "deviceName") as? String ?? ""
+    @State private var deviceID: String = UserDefaults.standard.value(forKey: "deviceID") as? String ?? ""
+    @State private var spaceID: String = UserDefaults.standard.value(forKey: "spaceID") as? String ?? ""
     
     @State private var appVersion: String = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? ""
     @State private var appBuild: String = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? ""
@@ -132,6 +135,30 @@ struct SettingsView: View {
                         Divider()
                         Text("\(userID)")
                     }
+                    HStack{
+                        Text("Device Name")
+                            .frame(width: 140, alignment: .leading)
+                            .foregroundColor(.gray)
+                            .bold()
+                        Divider()
+                        Text("\(deviceName)")
+                    }
+                    HStack{
+                        Text("Device ID")
+                            .frame(width: 140, alignment: .leading)
+                            .foregroundColor(.gray)
+                            .bold()
+                        Divider()
+                        Text("\(deviceID)")
+                    }
+                    HStack{
+                        Text("Space ID")
+                            .frame(width: 140, alignment: .leading)
+                            .foregroundColor(.gray)
+                            .bold()
+                        Divider()
+                        Text("\(spaceID)")
+                    }
                 }
                 Section(header: Text("Position Calculate").bold()) {
                     HStack{
@@ -198,6 +225,9 @@ struct SettingsView: View {
                 self.expireCount = UserDefaults.standard.value(forKey: "expireCount") as? Int ?? 5
                 self.userName = UserDefaults.standard.value(forKey: "userName") as? String ?? ""
                 self.userID = UserDefaults.standard.value(forKey: "userID") as? String ?? ""
+                self.deviceName = UserDefaults.standard.value(forKey: "deviceName") as? String ?? ""
+                self.deviceID = UserDefaults.standard.value(forKey: "deviceID") as? String ?? ""
+                self.spaceID = UserDefaults.standard.value(forKey: "spaceID") as? String ?? ""
                 
                 self.appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? ""
                 self.appBuild = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? ""
