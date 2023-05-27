@@ -471,7 +471,7 @@ class MainStationConnector: NSObject, MainStationFinderDelegate {
     }
     
     public func beaconRegister(beaconID: String, state: String, spaceID: String, posX: Float, posY: Float, power: Int, isPrimary: Bool) async throws -> [String : Any] {
-        let optionData: [String : Any] = ["id": beaconID, "state": state, "space_id": spaceID, "pos_x": posX, "pos_y": posY, "power": power, "isprimary": isPrimary]
+        let optionData: [String : Any] = ["data_type": "Beacon", "id": beaconID, "state": state, "space_id": spaceID, "pos_x": posX, "pos_y": posY, "power": power, "isprimary": isPrimary]
         var receivedData: [String : Any] = [:]
         
         self.dataRegister(optionData: optionData)

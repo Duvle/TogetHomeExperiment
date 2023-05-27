@@ -46,385 +46,387 @@ struct ConnectionTransferView: View, MainStationConnectorDelegate {
     }
     
     var body: some View {
-        List {
-            Section(header: Text("Server State").bold()) {
-                HStack{
-                    Spacer()
-                    Text(isServerFind ? (isError ? "Connection Error!!" : (isServerConnect ? "Connected" : "Disconnected")) : "Waiting" )
-                        .font(.custom("SamsungOneKorean-400", size: 20))
-                        .bold()
-                        .foregroundColor(Color(isServerFind ? (isError ? "BeaconTriggeredColor" : (isServerConnect ? "BeaconNormalColor" : "ScanStopColor")) : "BeaconDefaultColor" ))
-                    Spacer()
-                }
-            }
-            // Home Settings
-            Section(header: Text("Home").bold()) {
-                // Home Setup
-                HStack {
-                    HStack {
-                        Image(systemName: "house")
-                            .font(.system(size: 25, weight: .bold))
-                            .foregroundColor(Color("BeaconDefaultColor"))
-                            .frame(width: 50, height: 50)
-                        Image(systemName: "checkmark.square")
-                            .font(.system(size: 20, weight: .bold))
-                            .foregroundColor(Color("BeaconDefaultColor"))
-                            .padding(EdgeInsets(top: 5, leading: 0, bottom: 5, trailing: 5))
-                    }
-                    HStack {
-                        Text("Home Setup")
-                            .font(.custom("SamsungOneKorean-700", size: 20))
-                            .frame(width: 250, alignment: .leading)
-                            .padding(.bottom, 1)
-                        Button {
-                            isHomeSetupView.toggle()
-                        } label: {
-                            Text(">")
-                                .font(.custom("SamsungOneKorean-600", size: 17))
-                                .frame(width: 15, alignment: .trailing)
-                                .foregroundColor(Color("BeaconDefaultColor"))
-                        }
-                        .sheet(isPresented: $isHomeSetupView) {
-                            HomeSetupView(connector: self.$connector, viewController: $isHomeSetupView)
-                        }
-                        .disabled(!isServerConnect)
-                    }
-                }
-                // Option Update
-                HStack {
-                    HStack {
-                        Image(systemName: "gear")
-                            .font(.system(size: 28, weight: .bold))
-                            .foregroundColor(Color("BeaconDefaultColor"))
-                            .frame(width: 50, height: 50)
-                        Image(systemName: "arrow.up.arrow.down.square")
-                            .font(.system(size: 20, weight: .bold))
-                            .foregroundColor(Color("BeaconDefaultColor"))
-                            .padding(EdgeInsets(top: 5, leading: 0, bottom: 5, trailing: 5))
-                    }
-                    HStack {
-                        Text("Option Update")
-                            .font(.custom("SamsungOneKorean-700", size: 20))
-                            .frame(width: 250, alignment: .leading)
-                            .padding(.bottom, 1)
-                        Button {
-                            isOptionUpdateView.toggle()
-                        } label: {
-                            Text(">")
-                                .font(.custom("SamsungOneKorean-600", size: 17))
-                                .frame(width: 15, alignment: .trailing)
-                                .foregroundColor(Color("BeaconDefaultColor"))
-                        }
-                        .sheet(isPresented: $isOptionUpdateView) {
-                            OptionUpdateView(connector: self.$connector, viewController: $isOptionUpdateView)
-                        }
-                        .disabled(!isServerConnect)
-                    }
-                }
-            }
-            
-            // User Settings
-            Section(header: Text("User").bold()) {
-                // User setup
-                HStack {
-                    HStack {
-                        Image(systemName: "person")
-                            .font(.system(size: 30, weight: .bold))
-                            .foregroundColor(Color("BeaconDefaultColor"))
-                            .frame(width: 50, height: 50)
-                        Image(systemName: "checkmark.square")
-                            .font(.system(size: 20, weight: .bold))
-                            .foregroundColor(Color("BeaconDefaultColor"))
-                            .padding(EdgeInsets(top: 5, leading: 0, bottom: 5, trailing: 5))
-                    }
-                    HStack {
-                        Text("User Setup")
-                            .font(.custom("SamsungOneKorean-700", size: 20))
-                            .frame(width: 250, alignment: .leading)
-                            .padding(.bottom, 1)
-                        Button {
-                            isUserSetupView.toggle()
-                        } label: {
-                            Text(">")
-                                .font(.custom("SamsungOneKorean-600", size: 17))
-                                .frame(width: 15, alignment: .trailing)
-                                .foregroundColor(Color("BeaconDefaultColor"))
-                        }
-                        .sheet(isPresented: $isUserSetupView) {
-                            UserSetupView(connector: self.$connector, viewController: $isUserSetupView)
-                        }
-                        .disabled(!isServerConnect)
-                    }
-                }
-            }
-            
-            // Device Settings
-            Section(header: Text("Device").bold()) {
-                // Device setup
-                HStack {
-                    HStack {
-                        Image(systemName: "ipad.and.iphone")
-                            .font(.system(size: 25, weight: .bold))
-                            .foregroundColor(Color("BeaconDefaultColor"))
-                            .frame(width: 50, height: 50)
-                        Image(systemName: "checkmark.square")
-                            .font(.system(size: 20, weight: .bold))
-                            .foregroundColor(Color("BeaconDefaultColor"))
-                            .padding(EdgeInsets(top: 5, leading: 0, bottom: 5, trailing: 5))
-                    }
-                    HStack {
-                        Text("Device Setup")
-                            .font(.custom("SamsungOneKorean-700", size: 20))
-                            .frame(width: 250, alignment: .leading)
-                            .padding(.bottom, 1)
-                        Button {
-                            isDeviceSetupView.toggle()
-                        } label: {
-                            Text(">")
-                                .font(.custom("SamsungOneKorean-600", size: 17))
-                                .frame(width: 15, alignment: .trailing)
-                                .foregroundColor(Color("BeaconDefaultColor"))
-                        }
-                        .sheet(isPresented: $isDeviceSetupView) {
-                            DeviceSetupView(connector: self.$connector, viewController: $isDeviceSetupView)
-                        }
-                        .disabled(!isServerConnect)
-                    }
-                }
-            }
-            
-            // Space Settings
-            Section(header: Text("Space").bold()) {
-                // Space Register
-                HStack {
-                    HStack {
-                        Image(systemName: "square.on.square.intersection.dashed")
-                            .font(.system(size: 30, weight: .bold))
-                            .foregroundColor(Color("BeaconDefaultColor"))
-                            .frame(width: 50, height: 50)
-                        Image(systemName: "plus.square")
-                            .font(.system(size: 20, weight: .bold))
-                            .foregroundColor(Color("BeaconDefaultColor"))
-                            .padding(EdgeInsets(top: 5, leading: 0, bottom: 5, trailing: 5))
-                    }
-                    HStack {
-                        Text("Space Register")
-                            .font(.custom("SamsungOneKorean-700", size: 20))
-                            .frame(width: 250, alignment: .leading)
-                            .padding(.bottom, 1)
-                        Button {
-                            isSpaceRegisterView.toggle()
-                        } label: {
-                            Text(">")
-                                .font(.custom("SamsungOneKorean-600", size: 17))
-                                .frame(width: 15, alignment: .trailing)
-                                .foregroundColor(Color("BeaconDefaultColor"))
-                        }
-                        .sheet(isPresented: $isSpaceRegisterView) {
-                            SpaceRegisterView(connector: self.$connector, viewController: $isSpaceRegisterView)
-                        }
-                        .disabled(!isServerConnect)
+        NavigationStack {
+            List {
+                // Server Part
+                Section(header: Text("Server State").bold()) {
+                    HStack{
+                        Spacer()
+                        Text(isServerFind ? (isError ? "Connection Error!!" : (isServerConnect ? "Connected" : "Disconnected")) : "Waiting" )
+                            .font(.custom("SamsungOneKorean-400", size: 20))
+                            .bold()
+                            .foregroundColor(Color(isServerFind ? (isError ? "BeaconTriggeredColor" : (isServerConnect ? "BeaconNormalColor" : "ScanStopColor")) : "BeaconDefaultColor" ))
+                        Spacer()
                     }
                 }
                 
-                // Space Setup
-                HStack {
-                    HStack {
-                        Image(systemName: "square.on.square")
-                            .font(.system(size: 30, weight: .bold))
-                            .foregroundColor(Color("BeaconDefaultColor"))
-                            .frame(width: 50, height: 50)
-                        Image(systemName: "checkmark.square")
-                            .font(.system(size: 20, weight: .bold))
-                            .foregroundColor(Color("BeaconDefaultColor"))
-                            .padding(EdgeInsets(top: 5, leading: 0, bottom: 5, trailing: 5))
-                    }
-                    HStack {
-                        Text("Space Setup")
-                            .font(.custom("SamsungOneKorean-700", size: 20))
-                            .frame(width: 250, alignment: .leading)
-                            .padding(.bottom, 1)
-                        Button {
-                            isSpaceSetupView.toggle()
-                        } label: {
-                            Text(">")
-                                .font(.custom("SamsungOneKorean-600", size: 17))
-                                .frame(width: 15, alignment: .trailing)
-                                .foregroundColor(Color("BeaconDefaultColor"))
+                Section(header: Text("Server Connector").bold()) {
+                    Button {
+                        if !isServerFind {
+                            self.mainPort = UserDefaults.standard.value(forKey: "testConnectionPort") as? String ?? "8710"
+                            self.udpPort = UserDefaults.standard.value(forKey: "testConnectionUDPPort") as? String ?? "8711"
+                            
+                            self.connector = MainStationConnector(mainPort: self.mainPort, udpPort: self.udpPort)
+                            self.connector.delegate = self
                         }
-                        .sheet(isPresented: $isSpaceSetupView) {
-                            SpaceSetupView(connector: self.$connector, viewController: $isSpaceSetupView)
+                        else {
+                            isServerConnectToggle.toggle()
+                            if isServerConnectToggle {
+                                self.connector.setConnect()
+                            }
+                            else {
+                                self.connector.setDisconnect()
+                            }
                         }
-                        .disabled(!isServerConnect)
+                    } label: {
+                        Text(isServerFind ? (isServerConnect ? "Disconnection" : "Connection") : "Server Search" )
+                            .font(.custom("SamsungOneKorean-700", size: 18))
+                            .frame(width: 350, height: 40)
+                            .background(isServerFind ? (isServerConnect ? Color("ScanStopColor") : Color("ScanStartColor")) : Color("ScanWaitColor"))
+                            .foregroundColor(Color("BackgroundColor"))
+                            .cornerRadius(20)
+                            .padding(5)
                     }
+                    
+                    .buttonStyle(BorderlessButtonStyle())
                 }
-            }
-            
-            // Beacon Settings
-            Section(header: Text("Beacon").bold()) {
-                // Beacon Register
-                HStack {
+                
+                // Home Settings
+                Section(header: Text("Home").bold()) {
+                    // Home Setup
                     HStack {
-                        Image(systemName: "sensor.tag.radiowaves.forward")
-                            .font(.system(size: 25, weight: .bold))
-                            .foregroundColor(Color("BeaconDefaultColor"))
-                            .frame(width: 50, height: 50)
-                        Image(systemName: "plus.square")
-                            .font(.system(size: 20, weight: .bold))
-                            .foregroundColor(Color("BeaconDefaultColor"))
-                            .padding(EdgeInsets(top: 5, leading: 0, bottom: 5, trailing: 5))
-                    }
-                    HStack {
-                        Text("Beacon Register")
-                            .font(.custom("SamsungOneKorean-700", size: 20))
-                            .frame(width: 250, alignment: .leading)
-                            .padding(.bottom, 1)
-                        Button {
-                            isBeaconRegisterView.toggle()
-                        } label: {
-                            Text(">")
-                                .font(.custom("SamsungOneKorean-600", size: 17))
-                                .frame(width: 15, alignment: .trailing)
+                        HStack {
+                            Image(systemName: "house")
+                                .font(.system(size: 25, weight: .bold))
                                 .foregroundColor(Color("BeaconDefaultColor"))
+                                .frame(width: 50, height: 50)
+                            Image(systemName: "checkmark.square")
+                                .font(.system(size: 20, weight: .bold))
+                                .foregroundColor(Color("BeaconDefaultColor"))
+                                .padding(EdgeInsets(top: 5, leading: 0, bottom: 5, trailing: 5))
                         }
-                        .sheet(isPresented: $isBeaconRegisterView) {
-                            BeaconRegisterView(connector: self.$connector, viewController: $isBeaconRegisterView)
+                        HStack {
+                            Text("Home Setup")
+                                .font(.custom("SamsungOneKorean-700", size: 20))
+                                .frame(width: 250, alignment: .leading)
+                                .padding(.bottom, 1)
+                            Button {
+                                isHomeSetupView.toggle()
+                            } label: {
+                                Text(">")
+                                    .font(.custom("SamsungOneKorean-600", size: 17))
+                                    .frame(width: 15, alignment: .trailing)
+                                    .foregroundColor(Color("BeaconDefaultColor"))
+                            }
+                            .sheet(isPresented: $isHomeSetupView) {
+                                HomeSetupView(connector: self.$connector, viewController: $isHomeSetupView)
+                            }
+                            .disabled(!isServerConnect)
                         }
-                        disabled(!isServerConnect)
+                    }
+                    // Option Update
+                    HStack {
+                        HStack {
+                            Image(systemName: "gear")
+                                .font(.system(size: 28, weight: .bold))
+                                .foregroundColor(Color("BeaconDefaultColor"))
+                                .frame(width: 50, height: 50)
+                            Image(systemName: "arrow.up.arrow.down.square")
+                                .font(.system(size: 20, weight: .bold))
+                                .foregroundColor(Color("BeaconDefaultColor"))
+                                .padding(EdgeInsets(top: 5, leading: 0, bottom: 5, trailing: 5))
+                        }
+                        HStack {
+                            Text("Option Update")
+                                .font(.custom("SamsungOneKorean-700", size: 20))
+                                .frame(width: 250, alignment: .leading)
+                                .padding(.bottom, 1)
+                            Button {
+                                isOptionUpdateView.toggle()
+                            } label: {
+                                Text(">")
+                                    .font(.custom("SamsungOneKorean-600", size: 17))
+                                    .frame(width: 15, alignment: .trailing)
+                                    .foregroundColor(Color("BeaconDefaultColor"))
+                            }
+                            .sheet(isPresented: $isOptionUpdateView) {
+                                OptionUpdateView(connector: self.$connector, viewController: $isOptionUpdateView)
+                            }
+                            .disabled(!isServerConnect)
+                        }
                     }
                 }
                 
-                // Beacon Update
-                HStack {
+                // User Settings
+                Section(header: Text("User").bold()) {
+                    // User setup
                     HStack {
-                        Image(systemName: "sensor.tag.radiowaves.forward")
-                            .font(.system(size: 25, weight: .bold))
-                            .foregroundColor(Color("BeaconDefaultColor"))
-                            .frame(width: 50, height: 50)
-                        Image(systemName: "arrow.up.arrow.down.square")
-                            .font(.system(size: 20, weight: .bold))
-                            .foregroundColor(Color("BeaconDefaultColor"))
-                            .padding(EdgeInsets(top: 5, leading: 0, bottom: 5, trailing: 5))
-                    }
-                    HStack {
-                        Text("Beacon Update")
-                            .font(.custom("SamsungOneKorean-700", size: 20))
-                            .frame(width: 250, alignment: .leading)
-                            .padding(.bottom, 1)
-                        Button {
-                            isBeaconUpdateView.toggle()
-                        } label: {
-                            Text(">")
-                                .font(.custom("SamsungOneKorean-600", size: 17))
-                                .frame(width: 15, alignment: .trailing)
+                        HStack {
+                            Image(systemName: "person")
+                                .font(.system(size: 30, weight: .bold))
                                 .foregroundColor(Color("BeaconDefaultColor"))
+                                .frame(width: 50, height: 50)
+                            Image(systemName: "checkmark.square")
+                                .font(.system(size: 20, weight: .bold))
+                                .foregroundColor(Color("BeaconDefaultColor"))
+                                .padding(EdgeInsets(top: 5, leading: 0, bottom: 5, trailing: 5))
                         }
-                        .sheet(isPresented: $isBeaconUpdateView) {
-                            BeaconUpdateView(connector: self.$connector, viewController: $isBeaconUpdateView)
+                        HStack {
+                            Text("User Setup")
+                                .font(.custom("SamsungOneKorean-700", size: 20))
+                                .frame(width: 250, alignment: .leading)
+                                .padding(.bottom, 1)
+                            Button {
+                                isUserSetupView.toggle()
+                            } label: {
+                                Text(">")
+                                    .font(.custom("SamsungOneKorean-600", size: 17))
+                                    .frame(width: 15, alignment: .trailing)
+                                    .foregroundColor(Color("BeaconDefaultColor"))
+                            }
+                            .sheet(isPresented: $isUserSetupView) {
+                                UserSetupView(connector: self.$connector, viewController: $isUserSetupView)
+                            }
+                            .disabled(!isServerConnect)
                         }
-                        //.disabled(!isServerConnect)
                     }
                 }
                 
-                // Beacon Power Update
-                HStack {
+                // Device Settings
+                Section(header: Text("Device").bold()) {
+                    // Device setup
                     HStack {
-                        Image(systemName: "dot.radiowaves.left.and.right")
-                            .font(.system(size: 25, weight: .bold))
-                            .foregroundColor(Color("BeaconDefaultColor"))
-                            .frame(width: 50, height: 50)
-                        Image(systemName: "arrow.up.arrow.down.square")
-                            .font(.system(size: 20, weight: .bold))
-                            .foregroundColor(Color("BeaconDefaultColor"))
-                            .padding(EdgeInsets(top: 5, leading: 0, bottom: 5, trailing: 5))
-                    }
-                    HStack {
-                        Text("Beacon Power Update")
-                            .font(.custom("SamsungOneKorean-700", size: 20))
-                            .frame(width: 250, alignment: .leading)
-                            .padding(.bottom, 1)
-                        Button {
-                            isBeaconPowerUpdateView.toggle()
-                        } label: {
-                            Text(">")
-                                .font(.custom("SamsungOneKorean-600", size: 17))
-                                .frame(width: 15, alignment: .trailing)
+                        HStack {
+                            Image(systemName: "ipad.and.iphone")
+                                .font(.system(size: 25, weight: .bold))
                                 .foregroundColor(Color("BeaconDefaultColor"))
+                                .frame(width: 50, height: 50)
+                            Image(systemName: "checkmark.square")
+                                .font(.system(size: 20, weight: .bold))
+                                .foregroundColor(Color("BeaconDefaultColor"))
+                                .padding(EdgeInsets(top: 5, leading: 0, bottom: 5, trailing: 5))
                         }
-                        .sheet(isPresented: $isBeaconPowerUpdateView) {
-                            BeaconPowerUpdateView(connector: self.$connector, viewController: $isBeaconPowerUpdateView)
+                        HStack {
+                            Text("Device Setup")
+                                .font(.custom("SamsungOneKorean-700", size: 20))
+                                .frame(width: 250, alignment: .leading)
+                                .padding(.bottom, 1)
+                            Button {
+                                isDeviceSetupView.toggle()
+                            } label: {
+                                Text(">")
+                                    .font(.custom("SamsungOneKorean-600", size: 17))
+                                    .frame(width: 15, alignment: .trailing)
+                                    .foregroundColor(Color("BeaconDefaultColor"))
+                            }
+                            .sheet(isPresented: $isDeviceSetupView) {
+                                DeviceSetupView(connector: self.$connector, viewController: $isDeviceSetupView)
+                            }
+                            .disabled(!isServerConnect)
                         }
-                        //.disabled(!isServerConnect)
                     }
                 }
                 
-                // Primary Beacon Setup
-                HStack {
+                // Space Settings
+                Section(header: Text("Space").bold()) {
+                    // Space Register
                     HStack {
-                        Image(systemName: "airplayaudio")
-                            .font(.system(size: 25, weight: .bold))
-                            .foregroundColor(Color("BeaconDefaultColor"))
-                            .frame(width: 50, height: 50)
-                        Image(systemName: "checkmark.square")
-                            .font(.system(size: 20, weight: .bold))
-                            .foregroundColor(Color("BeaconDefaultColor"))
-                            .padding(EdgeInsets(top: 5, leading: 0, bottom: 5, trailing: 5))
-                    }
-                    HStack {
-                        Text("Primary Beacon Setup")
-                            .font(.custom("SamsungOneKorean-700", size: 20))
-                            .frame(width: 250, alignment: .leading)
-                            .padding(.bottom, 1)
-                        Button {
-                            isPrimaryBeaconSetupView.toggle()
-                        } label: {
-                            Text(">")
-                                .font(.custom("SamsungOneKorean-600", size: 17))
-                                .frame(width: 15, alignment: .trailing)
+                        HStack {
+                            Image(systemName: "square.on.square.intersection.dashed")
+                                .font(.system(size: 30, weight: .bold))
                                 .foregroundColor(Color("BeaconDefaultColor"))
+                                .frame(width: 50, height: 50)
+                            Image(systemName: "plus.square")
+                                .font(.system(size: 20, weight: .bold))
+                                .foregroundColor(Color("BeaconDefaultColor"))
+                                .padding(EdgeInsets(top: 5, leading: 0, bottom: 5, trailing: 5))
                         }
-                        .sheet(isPresented: $isPrimaryBeaconSetupView) {
-                            PrimaryBeaconSetupView(connector: self.$connector, viewController: $isPrimaryBeaconSetupView)
+                        HStack {
+                            Text("Space Register")
+                                .font(.custom("SamsungOneKorean-700", size: 20))
+                                .frame(width: 250, alignment: .leading)
+                                .padding(.bottom, 1)
+                            Button {
+                                isSpaceRegisterView.toggle()
+                            } label: {
+                                Text(">")
+                                    .font(.custom("SamsungOneKorean-600", size: 17))
+                                    .frame(width: 15, alignment: .trailing)
+                                    .foregroundColor(Color("BeaconDefaultColor"))
+                            }
+                            .sheet(isPresented: $isSpaceRegisterView) {
+                                SpaceRegisterView(connector: self.$connector, viewController: $isSpaceRegisterView)
+                            }
+                            .disabled(!isServerConnect)
                         }
-                        //.disabled(!isServerConnect)
+                    }
+                    
+                    // Space Setup
+                    HStack {
+                        HStack {
+                            Image(systemName: "square.on.square")
+                                .font(.system(size: 30, weight: .bold))
+                                .foregroundColor(Color("BeaconDefaultColor"))
+                                .frame(width: 50, height: 50)
+                            Image(systemName: "checkmark.square")
+                                .font(.system(size: 20, weight: .bold))
+                                .foregroundColor(Color("BeaconDefaultColor"))
+                                .padding(EdgeInsets(top: 5, leading: 0, bottom: 5, trailing: 5))
+                        }
+                        HStack {
+                            Text("Space Setup")
+                                .font(.custom("SamsungOneKorean-700", size: 20))
+                                .frame(width: 250, alignment: .leading)
+                                .padding(.bottom, 1)
+                            Button {
+                                isSpaceSetupView.toggle()
+                            } label: {
+                                Text(">")
+                                    .font(.custom("SamsungOneKorean-600", size: 17))
+                                    .frame(width: 15, alignment: .trailing)
+                                    .foregroundColor(Color("BeaconDefaultColor"))
+                            }
+                            .sheet(isPresented: $isSpaceSetupView) {
+                                SpaceSetupView(connector: self.$connector, viewController: $isSpaceSetupView)
+                            }
+                            .disabled(!isServerConnect)
+                        }
+                    }
+                }
+                
+                // Beacon Settings
+                Section(header: Text("Beacon").bold()) {
+                    // Beacon Register
+                    HStack {
+                        HStack {
+                            Image(systemName: "sensor.tag.radiowaves.forward")
+                                .font(.system(size: 25, weight: .bold))
+                                .foregroundColor(Color("BeaconDefaultColor"))
+                                .frame(width: 50, height: 50)
+                            Image(systemName: "plus.square")
+                                .font(.system(size: 20, weight: .bold))
+                                .foregroundColor(Color("BeaconDefaultColor"))
+                                .padding(EdgeInsets(top: 5, leading: 0, bottom: 5, trailing: 5))
+                        }
+                        HStack {
+                            Text("Beacon Register")
+                                .font(.custom("SamsungOneKorean-700", size: 20))
+                                .frame(width: 250, alignment: .leading)
+                                .padding(.bottom, 1)
+                            Button {
+                                isBeaconRegisterView.toggle()
+                            } label: {
+                                Text(">")
+                                    .font(.custom("SamsungOneKorean-600", size: 17))
+                                    .frame(width: 15, alignment: .trailing)
+                                    .foregroundColor(Color("BeaconDefaultColor"))
+                            }
+                            .sheet(isPresented: $isBeaconRegisterView) {
+                                BeaconRegisterView(connector: self.$connector, viewController: $isBeaconRegisterView)
+                            }
+                            .disabled(!isServerConnect)
+                        }
+                    }
+                    
+                    // Beacon Update
+                    HStack {
+                        HStack {
+                            Image(systemName: "sensor.tag.radiowaves.forward")
+                                .font(.system(size: 25, weight: .bold))
+                                .foregroundColor(Color("BeaconDefaultColor"))
+                                .frame(width: 50, height: 50)
+                            Image(systemName: "arrow.up.arrow.down.square")
+                                .font(.system(size: 20, weight: .bold))
+                                .foregroundColor(Color("BeaconDefaultColor"))
+                                .padding(EdgeInsets(top: 5, leading: 0, bottom: 5, trailing: 5))
+                        }
+                        HStack {
+                            Text("Beacon Update")
+                                .font(.custom("SamsungOneKorean-700", size: 20))
+                                .frame(width: 250, alignment: .leading)
+                                .padding(.bottom, 1)
+                            Button {
+                                isBeaconUpdateView.toggle()
+                            } label: {
+                                Text(">")
+                                    .font(.custom("SamsungOneKorean-600", size: 17))
+                                    .frame(width: 15, alignment: .trailing)
+                                    .foregroundColor(Color("BeaconDefaultColor"))
+                            }
+                            .sheet(isPresented: $isBeaconUpdateView) {
+                                BeaconUpdateView(connector: self.$connector, viewController: $isBeaconUpdateView)
+                            }
+                            .disabled(!isServerConnect)
+                        }
+                    }
+                    
+                    // Beacon Power Update
+                    HStack {
+                        HStack {
+                            Image(systemName: "dot.radiowaves.left.and.right")
+                                .font(.system(size: 25, weight: .bold))
+                                .foregroundColor(Color("BeaconDefaultColor"))
+                                .frame(width: 50, height: 50)
+                            Image(systemName: "arrow.up.arrow.down.square")
+                                .font(.system(size: 20, weight: .bold))
+                                .foregroundColor(Color("BeaconDefaultColor"))
+                                .padding(EdgeInsets(top: 5, leading: 0, bottom: 5, trailing: 5))
+                        }
+                        HStack {
+                            Text("Beacon Power Update")
+                                .font(.custom("SamsungOneKorean-700", size: 20))
+                                .frame(width: 250, alignment: .leading)
+                                .padding(.bottom, 1)
+                            Button {
+                                isBeaconPowerUpdateView.toggle()
+                            } label: {
+                                Text(">")
+                                    .font(.custom("SamsungOneKorean-600", size: 17))
+                                    .frame(width: 15, alignment: .trailing)
+                                    .foregroundColor(Color("BeaconDefaultColor"))
+                            }
+                            .sheet(isPresented: $isBeaconPowerUpdateView) {
+                                BeaconPowerUpdateView(connector: self.$connector, viewController: $isBeaconPowerUpdateView)
+                            }
+                            //.disabled(!isServerConnect)
+                        }
+                    }
+                    
+                    // Primary Beacon Setup
+                    HStack {
+                        HStack {
+                            Image(systemName: "airplayaudio")
+                                .font(.system(size: 25, weight: .bold))
+                                .foregroundColor(Color("BeaconDefaultColor"))
+                                .frame(width: 50, height: 50)
+                            Image(systemName: "checkmark.square")
+                                .font(.system(size: 20, weight: .bold))
+                                .foregroundColor(Color("BeaconDefaultColor"))
+                                .padding(EdgeInsets(top: 5, leading: 0, bottom: 5, trailing: 5))
+                        }
+                        HStack {
+                            Text("Primary Beacon Setup")
+                                .font(.custom("SamsungOneKorean-700", size: 20))
+                                .frame(width: 250, alignment: .leading)
+                                .padding(.bottom, 1)
+                            Button {
+                                isPrimaryBeaconSetupView.toggle()
+                            } label: {
+                                Text(">")
+                                    .font(.custom("SamsungOneKorean-600", size: 17))
+                                    .frame(width: 15, alignment: .trailing)
+                                    .foregroundColor(Color("BeaconDefaultColor"))
+                            }
+                            .sheet(isPresented: $isPrimaryBeaconSetupView) {
+                                PrimaryBeaconSetupView(connector: self.$connector, viewController: $isPrimaryBeaconSetupView)
+                            }
+                            //.disabled(!isServerConnect)
+                        }
                     }
                 }
             }
         }
         .navigationTitle("Data Transfer")
-        .toolbar {
-            ToolbarItem {
-                Button {
-                    isServerConnectToggle.toggle()
-                    if isServerConnectToggle {
-                        self.connector.setConnect()
-                    }
-                    else {
-                        self.connector.setDisconnect()
-                    }
-                } label: {
-                    Text(isServerFind ? (isServerConnect ? "Disconnection" : "Connection") : "Waiting" )
-                        .font(.custom("SamsungOneKorean-700", size: 18))
-                        .frame(width: 130, height: 30)
-                        .background(isServerFind ? (isServerConnect ? Color("ScanStopColor") : Color("ScanStartColor")) : Color("ScanWaitColor"))
-                        .foregroundColor(Color("BackgroundColor"))
-                        .cornerRadius(15)
-                }
-                .disabled(!isServerFind)
-            }
-        }
-        .onAppear {
-            self.mainPort = UserDefaults.standard.value(forKey: "testConnectionPort") as? String ?? "8710"
-            self.udpPort = UserDefaults.standard.value(forKey: "testConnectionUDPPort") as? String ?? "8711"
-            
-            self.connector = MainStationConnector(mainPort: self.mainPort, udpPort: self.udpPort)
-            self.connector.delegate = self
-        }
-        .onDisappear {
-            if isServerFind && isServerConnect {
-                self.connector.setDisconnect()
-            }
-        }
     }
 }
 
@@ -839,7 +841,7 @@ struct UserSetupView: View {
                     .buttonStyle(BorderlessButtonStyle())
                 }
             }
-            .frame(width: 380, height: 140)
+            .frame(width: 400, height: 140)
             .background(Color("BackgroundColor"))
             .overlay(
                 RoundedRectangle(cornerRadius: 20)
@@ -1076,7 +1078,7 @@ struct DeviceSetupView: View {
                     .buttonStyle(BorderlessButtonStyle())
                 }
             }
-            .frame(width: 380, height: 140)
+            .frame(width: 400, height: 140)
             .background(Color("BackgroundColor"))
             .overlay(
                 RoundedRectangle(cornerRadius: 20)
@@ -1370,7 +1372,7 @@ struct SpaceSetupView: View {
                     .buttonStyle(BorderlessButtonStyle())
                 }
             }
-            .frame(width: 380, height: 160)
+            .frame(width: 400, height: 160)
             .background(Color("BackgroundColor"))
             .overlay(
                 RoundedRectangle(cornerRadius: 20)
@@ -1432,8 +1434,8 @@ struct BeaconRegisterView: View, BeaconScannerDelegate {
     @State private var message: String = "Unknown"
     
     func didFindBeacon(beaconScanner: BeaconScanner, beaconInfo: BeaconInfo) {
-        let _namespaceID = beaconInfo.beaconID?.idtostring(idType: .Namespace) ?? "17fd1cefff705e7f803e"
-        let _instanceID = beaconInfo.beaconID?.idtostring(idType: .Instance) ?? "ffffffffffff"
+        let _namespaceID = beaconInfo.beaconID?.idtostring(idType: .Namespace) ?? "17FD1CEFFF705E7F803E"
+        let _instanceID = beaconInfo.beaconID?.idtostring(idType: .Instance) ?? "FFFFFFFFFFFF"
         let _state = beaconInfo.beaconState?.deviceState
         let _stateHex = beaconInfo.beaconState?.deviceStateHex
         let _batteryLevel = beaconInfo.beaconState?.batteryAmout ?? 0
@@ -1524,7 +1526,7 @@ struct BeaconRegisterView: View, BeaconScannerDelegate {
                         .foregroundColor(.gray)
                         .bold()
                     Divider()
-                    Text("\(beaconID)")
+                    Text("\(beaconState)")
                         .frame(width: 200, alignment: .leading)
                 }
                 .frame(width: 400, height: 40)
@@ -1539,11 +1541,18 @@ struct BeaconRegisterView: View, BeaconScannerDelegate {
                     if isScanning {
                         self.beaconScanner.startScanning()
                         DispatchQueue.main.asyncAfter(deadline: .now() + DispatchTimeInterval.seconds(time)) {
+                            self.isScanning = false
                             self.beaconScanner.stopScanning()
                         }
                     }
                     else {
                         self.beaconScanner.stopScanning()
+                        
+                        self.beaconID = ""
+                        self.beaconState = ""
+                        self.beaconStateHex = ""
+                        self.beaconPower = -62
+                        self.isFilled = false
                     }
                 } label: {
                     Text(isScanning ? "Stop Scan" : "Scan Beacon")
@@ -1651,7 +1660,7 @@ struct BeaconRegisterView: View, BeaconScannerDelegate {
             else {
                 self.beaconScanner = BeaconScanner()
                 self.beaconScanner.delegate = self
-                self.searchID = UserDefaults.standard.value(forKey: "allBeaconNamespaceID") as? String ?? "17fd1cefff705e7f803e"
+                self.searchID = UserDefaults.standard.value(forKey: "allBeaconNamespaceID") as? String ?? "17FD1CEFFF705E7F803E"
                 self.time = UserDefaults.standard.value(forKey: "allBeaconScanTime") as? Int ?? 60
                 
                 self.spaceID = UserDefaults.standard.value(forKey: "spaceID") as? String ?? ""
@@ -1660,26 +1669,386 @@ struct BeaconRegisterView: View, BeaconScannerDelegate {
         .onDisappear {
             if isScanning {
                 self.beaconScanner.stopScanning()
+                self.isScanning = false
             }
         }
     }
+}
+
+struct BeaconList {
+    var id: String
+    var stateHex: String
+    var spaceID: String
+    var posX: Float
+    var posY: Float
+    var power: Int
+    var isPrimary: Bool
 }
 
 struct BeaconUpdateView: View {
     @Binding var connector: MainStationConnector!
     @Binding var viewController: Bool
     
+    @State private var responseList: [[String : Any]] = []
+    @State private var responseValues: [String : Any] = [:]
+    @State private var beaconList: [BeaconList] = [BeaconList(id: "FFFFFFFFFFFF", stateHex: "FFFF", spaceID: "FFFFFFFFFFFF", posX: 10.3, posY: 10.3, power: -62, isPrimary: true)]
+    
+    @State private var isEmpty: Bool = false
+    @State private var isError: Bool = false
+    
+    @State private var message: String = "Unknown"
+    
     var body: some View {
-        Text("BeaconUpdateView")
+        HStack {
+            Image(systemName: "sensor.tag.radiowaves.forward")
+                .font(.system(size: 30, weight: .bold))
+                .foregroundColor(Color("BeaconDefaultColor"))
+            Text("Beacon Update")
+                .font(.custom("SamsungOneKorean-700", size: 32))
+                .frame(alignment: .leading)
+        }
+        .frame(width:400, height:200)
+        
+        // Beacon List Part
+        Text("Beacon List")
+            .font(.custom("SamsungOneKorean-700", size: 20))
+            .foregroundColor(.gray)
+            .frame(width: 350, alignment: .leading)
+            .bold()
+        
+        if isEmpty {
+            Text("Empty")
+                .font(.custom("SamsungOneKorean-700", size: 25))
+                .foregroundColor(.gray)
+                .frame(width: 380, height: 50, alignment: .center)
+                .bold()
+                .overlay(
+                    RoundedRectangle(cornerRadius: 20)
+                        .stroke(Color("OutlineColor"), lineWidth: 2)
+                )
+        }
+        
+        List(beaconList, id: \.id) { beaconData in
+            VStack {
+                HStack {
+                    Image(systemName: beaconData.isPrimary ? "sensor.tag.radiowaves.forward.fill" : "sensor.tag.radiowaves.forward")
+                        .font(.system(size: 30, weight: .bold))
+                        .foregroundColor(Color("BeaconDefaultColor"))
+                    Text("\(beaconData.id) \(beaconData.isPrimary ? "[Primary]" : "")")
+                        .font(.custom("SamsungOneKorean-700", size: 25))
+                        .frame(width: 300, alignment: .leading)
+                        .bold()
+                }
+                
+                Text("Space ID : \(beaconData.spaceID)")
+                    .font(.custom("SamsungOneKorean-400", size: 15))
+                    .foregroundColor(.gray)
+                    .padding(.leading, 26)
+                    .frame(width: 300, alignment: .leading)
+                    .bold()
+                Text("Position X : \(String(format: "%.2f", beaconData.posX))m, Position Y : \(String(format: "%.2f", beaconData.posY))m")
+                    .font(.custom("SamsungOneKorean-400", size: 15))
+                    .foregroundColor(.gray)
+                    .padding(.leading, 26)
+                    .frame(width: 300, alignment: .leading)
+                Text("State : \(beaconData.stateHex), Power : \(beaconData.power)dBm")
+                    .font(.custom("SamsungOneKorean-400", size: 15))
+                    .foregroundColor(.gray)
+                    .padding(.leading, 26)
+                    .frame(width: 300, alignment: .leading)
+                
+                HStack {
+                    Button {
+                        Task {
+                            self.responseValues = try await self.connector.beaconDelete(beaconID: beaconData.id)
+                            let isSuccess: Bool = self.responseValues["valid"] as! Bool
+                            
+                            if !isSuccess {
+                                self.message = responseValues["msg"] as! String
+                                isError.toggle()
+                            }
+                            
+                            self.beaconList = []
+                            self.responseList = try await self.connector.beaconAllRequest()
+                            self.isEmpty = !(responseList[0]["valid"] as! Bool)
+                            
+                            if !isEmpty {
+                                for beaconData: [String : Any] in responseList {
+                                    let id: String = beaconData["id"] as! String
+                                    let stateHex: String = beaconData["state"] as! String
+                                    let spaceID: String = beaconData["space_id"] as! String
+                                    let posX: Float = beaconData["pos_x"] as! Float
+                                    let posY: Float = beaconData["pos_y"] as! Float
+                                    let power: Int = beaconData["power"] as! Int
+                                    let isPrimary: Bool = beaconData["isprimary"] as! Bool
+                                    
+                                    self.beaconList.append(BeaconList(id: id, stateHex: stateHex, spaceID: spaceID, posX: posX, posY: posY, power: power, isPrimary: isPrimary))
+                                }
+                            }
+                        }
+                    } label: {
+                        Text("Delete")
+                            .font(.custom("SamsungOneKorean-700", size: 18))
+                            .frame(width: 200, height: 40)
+                            .background(Color("BeaconLowBatteryColor"))
+                            .foregroundColor(Color("BackgroundColor"))
+                            .cornerRadius(20)
+                    }
+                    .buttonStyle(BorderlessButtonStyle())
+                }
+            }
+            .frame(width: 400, height: 170)
+            .background(Color("BackgroundColor"))
+            .overlay(
+                RoundedRectangle(cornerRadius: 20)
+                    .stroke(Color("OutlineColor"), lineWidth: 2)
+            )
+            .listRowSeparator(.hidden)
+        }
+        .onTapGesture {
+            hideKeyboard()
+        }
+        .scrollContentBackground(.hidden)
+        .listStyle(.plain)
+        .alert(isPresented: $isError) {
+            Alert(title: Text("Main Station Error"), message: Text(message), dismissButton: .default(Text("Confrim"), action: { viewController.toggle() }))
+        }
+        .onAppear {
+            Task {
+                self.beaconList = []
+                self.responseList = try await self.connector.beaconAllRequest()
+                self.isEmpty = !(responseList[0]["valid"] as! Bool)
+                
+                if !isEmpty {
+                    for beaconData: [String : Any] in responseList {
+                        let id: String = beaconData["id"] as! String
+                        let stateHex: String = beaconData["state"] as! String
+                        let spaceID: String = beaconData["space_id"] as! String
+                        let posX: Float = (beaconData["pos_x"] as! NSNumber).floatValue
+                        let posY: Float = (beaconData["pos_y"] as! NSNumber).floatValue
+                        let power: Int = beaconData["power"] as! Int
+                        let isPrimary: Bool = beaconData["isprimary"] as! Bool
+                        
+                        self.beaconList.append(BeaconList(id: id, stateHex: stateHex, spaceID: spaceID, posX: posX, posY: posY, power: power, isPrimary: isPrimary))
+                    }
+                }
+            }
+        }
     }
 }
 
-struct BeaconPowerUpdateView: View {
+
+
+struct BeaconPowerUpdateView: View, BeaconScannerDelegate {
     @Binding var connector: MainStationConnector!
     @Binding var viewController: Bool
     
+    @State var beaconScanner: BeaconScanner!
+    @State private var searchID: String = ""
+    @State private var noRSSI: Int = 10
+    @State private var time: Int = 60
+    
+    @State private var responseValues: [String : Any] = [:]
+    @State private var beaconID: String = ""
+    @State private var beaconState: String = ""
+    @State private var beaconStateHex: String = ""
+    @State private var beaconPower: Int = -62
+    @State private var beaconRssi: [Int] = []
+    
+    @State private var isScanning: Bool = false
+    @State private var isFilled: Bool = false
+    @State private var isError: Bool = false
+    
+    @State private var message: String = "Unknown"
+    
+    func didFindBeacon(beaconScanner: BeaconScanner, beaconInfo: BeaconInfo) {
+        let _namespaceID = beaconInfo.beaconID?.idtostring(idType: .Namespace) ?? "17FD1CEFFF705E7F803E"
+        let _instanceID = beaconInfo.beaconID?.idtostring(idType: .Instance) ?? "FFFFFFFFFFFF"
+        let _state = beaconInfo.beaconState?.deviceState
+        let _stateHex = beaconInfo.beaconState?.deviceStateHex
+        let _batteryLevel = beaconInfo.beaconState?.batteryAmout ?? 0
+        let _rssi = (beaconInfo.RSSI < -120 || beaconInfo.RSSI > 0) ? -120 : beaconInfo.RSSI
+        let stateString: String
+        
+        switch _state {
+        case .Normal:
+            stateString = "Normal"
+        case .Triggered:
+            stateString = "Triggered"
+        case .LowBattery:
+            stateString = "Low Battery"
+        case .Unknown:
+            stateString = "Unknown State"
+        default:
+            stateString = "Default"
+        }
+        
+        if _namespaceID == self.searchID && _state == .Triggered {
+            if self.beaconRssi.count == 0 {
+                self.beaconID = _instanceID
+                self.beaconState = "\(stateString) [Battery :\(_batteryLevel)%]"
+                self.beaconStateHex = _stateHex ?? "FFFF"
+                self.beaconRssi.append(_rssi)
+            }
+            else if self.beaconRssi.count > 0 && self.beaconRssi.count < self.noRSSI {
+                if _instanceID == self.beaconID {
+                    self.beaconRssi.append(_rssi)
+                }
+            }
+            else {
+                self.isFilled = true
+                self.isScanning = false
+                self.beaconScanner.stopScanning()
+            }
+        }
+    }
+    
     var body: some View {
-        Text("BeaconPowerUpdateView")
+        HStack {
+            Image(systemName: "dot.radiowaves.left.and.right")
+                .font(.system(size: 30, weight: .bold))
+                .foregroundColor(Color("BeaconDefaultColor"))
+            Text("Beacon Power Update")
+                .font(.custom("SamsungOneKorean-700", size: 32))
+                .frame(alignment: .leading)
+        }
+        .frame(width:400, height:100)
+        
+        ScrollView {
+            VStack {
+                Image("BeaconSetImg")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 400, height: 350)
+                    .offset(x: 0)
+                    .padding(.bottom, 30.0)
+                
+                HStack{
+                    Text("Beacon ID")
+                        .frame(width: 120, alignment: .leading)
+                        .foregroundColor(.gray)
+                        .bold()
+                    Divider()
+                    Text("\(beaconID)")
+                        .frame(width: 200, alignment: .leading)
+                }
+                .frame(width: 400, height: 40)
+                .background(Color("BackgroundColor"))
+                .overlay(
+                    Capsule(style: .continuous)
+                        .stroke(Color("OutlineColor"), lineWidth: 2)
+                )
+                
+                HStack{
+                    Text("Beacon State")
+                        .frame(width: 120, alignment: .leading)
+                        .foregroundColor(.gray)
+                        .bold()
+                    Divider()
+                    Text("\(beaconState)")
+                        .frame(width: 200, alignment: .leading)
+                }
+                .frame(width: 400, height: 40)
+                .background(Color("BackgroundColor"))
+                .overlay(
+                    Capsule(style: .continuous)
+                        .stroke(Color("OutlineColor"), lineWidth: 2)
+                )
+                
+                HStack{
+                    Text("RSSI")
+                        .frame(width: 120, alignment: .leading)
+                        .foregroundColor(.gray)
+                        .bold()
+                    Divider()
+                    Text("\(beaconRssi.map(String.init).joined(separator: " "))")
+                        .frame(width: 200, alignment: .leading)
+                }
+                .frame(width: 400, height: 40)
+                .background(Color("BackgroundColor"))
+                .overlay(
+                    Capsule(style: .continuous)
+                        .stroke(Color("OutlineColor"), lineWidth: 2)
+                )
+                
+                Button {
+                    isScanning.toggle()
+                    if isScanning {
+                        self.beaconScanner.startScanning()
+                        DispatchQueue.main.asyncAfter(deadline: .now() + DispatchTimeInterval.seconds(time)) {
+                            self.isScanning = false
+                            self.beaconScanner.stopScanning()
+                        }
+                    }
+                    else {
+                        self.beaconScanner.stopScanning()
+                        
+                        self.beaconID = ""
+                        self.beaconState = ""
+                        self.beaconStateHex = ""
+                        self.beaconRssi = []
+                        self.isFilled = false
+                    }
+                } label: {
+                    Text(isScanning ? "Stop Scan" : "Scan Beacon")
+                        .font(.custom("SamsungOneKorean-700", size: 18))
+                        .frame(width: 400, height: 40)
+                        .background(isScanning ? Color("BeaconLowBatteryColor") : Color("BeaconNormalColor"))
+                        .foregroundColor(Color("BackgroundColor"))
+                        .cornerRadius(20)
+                        .padding(5)
+                }
+                
+                Button {
+                    if isFilled {
+                        Task {
+                            self.responseValues = try await self.connector.beaconPowerUpdate(beaconID: self.beaconID, state: self.beaconStateHex, rssiData: self.beaconRssi)
+                            let isSuccess: Bool = self.responseValues["valid"] as! Bool
+                            
+                            if isSuccess {
+                                viewController.toggle()
+                            }
+                            else {
+                                self.message = responseValues["msg"] as! String
+                                isError.toggle()
+                            }
+                        }
+                    }
+                    else {
+                        self.message = "Please try to register after Beacon Scan"
+                        isError.toggle()
+                    }
+                } label: {
+                    Text("Update Power Data")
+                        .font(.custom("SamsungOneKorean-700", size: 18))
+                        .frame(width: 400, height: 40)
+                        .background(Color("BluetoothColor"))
+                        .foregroundColor(Color("BackgroundColor"))
+                        .cornerRadius(20)
+                        .padding(5)
+                }
+            }
+        }
+        .onTapGesture {
+            hideKeyboard()
+        }
+        .alert(isPresented: $isError) {
+            Alert(title: Text("Main Station Error"), message: Text(message), dismissButton: .default(Text("Confrim"), action: { viewController.toggle() }))
+        }
+        .onAppear {
+            self.beaconScanner = BeaconScanner()
+            self.beaconScanner.delegate = self
+            
+            self.searchID = UserDefaults.standard.value(forKey: "allBeaconNamespaceID") as? String ?? "17FD1CEFFF705E7F803E"
+            self.time = UserDefaults.standard.value(forKey: "allBeaconScanTime") as? Int ?? 60
+            self.noRSSI = UserDefaults.standard.value(forKey: "allBeaconNoRSSI") as? Int ?? 10
+        }
+        .onDisappear {
+            if isScanning {
+                self.beaconScanner.stopScanning()
+                self.isScanning = false
+            }
+        }
     }
 }
 

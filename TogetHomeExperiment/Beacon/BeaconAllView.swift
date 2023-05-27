@@ -34,11 +34,11 @@ struct BeaconAllView: View, BeaconScannerDelegate {
     
     // If find the Eddystone Beacon Data
     func didFindBeacon(beaconScanner: BeaconScanner, beaconInfo: BeaconInfo) {
-        let _namespaceID = beaconInfo.beaconID?.idtostring(idType: .Namespace) ?? "17fd1cefff705e7f803e"
-        let _instanceID = beaconInfo.beaconID?.idtostring(idType: .Instance) ?? "ffffffffffff"
+        let _namespaceID = beaconInfo.beaconID?.idtostring(idType: .Namespace) ?? "17FD1CEFFF705E7F803E"
+        let _instanceID = beaconInfo.beaconID?.idtostring(idType: .Instance) ?? "FFFFFFFFFFFF"
         let _state = beaconInfo.beaconState?.deviceState
         let _batteryLevel = beaconInfo.beaconState?.batteryAmout ?? 0
-        let _rssi = (beaconInfo.RSSI < -100 || beaconInfo.RSSI > 0) ? -100 : beaconInfo.RSSI
+        let _rssi = (beaconInfo.RSSI < -120 || beaconInfo.RSSI > 0) ? -120 : beaconInfo.RSSI
         let _txPower = beaconInfo.txPower
         
         let indexID = self.beaconIDList.firstIndex(of: _instanceID)
@@ -144,7 +144,7 @@ struct BeaconAllView: View, BeaconScannerDelegate {
             beaconIDList = []
             beaconScanDataList = []
             
-            self.searchID = UserDefaults.standard.value(forKey: "allBeaconNamespaceID") as? String ?? "17fd1cefff705e7f803e"
+            self.searchID = UserDefaults.standard.value(forKey: "allBeaconNamespaceID") as? String ?? "17FD1CEFFF705E7F803E"
             self.noRSSI = UserDefaults.standard.value(forKey: "allBeaconNoRSSI") as? Int ?? 10
             self.time = UserDefaults.standard.value(forKey: "allBeaconScanTime") as? Int ?? 60
         }

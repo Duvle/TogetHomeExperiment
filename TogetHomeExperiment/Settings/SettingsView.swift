@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @State private var allBeaconNamespaceID: String = UserDefaults.standard.value(forKey: "allBeaconNamespaceID") as? String ?? "17fd1cefff705e7f803e"
+    @State private var allBeaconNamespaceID: String = UserDefaults.standard.value(forKey: "allBeaconNamespaceID") as? String ?? "17FD1CEFFF705E7F803E"
     @State private var allBeaconNoRSSI: Int = UserDefaults.standard.value(forKey: "allBeaconNoRSSI") as? Int ?? 10
     @State private var allBeaconScanTime: Int = UserDefaults.standard.value(forKey: "allBeaconScanTime") as? Int ?? 60
     
@@ -41,7 +41,7 @@ struct SettingsView: View {
                             .foregroundColor(.gray)
                             .bold()
                         Divider()
-                        TextField("20 Digits Hex Code", text: $allBeaconNamespaceID)
+                        TextField("20 Digits Hex Code (Only Uppercase)", text: $allBeaconNamespaceID)
                     }
                     HStack{
                         Text("Number of RSSI")
@@ -201,7 +201,7 @@ struct SettingsView: View {
                         }
                         
                         // Load Part
-                        self.allBeaconNamespaceID = UserDefaults.standard.value(forKey: "allBeaconNamespaceID") as? String ?? "17fd1cefff705e7f803e"
+                        self.allBeaconNamespaceID = UserDefaults.standard.value(forKey: "allBeaconNamespaceID") as? String ?? "17FD1CEFFF705E7F803E"
                         self.allBeaconNoRSSI = UserDefaults.standard.value(forKey: "allBeaconNoRSSI") as? Int ?? 10
                         self.allBeaconScanTime = UserDefaults.standard.value(forKey: "allBeaconScanTime") as? Int ?? 60
                         
@@ -264,7 +264,7 @@ struct SettingsView: View {
                 }
             }
             .onAppear {
-                self.allBeaconNamespaceID = UserDefaults.standard.value(forKey: "allBeaconNamespaceID") as? String ?? "17fd1cefff705e7f803e"
+                self.allBeaconNamespaceID = UserDefaults.standard.value(forKey: "allBeaconNamespaceID") as? String ?? "17FD1CEFFF705E7F803E"
                 self.allBeaconNoRSSI = UserDefaults.standard.value(forKey: "allBeaconNoRSSI") as? Int ?? 10
                 self.allBeaconScanTime = UserDefaults.standard.value(forKey: "allBeaconScanTime") as? Int ?? 60
                 
