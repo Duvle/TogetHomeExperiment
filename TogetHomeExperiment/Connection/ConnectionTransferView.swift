@@ -188,7 +188,7 @@ struct ConnectionTransferView: View, MainStationConnectorDelegate {
                         .sheet(isPresented: $isDeviceSetupView) {
                             DeviceSetupView(connector: self.$connector, viewController: $isDeviceSetupView)
                         }
-                        //.disabled(!isServerConnect)
+                        .disabled(!isServerConnect)
                     }
                 }
             }
@@ -222,38 +222,6 @@ struct ConnectionTransferView: View, MainStationConnectorDelegate {
                         }
                         .sheet(isPresented: $isSpaceRegisterView) {
                             SpaceRegisterView(connector: self.$connector, viewController: $isSpaceRegisterView)
-                        }
-                        //.disabled(!isServerConnect)
-                    }
-                }
-                
-                // Space Update
-                HStack {
-                    HStack {
-                        Image(systemName: "squareshape.controlhandles.on.squareshape.controlhandles")
-                            .font(.system(size: 30, weight: .bold))
-                            .foregroundColor(Color("BeaconDefaultColor"))
-                            .frame(width: 50, height: 50)
-                        Image(systemName: "arrow.up.arrow.down.square")
-                            .font(.system(size: 20, weight: .bold))
-                            .foregroundColor(Color("BeaconDefaultColor"))
-                            .padding(EdgeInsets(top: 5, leading: 0, bottom: 5, trailing: 5))
-                    }
-                    HStack {
-                        Text("Space Update")
-                            .font(.custom("SamsungOneKorean-700", size: 20))
-                            .frame(width: 250, alignment: .leading)
-                            .padding(.bottom, 1)
-                        Button {
-                            isSpaceUpdateView.toggle()
-                        } label: {
-                            Text(">")
-                                .font(.custom("SamsungOneKorean-600", size: 17))
-                                .frame(width: 15, alignment: .trailing)
-                                .foregroundColor(Color("BeaconDefaultColor"))
-                        }
-                        .sheet(isPresented: $isSpaceUpdateView) {
-                            SpaceUpdateView(connector: self.$connector, viewController: $isSpaceUpdateView)
                         }
                         //.disabled(!isServerConnect)
                     }
@@ -550,7 +518,7 @@ struct HomeSetupView: View {
             }
         }
         .alert(isPresented: $isError) {
-            Alert(title: Text("Main Station Error"), message: Text(message), dismissButton: .default(Text("Confrim")))
+            Alert(title: Text("Main Station Error"), message: Text(message), dismissButton: .default(Text("Confrim"), action: { viewController.toggle() }))
         }
         .onAppear {
             Task {
@@ -655,7 +623,7 @@ struct OptionUpdateView: View {
             .disabled(!isAlreadyHome)
         }
         .alert(isPresented: $isError) {
-            Alert(title: Text("Main Station Error"), message: Text(message), dismissButton: .default(Text("Confrim")))
+            Alert(title: Text("Main Station Error"), message: Text(message), dismissButton: .default(Text("Confrim"), action: { viewController.toggle() }))
         }
         .onAppear {
             Task {
@@ -808,8 +776,13 @@ struct UserSetupView: View {
                         self.userName = userData.familiarName
                         self.userID = userData.id
                         
+                        UserDefaults.standard.setValue(true, forKey: "isUserSet")
                         UserDefaults.standard.setValue(self.userName, forKey: "userName")
                         UserDefaults.standard.setValue(self.userID, forKey: "userID")
+                        
+                        UserDefaults.standard.setValue(false, forKey: "isDeviceSet")
+                        UserDefaults.standard.setValue("", forKey: "deviceName")
+                        UserDefaults.standard.setValue("", forKey: "deviceID")
                         
                         viewController.toggle()
                     } label: {
@@ -865,7 +838,7 @@ struct UserSetupView: View {
         .scrollContentBackground(.hidden)
         .listStyle(.plain)
         .alert(isPresented: $isError) {
-            Alert(title: Text("Main Station Error"), message: Text(message), dismissButton: .default(Text("Confrim")))
+            Alert(title: Text("Main Station Error"), message: Text(message), dismissButton: .default(Text("Confrim"), action: { viewController.toggle() }))
         }
         .onAppear {
             Task {
@@ -885,12 +858,246 @@ struct UserSetupView: View {
     }
 }
 
+struct DeviceList {
+    var familiarName: String
+    var id: String
+}
+
 struct DeviceSetupView: View {
     @Binding var connector: MainStationConnector!
     @Binding var viewController: Bool
     
+    @State private var responseList: [[String : Any]] = []
+    @State private var responseValues: [String : Any] = [:]
+    @State private var isUserSet: Bool = false
+    @State private var userName: String = ""
+    @State private var userID: String = ""
+    @State private var newDeviceName: String = ""
+    @State private var deviceName: String = ""
+    @State private var deviceID: String = ""
+    @State private var deviceList: [DeviceList] = [DeviceList(familiarName: "Test", id: "AABBCCDDEEFF")]
+    
+    @State private var isEmprty: Bool = false
+    @State private var isError: Bool = false
+    
+    @State private var message: String = "Unknown"
+    
     var body: some View {
-        Text("DeviceSetupView")
+        HStack {
+            Image(systemName: "ipad.and.iphone")
+                .font(.system(size: 30, weight: .bold))
+                .foregroundColor(Color("BeaconDefaultColor"))
+            Text("Device Setup")
+                .font(.custom("SamsungOneKorean-700", size: 32))
+                .frame(alignment: .leading)
+        }
+        .frame(width:400, height:200)
+        
+        // New Device Part
+        Text("New Device")
+            .font(.custom("SamsungOneKorean-700", size: 20))
+            .foregroundColor(.gray)
+            .frame(width: 350, alignment: .leading)
+            .bold()
+        
+        HStack {
+            Text("User Name")
+                .frame(width: 120, alignment: .leading)
+                .foregroundColor(.gray)
+                .bold()
+            Divider()
+            Text("\(userName)")
+                .frame(width: 200, alignment: .leading)
+        }
+        .frame(width: 400, height: 40)
+        .background(Color("BackgroundColor"))
+        .overlay(
+            Capsule(style: .continuous)
+                .stroke(Color("OutlineColor"), lineWidth: 2)
+        )
+        .padding(5)
+        
+        HStack {
+            Text("Device Name")
+                .frame(width: 120, alignment: .leading)
+                .foregroundColor(.gray)
+                .bold()
+            Divider()
+            TextField("Identification Name", text:$newDeviceName)
+                .frame(width: 200, alignment: .leading)
+        }
+        .frame(width: 400, height: 40)
+        .background(Color("BackgroundColor"))
+        .overlay(
+            Capsule(style: .continuous)
+                .stroke(Color("OutlineColor"), lineWidth: 2)
+        )
+        .padding(5)
+        
+        Button {
+            Task {
+                Task {
+                    self.responseValues = try await self.connector.deviceNewRegister(deviceName: newDeviceName, userID: userID)
+                    let isSuccess: Bool = self.responseValues["valid"] as! Bool
+                    
+                    if !isSuccess {
+                        self.message = responseValues["msg"] as! String
+                        isError.toggle()
+                    }
+                    
+                    self.deviceList = []
+                    self.responseList = try await self.connector.deviceMyRequest(userID: self.userID)
+                    self.isEmprty = !(responseList[0]["valid"] as! Bool)
+                    
+                    if !isEmprty {
+                        for deviceData: [String : Any] in responseList {
+                            let deviceName: String = deviceData["familiar_name"] as! String
+                            let deviceID: String = deviceData["id"] as! String
+                            self.deviceList.append(DeviceList(familiarName: deviceName, id: deviceID))
+                        }
+                    }
+                }
+            }
+        } label: {
+            Text("Add Device")
+                .font(.custom("SamsungOneKorean-700", size: 18))
+                .frame(width: 400, height: 40)
+                .background(Color("BluetoothColor"))
+                .foregroundColor(Color("BackgroundColor"))
+                .cornerRadius(20)
+                .padding(5)
+        }
+        
+        Divider()
+            .frame(height: 5)
+        
+        // Already exist Device Part
+        Text("Device List")
+            .font(.custom("SamsungOneKorean-700", size: 20))
+            .foregroundColor(.gray)
+            .frame(width: 350, alignment: .leading)
+            .bold()
+        
+        if isEmprty {
+            Text("Empty")
+                .font(.custom("SamsungOneKorean-700", size: 25))
+                .foregroundColor(.gray)
+                .frame(width: 380, height: 50, alignment: .center)
+                .bold()
+                .overlay(
+                    RoundedRectangle(cornerRadius: 20)
+                        .stroke(Color("OutlineColor"), lineWidth: 2)
+                )
+        }
+        
+        List(deviceList, id: \.id) { deviceData in
+            VStack {
+                HStack {
+                    Image(systemName: "iphone.gen2")
+                        .font(.system(size: 30, weight: .bold))
+                        .foregroundColor(Color("BeaconDefaultColor"))
+                    Text("\(deviceData.familiarName)")
+                        .font(.custom("SamsungOneKorean-700", size: 25))
+                        .frame(width: 300, alignment: .leading)
+                        .bold()
+                }
+                
+                Text("\(deviceData.id)")
+                    .font(.custom("SamsungOneKorean-400", size: 15))
+                    .foregroundColor(.gray)
+                    .frame(width: 250, alignment: .leading)
+                    .bold()
+                HStack {
+                    Button {
+                        self.deviceName = deviceData.familiarName
+                        self.deviceID = deviceData.id
+                        
+                        UserDefaults.standard.setValue(true, forKey: "isDeviceSet")
+                        UserDefaults.standard.setValue(self.deviceName, forKey: "deviceName")
+                        UserDefaults.standard.setValue(self.deviceID, forKey: "deviceID")
+                        
+                        viewController.toggle()
+                    } label: {
+                        Text("Select")
+                            .font(.custom("SamsungOneKorean-700", size: 18))
+                            .frame(width: 220, height: 40)
+                            .background(Color("BeaconNormalColor"))
+                            .foregroundColor(Color("BackgroundColor"))
+                            .cornerRadius(20)
+                    }
+                    .buttonStyle(BorderlessButtonStyle())
+                    Button {
+                        Task {
+                            self.responseValues = try await self.connector.deviceDelete(deviceID: deviceData.id)
+                            let isSuccess: Bool = self.responseValues["valid"] as! Bool
+                            
+                            if !isSuccess {
+                                self.message = responseValues["msg"] as! String
+                                isError.toggle()
+                            }
+                            
+                            self.deviceList = []
+                            self.responseList = try await self.connector.deviceMyRequest(userID: self.userID)
+                            self.isEmprty = !(responseList[0]["valid"] as! Bool)
+                            
+                            if !isEmprty {
+                                for deviceData: [String : Any] in responseList {
+                                    let deviceName: String = deviceData["familiar_name"] as! String
+                                    let deviceID: String = deviceData["id"] as! String
+                                    self.deviceList.append(DeviceList(familiarName: deviceName, id: deviceID))
+                                }
+                            }
+                        }
+                    } label: {
+                        Text("Delete")
+                            .font(.custom("SamsungOneKorean-700", size: 18))
+                            .frame(width: 110, height: 40)
+                            .background(Color("BeaconLowBatteryColor"))
+                            .foregroundColor(Color("BackgroundColor"))
+                            .cornerRadius(20)
+                    }
+                    .buttonStyle(BorderlessButtonStyle())
+                }
+            }
+            .frame(width: 380, height: 140)
+            .background(Color("BackgroundColor"))
+            .overlay(
+                RoundedRectangle(cornerRadius: 20)
+                    .stroke(Color("OutlineColor"), lineWidth: 2)
+            )
+            .listRowSeparator(.hidden)
+        }
+        .scrollContentBackground(.hidden)
+        .listStyle(.plain)
+        .alert(isPresented: $isError) {
+            Alert(title: Text("Main Station Error"), message: Text(message), dismissButton: .default(Text("Confrim"), action: { viewController.toggle() }))
+        }
+        .onAppear {
+            self.isUserSet = UserDefaults.standard.value(forKey: "isUserSet") as? Bool ?? false
+            
+            if !isUserSet {
+                self.message = "Please set up the user first and run the device settings"
+                isError.toggle()
+            }
+            else {
+                self.userName = UserDefaults.standard.value(forKey: "userName") as? String ?? ""
+                self.userID = UserDefaults.standard.value(forKey: "userID") as? String ?? ""
+                
+                Task {
+                    self.deviceList = []
+                    self.responseList = try await self.connector.deviceMyRequest(userID: self.userID)
+                    self.isEmprty = !(responseList[0]["valid"] as! Bool)
+                    
+                    if !isEmprty {
+                        for deviceData: [String : Any] in responseList {
+                            let deviceName: String = deviceData["familiar_name"] as! String
+                            let deviceID: String = deviceData["id"] as! String
+                            self.deviceList.append(DeviceList(familiarName: deviceName, id: deviceID))
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -900,15 +1107,6 @@ struct SpaceRegisterView: View {
     
     var body: some View {
         Text("SpaceRegisterView")
-    }
-}
-
-struct SpaceUpdateView: View {
-    @Binding var connector: MainStationConnector!
-    @Binding var viewController: Bool
-    
-    var body: some View {
-        Text("SpaceUpdateView")
     }
 }
 
