@@ -18,10 +18,13 @@ struct SettingsView: View {
     @State private var homeName: String = UserDefaults.standard.value(forKey: "homeName") as? String ?? ""
     @State private var intervalTime: Int = UserDefaults.standard.value(forKey: "intervalTime") as? Int ?? 60
     @State private var expireCount: Int = UserDefaults.standard.value(forKey: "expireCount") as? Int ?? 5
+    @State private var isUserSet: Bool = UserDefaults.standard.value(forKey: "isUserSet") as? Bool ?? false
     @State private var userName: String = UserDefaults.standard.value(forKey: "userName") as? String ?? ""
     @State private var userID: String = UserDefaults.standard.value(forKey: "userID") as? String ?? ""
+    @State private var isDeviceSet: Bool = UserDefaults.standard.value(forKey: "isDeviceSet") as? Bool ?? false
     @State private var deviceName: String = UserDefaults.standard.value(forKey: "deviceName") as? String ?? ""
     @State private var deviceID: String = UserDefaults.standard.value(forKey: "deviceID") as? String ?? ""
+    @State private var isSpaceSet: Bool = UserDefaults.standard.value(forKey: "isSpaceSet") as? Bool ?? false
     @State private var spaceID: String = UserDefaults.standard.value(forKey: "spaceID") as? String ?? ""
     
     @State private var appVersion: String = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? ""
@@ -133,7 +136,7 @@ struct SettingsView: View {
                             .foregroundColor(.gray)
                             .bold()
                         Divider()
-                        Text("\(userID)")
+                        Text("\(isUserSet ? "True" : "False") => \(userID)")
                     }
                     HStack{
                         Text("Device Name")
@@ -149,7 +152,7 @@ struct SettingsView: View {
                             .foregroundColor(.gray)
                             .bold()
                         Divider()
-                        Text("\(deviceID)")
+                        Text("\(isDeviceSet ? "True" : "False") => \(deviceID)")
                     }
                     HStack{
                         Text("Space ID")
@@ -157,7 +160,7 @@ struct SettingsView: View {
                             .foregroundColor(.gray)
                             .bold()
                         Divider()
-                        Text("\(spaceID)")
+                        Text("\(isSpaceSet ? "True" : "False") => \(spaceID)")
                     }
                 }
                 Section(header: Text("Position Calculate").bold()) {
@@ -186,6 +189,47 @@ struct SettingsView: View {
                         Divider()
                         Text("\(appBuild)")
                     }
+                }
+                Section(header: Text("Reset").bold(),
+                        footer: Text("Initialize all data set for this application. Data stored on the server is not deleted.")) {
+                    Button {
+                        // Remove Part
+                        for key in UserDefaults.standard.dictionaryRepresentation().keys {
+                            UserDefaults.standard.removeObject(forKey: key.description)
+                        }
+                        
+                        // Load Part
+                        self.allBeaconNamespaceID = UserDefaults.standard.value(forKey: "allBeaconNamespaceID") as? String ?? "17fd1cefff705e7f803e"
+                        self.allBeaconNoRSSI = UserDefaults.standard.value(forKey: "allBeaconNoRSSI") as? Int ?? 10
+                        self.allBeaconScanTime = UserDefaults.standard.value(forKey: "allBeaconScanTime") as? Int ?? 60
+                        
+                        self.testConnectionPort = UserDefaults.standard.value(forKey: "testConnectionPort") as? String ?? "8710"
+                        self.testConnectionUDPPort = UserDefaults.standard.value(forKey: "testConnectionUDPPort") as? String ?? "8711"
+                        
+                        self.homeName = UserDefaults.standard.value(forKey: "homeName") as? String ?? ""
+                        self.intervalTime = UserDefaults.standard.value(forKey: "intervalTime") as? Int ?? 60
+                        self.expireCount = UserDefaults.standard.value(forKey: "expireCount") as? Int ?? 5
+                        self.isUserSet = UserDefaults.standard.value(forKey: "isUserSet") as? Bool ?? false
+                        self.userName = UserDefaults.standard.value(forKey: "userName") as? String ?? ""
+                        self.userID = UserDefaults.standard.value(forKey: "userID") as? String ?? ""
+                        self.isDeviceSet = UserDefaults.standard.value(forKey: "isDeviceSet") as? Bool ?? false
+                        self.deviceName = UserDefaults.standard.value(forKey: "deviceName") as? String ?? ""
+                        self.deviceID = UserDefaults.standard.value(forKey: "deviceID") as? String ?? ""
+                        self.isSpaceSet = UserDefaults.standard.value(forKey: "isSpaceSet") as? Bool ?? false
+                        self.spaceID = UserDefaults.standard.value(forKey: "spaceID") as? String ?? ""
+                        
+                        self.appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? ""
+                        self.appBuild = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? ""
+                    } label: {
+                        Text("Reset All Data")
+                            .font(.custom("SamsungOneKorean-700", size: 18))
+                            .frame(width: 350, height: 40)
+                            .background(Color("BeaconDefaultColor"))
+                            .foregroundColor(Color("BackgroundColor"))
+                            .cornerRadius(20)
+                            .padding(5)
+                    }
+                    .buttonStyle(BorderlessButtonStyle())
                 }
             }
             .navigationTitle("Settings")
@@ -223,10 +267,13 @@ struct SettingsView: View {
                 self.homeName = UserDefaults.standard.value(forKey: "homeName") as? String ?? ""
                 self.intervalTime = UserDefaults.standard.value(forKey: "intervalTime") as? Int ?? 60
                 self.expireCount = UserDefaults.standard.value(forKey: "expireCount") as? Int ?? 5
+                self.isUserSet = UserDefaults.standard.value(forKey: "isUserSet") as? Bool ?? false
                 self.userName = UserDefaults.standard.value(forKey: "userName") as? String ?? ""
                 self.userID = UserDefaults.standard.value(forKey: "userID") as? String ?? ""
+                self.isDeviceSet = UserDefaults.standard.value(forKey: "isDeviceSet") as? Bool ?? false
                 self.deviceName = UserDefaults.standard.value(forKey: "deviceName") as? String ?? ""
                 self.deviceID = UserDefaults.standard.value(forKey: "deviceID") as? String ?? ""
+                self.isSpaceSet = UserDefaults.standard.value(forKey: "isSpaceSet") as? Bool ?? false
                 self.spaceID = UserDefaults.standard.value(forKey: "spaceID") as? String ?? ""
                 
                 self.appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? ""
