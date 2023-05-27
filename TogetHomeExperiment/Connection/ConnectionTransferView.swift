@@ -223,7 +223,7 @@ struct ConnectionTransferView: View, MainStationConnectorDelegate {
                         .sheet(isPresented: $isSpaceRegisterView) {
                             SpaceRegisterView(connector: self.$connector, viewController: $isSpaceRegisterView)
                         }
-                        //.disabled(!isServerConnect)
+                        .disabled(!isServerConnect)
                     }
                 }
                 
@@ -255,7 +255,7 @@ struct ConnectionTransferView: View, MainStationConnectorDelegate {
                         .sheet(isPresented: $isSpaceSetupView) {
                             SpaceSetupView(connector: self.$connector, viewController: $isSpaceSetupView)
                         }
-                        //.disabled(!isServerConnect)
+                        .disabled(!isServerConnect)
                     }
                 }
             }
@@ -482,6 +482,8 @@ struct HomeSetupView: View {
                 .padding(5)
                 
                 Button {
+                    hideKeyboard()
+                    
                     if self.isAlreadyHome {
                         UserDefaults.standard.setValue(self.homeName, forKey: "homeName")
                         UserDefaults.standard.setValue(self.intervalTime, forKey: "intervalTime")
@@ -516,6 +518,9 @@ struct HomeSetupView: View {
                         .cornerRadius(20)
                 }
             }
+        }
+        .onTapGesture {
+            hideKeyboard()
         }
         .alert(isPresented: $isError) {
             Alert(title: Text("Main Station Error"), message: Text(message), dismissButton: .default(Text("Confrim"), action: { viewController.toggle() }))
@@ -598,6 +603,8 @@ struct OptionUpdateView: View {
             .padding(5)
             
             Button {
+                hideKeyboard()
+                
                 Task {
                     self.responseValues = try await self.connector.settingUpdate(homeName: self.homeName, intervalTime: self.intervalTime, expireCount: self.expireCount)
                     let isSuccess: Bool = responseValues["valid"] as! Bool
@@ -621,6 +628,9 @@ struct OptionUpdateView: View {
                     .cornerRadius(20)
             }
             .disabled(!isAlreadyHome)
+        }
+        .onTapGesture {
+            hideKeyboard()
         }
         .alert(isPresented: $isError) {
             Alert(title: Text("Main Station Error"), message: Text(message), dismissButton: .default(Text("Confrim"), action: { viewController.toggle() }))
@@ -701,6 +711,8 @@ struct UserSetupView: View {
         .padding(5)
         
         Button {
+            hideKeyboard()
+            
             Task {
                 self.responseValues = try await self.connector.userRegister(userName: self.newUserName)
                 let isSuccess: Bool = self.responseValues["valid"] as! Bool
@@ -835,6 +847,9 @@ struct UserSetupView: View {
             )
             .listRowSeparator(.hidden)
         }
+        .onTapGesture {
+            hideKeyboard()
+        }
         .scrollContentBackground(.hidden)
         .listStyle(.plain)
         .alert(isPresented: $isError) {
@@ -875,7 +890,7 @@ struct DeviceSetupView: View {
     @State private var newDeviceName: String = ""
     @State private var deviceName: String = ""
     @State private var deviceID: String = ""
-    @State private var deviceList: [DeviceList] = [DeviceList(familiarName: "Test", id: "AABBCCDDEEFF")]
+    @State private var deviceList: [DeviceList] = []
     
     @State private var isEmprty: Bool = false
     @State private var isError: Bool = false
@@ -935,6 +950,8 @@ struct DeviceSetupView: View {
         .padding(5)
         
         Button {
+            hideKeyboard()
+            
             Task {
                 Task {
                     self.responseValues = try await self.connector.deviceNewRegister(deviceName: newDeviceName, userID: userID)
@@ -1067,6 +1084,9 @@ struct DeviceSetupView: View {
             )
             .listRowSeparator(.hidden)
         }
+        .onTapGesture {
+            hideKeyboard()
+        }
         .scrollContentBackground(.hidden)
         .listStyle(.plain)
         .alert(isPresented: $isError) {
@@ -1105,17 +1125,284 @@ struct SpaceRegisterView: View {
     @Binding var connector: MainStationConnector!
     @Binding var viewController: Bool
     
+    @State private var responseValues: [String : Any] = [:]
+    @State private var spaceName: String = ""
+    @State private var sizeX: Float = 0.0
+    @State private var sizeY: Float = 0.0
+    
+    @State private var isError: Bool = false
+    
+    @State private var message: String = "Unknown"
+    
     var body: some View {
-        Text("SpaceRegisterView")
+        HStack {
+            Image(systemName: "square.on.square.intersection.dashed")
+                .font(.system(size: 30, weight: .bold))
+                .foregroundColor(Color("BeaconDefaultColor"))
+            Text("Space Register")
+                .font(.custom("SamsungOneKorean-700", size: 32))
+                .frame(alignment: .leading)
+        }
+        .frame(width:400, height:100)
+        ScrollView {
+            VStack {
+                Image("RoomImg")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 400, height: 400)
+                    .offset(x: 20)
+                    .padding(.bottom, 30.0)
+                
+                HStack{
+                    Text("Space Name")
+                        .frame(width: 120, alignment: .leading)
+                        .foregroundColor(.gray)
+                        .bold()
+                    Divider()
+                    TextField("Identification Name", text:$spaceName)
+                        .frame(width: 200, alignment: .leading)
+                }
+                .frame(width: 400, height: 40)
+                .background(Color("BackgroundColor"))
+                .overlay(
+                    Capsule(style: .continuous)
+                        .stroke(Color("OutlineColor"), lineWidth: 2)
+                )
+                .padding(5)
+                
+                HStack{
+                    Text("Size X (m)")
+                        .frame(width: 120, alignment: .leading)
+                        .foregroundColor(.gray)
+                        .bold()
+                    Divider()
+                    TextField("Float Number (meter)", value:$sizeX, format:.number)
+                        .frame(width: 200, alignment: .leading)
+                        .keyboardType(.decimalPad)
+                }
+                .frame(width: 400, height: 40)
+                .background(Color("BackgroundColor"))
+                .overlay(
+                    Capsule(style: .continuous)
+                        .stroke(Color("OutlineColor"), lineWidth: 2)
+                )
+                .padding(5)
+                
+                HStack{
+                    Text("Size Y (m)")
+                        .frame(width: 120, alignment: .leading)
+                        .foregroundColor(.gray)
+                        .bold()
+                    Divider()
+                    TextField("Float Number (meter)", value:$sizeY, format:.number)
+                        .frame(width: 200, alignment: .leading)
+                        .keyboardType(.decimalPad)
+                }
+                .frame(width: 400, height: 40)
+                .background(Color("BackgroundColor"))
+                .overlay(
+                    Capsule(style: .continuous)
+                        .stroke(Color("OutlineColor"), lineWidth: 2)
+                )
+                .padding(5)
+                
+                Button {
+                    hideKeyboard()
+                    
+                    Task {
+                        self.responseValues = try await self.connector.spaceRegister(spaceName: spaceName, sizeX: sizeX, sizeY: sizeY)
+                        let isSuccess: Bool = responseValues["valid"] as! Bool
+                        
+                        if isSuccess {
+                            UserDefaults.standard.setValue(true, forKey: "isSpaceSet")
+                            UserDefaults.standard.setValue(responseValues["id"] as! String, forKey: "spaceID")
+                            
+                            viewController.toggle()
+                        }
+                        else {
+                            self.message = responseValues["msg"] as! String
+                            isError.toggle()
+                        }
+                    }
+                } label: {
+                    Text("Add Space")
+                        .font(.custom("SamsungOneKorean-700", size: 18))
+                        .frame(width: 400, height: 40)
+                        .background(Color("BluetoothColor"))
+                        .foregroundColor(Color("BackgroundColor"))
+                        .cornerRadius(20)
+                }
+            }
+        }
+        .onTapGesture {
+            hideKeyboard()
+        }
+        .alert(isPresented: $isError) {
+            Alert(title: Text("Main Station Error"), message: Text(message), dismissButton: .default(Text("Confrim"), action: { viewController.toggle() }))
+        }
     }
+}
+
+struct SpaceList {
+    var familiarName: String
+    var id: String
+    var sizeX: Float
+    var sizeY: Float
 }
 
 struct SpaceSetupView: View {
     @Binding var connector: MainStationConnector!
     @Binding var viewController: Bool
     
+    @State private var responseList: [[String : Any]] = []
+    @State private var responseValues: [String : Any] = [:]
+    @State private var isSpaceSet: Bool = false
+    @State private var spaceID: String = ""
+    @State private var spaceList: [SpaceList] = []
+    
+    @State private var isEmprty: Bool = false
+    @State private var isError: Bool = false
+    
+    @State private var message: String = "Unknown"
+    
     var body: some View {
-        Text("SpaceSetupView")
+        HStack {
+            Image(systemName: "square.on.square")
+                .font(.system(size: 30, weight: .bold))
+                .foregroundColor(Color("BeaconDefaultColor"))
+            Text("Space Setup")
+                .font(.custom("SamsungOneKorean-700", size: 32))
+                .frame(alignment: .leading)
+        }
+        .frame(width:400, height:200)
+        
+        // Space List Part
+        Text("Space List")
+            .font(.custom("SamsungOneKorean-700", size: 20))
+            .foregroundColor(.gray)
+            .frame(width: 350, alignment: .leading)
+            .bold()
+        
+        if isEmprty {
+            Text("Empty")
+                .font(.custom("SamsungOneKorean-700", size: 25))
+                .foregroundColor(.gray)
+                .frame(width: 380, height: 50, alignment: .center)
+                .bold()
+                .overlay(
+                    RoundedRectangle(cornerRadius: 20)
+                        .stroke(Color("OutlineColor"), lineWidth: 2)
+                )
+        }
+        
+        List(spaceList, id: \.id) { spaceData in
+            VStack {
+                HStack {
+                    Image(systemName: "rectangle.on.rectangle.square.fill")
+                        .font(.system(size: 30, weight: .bold))
+                        .foregroundColor(Color("BeaconDefaultColor"))
+                    Text("\(spaceData.familiarName)")
+                        .font(.custom("SamsungOneKorean-700", size: 25))
+                        .frame(width: 300, alignment: .leading)
+                        .bold()
+                }
+                
+                Text("\(spaceData.id)")
+                    .font(.custom("SamsungOneKorean-400", size: 15))
+                    .foregroundColor(.gray)
+                    .frame(width: 250, alignment: .leading)
+                    .bold()
+                Text("Size X : \(String(format: "%.2f", spaceData.sizeX))m, Size Y : \(String(format: "%.2f", spaceData.sizeY))m")
+                    .font(.custom("SamsungOneKorean-400", size: 15))
+                    .foregroundColor(.gray)
+                    .frame(width: 250, alignment: .leading)
+                    .bold()
+                
+                HStack {
+                    Button {
+                        self.spaceID = spaceData.id
+                        
+                        UserDefaults.standard.setValue(true, forKey: "isSpaceSet")
+                        UserDefaults.standard.setValue(self.spaceID, forKey: "spaceID")
+                        
+                        viewController.toggle()
+                    } label: {
+                        Text("Select")
+                            .font(.custom("SamsungOneKorean-700", size: 18))
+                            .frame(width: 220, height: 40)
+                            .background(Color("BeaconNormalColor"))
+                            .foregroundColor(Color("BackgroundColor"))
+                            .cornerRadius(20)
+                    }
+                    .buttonStyle(BorderlessButtonStyle())
+                    Button {
+                        Task {
+                            self.responseValues = try await self.connector.spaceDelete(spaceID: spaceData.id)
+                            let isSuccess: Bool = self.responseValues["valid"] as! Bool
+                            
+                            if !isSuccess {
+                                self.message = responseValues["msg"] as! String
+                                isError.toggle()
+                            }
+                            
+                            self.spaceList = []
+                            self.responseList = try await self.connector.spaceRequest()
+                            self.isEmprty = !(responseList[0]["valid"] as! Bool)
+                            
+                            if !isEmprty {
+                                for spaceData: [String : Any] in responseList {
+                                    let spaceName: String = spaceData["familiar_name"] as! String
+                                    let spaceID: String = spaceData["id"] as! String
+                                    let sizeX: Float = spaceData["size_x"] as! Float
+                                    let sizeY: Float = spaceData["size_y"] as! Float
+                                    self.spaceList.append(SpaceList(familiarName: spaceName, id: spaceID, sizeX: sizeX, sizeY: sizeY))
+                                }
+                            }
+                        }
+                    } label: {
+                        Text("Delete")
+                            .font(.custom("SamsungOneKorean-700", size: 18))
+                            .frame(width: 110, height: 40)
+                            .background(Color("BeaconLowBatteryColor"))
+                            .foregroundColor(Color("BackgroundColor"))
+                            .cornerRadius(20)
+                    }
+                    .buttonStyle(BorderlessButtonStyle())
+                }
+            }
+            .frame(width: 380, height: 160)
+            .background(Color("BackgroundColor"))
+            .overlay(
+                RoundedRectangle(cornerRadius: 20)
+                    .stroke(Color("OutlineColor"), lineWidth: 2)
+            )
+            .listRowSeparator(.hidden)
+        }
+        .onTapGesture {
+            hideKeyboard()
+        }
+        .scrollContentBackground(.hidden)
+        .listStyle(.plain)
+        .alert(isPresented: $isError) {
+            Alert(title: Text("Main Station Error"), message: Text(message), dismissButton: .default(Text("Confrim"), action: { viewController.toggle() }))
+        }
+        .onAppear {
+            Task {
+                self.spaceList = []
+                self.responseList = try await self.connector.spaceRequest()
+                self.isEmprty = !(responseList[0]["valid"] as! Bool)
+                
+                if !isEmprty {
+                    for spaceData: [String : Any] in responseList {
+                        let spaceName: String = spaceData["familiar_name"] as! String
+                        let spaceID: String = spaceData["id"] as! String
+                        let sizeX: Float = spaceData["size_x"] as! Float
+                        let sizeY: Float = spaceData["size_y"] as! Float
+                        self.spaceList.append(SpaceList(familiarName: spaceName, id: spaceID, sizeX: sizeX, sizeY: sizeY))
+                    }
+                }
+            }
+        }
     }
 }
 
