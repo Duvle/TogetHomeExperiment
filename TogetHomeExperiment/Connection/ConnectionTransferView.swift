@@ -388,7 +388,7 @@ struct ConnectionTransferView: View, MainStationConnectorDelegate {
                             .sheet(isPresented: $isBeaconPowerUpdateView) {
                                 BeaconPowerUpdateView(connector: self.$connector, viewController: $isBeaconPowerUpdateView)
                             }
-                            //.disabled(!isServerConnect)
+                            .disabled(!isServerConnect)
                         }
                     }
                     
@@ -420,7 +420,7 @@ struct ConnectionTransferView: View, MainStationConnectorDelegate {
                             .sheet(isPresented: $isPrimaryBeaconSetupView) {
                                 PrimaryBeaconSetupView(connector: self.$connector, viewController: $isPrimaryBeaconSetupView)
                             }
-                            //.disabled(!isServerConnect)
+                            .disabled(!isServerConnect)
                         }
                     }
                 }
@@ -1720,7 +1720,7 @@ struct BeaconUpdateView: View {
             Text("Empty")
                 .font(.custom("SamsungOneKorean-700", size: 25))
                 .foregroundColor(.gray)
-                .frame(width: 380, height: 50, alignment: .center)
+                .frame(width: 400, height: 50, alignment: .center)
                 .bold()
                 .overlay(
                     RoundedRectangle(cornerRadius: 20)
@@ -2052,12 +2052,214 @@ struct BeaconPowerUpdateView: View, BeaconScannerDelegate {
     }
 }
 
-struct PrimaryBeaconSetupView: View {
+struct PrimaryBeaconList {
+    var id: String
+    var stateHex: String
+    var rssi: [Int]
+}
+
+struct PrimaryBeaconSetupView: View, BeaconScannerDelegate {
     @Binding var connector: MainStationConnector!
     @Binding var viewController: Bool
     
+    @State var beaconScanner: BeaconScanner!
+    @State private var searchID: String = ""
+    @State private var noRSSI: Int = 100
+    @State private var time: Int = 120
+    
+    @State private var responseValues: [String : Any] = [:]
+    @State private var isSpaceSet: Bool = false
+    @State private var spaceID: String = ""
+    @State private var responseList: [[String : Any]] = []
+    @State private var roadPrimaryList: [String] = []
+    @State private var setPrimaryList: [String] = []
+    @State private var primaryBeaconList: [PrimaryBeaconList] = [PrimaryBeaconList(id: "FFFFFFFFFFFF", stateHex: "FFFF", rssi: [-20,-20,-20,-20,-20,-20,-20,-20,-20,-20])]
+    
+    @State private var isError: Bool = false
+    @State private var isScanning: Bool = false
+    
+    @State private var message: String = "Unknown"
+    
+    func didFindBeacon(beaconScanner: BeaconScanner, beaconInfo: BeaconInfo) {
+        let _namespaceID = beaconInfo.beaconID?.idtostring(idType: .Namespace) ?? "17FD1CEFFF705E7F803E"
+        let _instanceID = beaconInfo.beaconID?.idtostring(idType: .Instance) ?? "FFFFFFFFFFFF"
+        let _stateHex = beaconInfo.beaconState?.deviceStateHex ?? "FFFF"
+        let _rssi = (beaconInfo.RSSI < -120 || beaconInfo.RSSI > 0) ? -120 : beaconInfo.RSSI
+        
+        let indexID = self.setPrimaryList.firstIndex(of: _instanceID)
+        
+        if _namespaceID == self.searchID {
+            if indexID != nil {
+                if self.primaryBeaconList[indexID!].rssi.count < self.noRSSI {
+                    self.primaryBeaconList[indexID!].rssi.append(_rssi)
+                }
+            }
+            else {
+                self.setPrimaryList.append(_instanceID)
+                self.primaryBeaconList.append(PrimaryBeaconList(id: _instanceID, stateHex: _stateHex, rssi: [_rssi]))
+            }
+        }
+    }
+    
     var body: some View {
-        Text("PrimaryBeaconSetupView")
+        HStack {
+            Image(systemName: "airplayaudio")
+                .font(.system(size: 30, weight: .bold))
+                .foregroundColor(Color("BeaconDefaultColor"))
+            Text("Primary Beacon Setup")
+                .font(.custom("SamsungOneKorean-700", size: 32))
+                .frame(alignment: .leading)
+        }
+        .frame(width:400, height:200)
+        
+        HStack{
+            Text("SpaceID")
+                .frame(width: 120, alignment: .leading)
+                .foregroundColor(.gray)
+                .bold()
+            Divider()
+            Text("\(spaceID)")
+                .frame(width: 200, alignment: .leading)
+        }
+        .frame(width: 400, height: 40)
+        .background(Color("BackgroundColor"))
+        .overlay(
+            Capsule(style: .continuous)
+                .stroke(Color("OutlineColor"), lineWidth: 2)
+        )
+        
+        Button {
+            isScanning.toggle()
+            if isScanning {
+                self.beaconScanner.startScanning()
+                DispatchQueue.main.asyncAfter(deadline: .now() + DispatchTimeInterval.seconds(time)) {
+                    self.isScanning = false
+                    self.beaconScanner.stopScanning()
+                }
+            }
+            else {
+                self.beaconScanner.stopScanning()
+                
+                self.setPrimaryList = []
+                self.primaryBeaconList = []
+            }
+        } label: {
+            Text(isScanning ? "Stop Scan" : "Scan Beacon")
+                .font(.custom("SamsungOneKorean-700", size: 18))
+                .frame(width: 400, height: 40)
+                .background(isScanning ? Color("BeaconLowBatteryColor") : Color("BeaconNormalColor"))
+                .foregroundColor(Color("BackgroundColor"))
+                .cornerRadius(20)
+                .padding(5)
+        }
+        
+        Button {
+            Task {
+                var beaconRssiData: [[String : Any]] = []
+                
+                for primaryBeaconData in self.primaryBeaconList {
+                    beaconRssiData.append(["id": primaryBeaconData.id, "state": primaryBeaconData.stateHex, "rssi": primaryBeaconData.rssi])
+                }
+                self.responseValues = try await self.connector.primaryBeaconRegister(spaceID: self.spaceID, beaconRssiData: beaconRssiData)
+                let isSuccess: Bool = self.responseValues["valid"] as! Bool
+                
+                if isSuccess {
+                    viewController.toggle()
+                }
+                else {
+                    self.message = responseValues["msg"] as! String
+                    isError.toggle()
+                }
+            }
+        } label: {
+            Text(self.primaryBeaconList.isEmpty ? "Unable" : "Primary Beacon Setup")
+                .font(.custom("SamsungOneKorean-700", size: 18))
+                .frame(width: 400, height: 40)
+                .background(self.primaryBeaconList.isEmpty ? Color("BeaconDefaultColor") : Color("BluetoothColor"))
+                .foregroundColor(Color("BackgroundColor"))
+                .cornerRadius(20)
+        }
+        .disabled(self.primaryBeaconList.isEmpty)
+        
+        if self.primaryBeaconList.isEmpty {
+            Text("Empty")
+                .font(.custom("SamsungOneKorean-700", size: 20))
+                .foregroundColor(.gray)
+                .frame(width: 400, height: 50, alignment: .center)
+                .bold()
+                .overlay(
+                    RoundedRectangle(cornerRadius: 20)
+                        .stroke(Color("OutlineColor"), lineWidth: 2)
+                )
+        }
+        
+        List(primaryBeaconList, id: \.id) { beaconData in
+            VStack {
+                HStack {
+                    Image(systemName: "sensor.tag.radiowaves.forward.fill")
+                        .font(.system(size: 30, weight: .bold))
+                        .foregroundColor(Color("BeaconDefaultColor"))
+                    Text("\(beaconData.id)")
+                        .font(.custom("SamsungOneKorean-700", size: 25))
+                        .frame(width: 300, alignment: .leading)
+                        .bold()
+                }
+                Text("State : \(beaconData.stateHex)")
+                    .font(.custom("SamsungOneKorean-400", size: 15))
+                    .foregroundColor(.gray)
+                    .padding(.leading, 26)
+                    .frame(width: 300, alignment: .leading)
+                Text("RSSI : \(beaconData.rssi.map(String.init).joined(separator: " "))")
+                    .font(.custom("SamsungOneKorean-400", size: 15))
+                    .foregroundColor(.gray)
+                    .padding(.leading, 26)
+                    .frame(width: 300, alignment: .leading)
+            }
+            .frame(width: 400, height: 100)
+            .background(Color("BackgroundColor"))
+            .overlay(
+                RoundedRectangle(cornerRadius: 20)
+                    .stroke(Color("OutlineColor"), lineWidth: 2)
+            )
+            .listRowSeparator(.hidden)
+        }
+        .scrollContentBackground(.hidden)
+        .listStyle(.plain)
+        .alert(isPresented: $isError) {
+            Alert(title: Text("Main Station Error"), message: Text(message), dismissButton: .default(Text("Confrim"), action: { viewController.toggle() }))
+        }
+        .onAppear {
+            self.isSpaceSet = UserDefaults.standard.value(forKey: "isSpaceSet") as? Bool ?? false
+            if !isSpaceSet {
+                self.message = "Please set up the space first and run the beacon settings"
+                isError.toggle()
+            }
+            else {
+                self.beaconScanner = BeaconScanner()
+                self.beaconScanner.delegate = self
+                self.searchID = UserDefaults.standard.value(forKey: "allBeaconNamespaceID") as? String ?? "17FD1CEFFF705E7F803E"
+                self.time = 2 * (UserDefaults.standard.value(forKey: "allBeaconScanTime") as? Int ?? 60)
+                self.noRSSI = 10 * (UserDefaults.standard.value(forKey: "allBeaconNoRSSI") as? Int ?? 10)
+                
+                self.spaceID = UserDefaults.standard.value(forKey: "spaceID") as? String ?? ""
+                
+                // Primary Beacon Load
+                Task {
+                    self.responseList = try await self.connector.beaconPriRequest()
+                    let isSucess: Bool = self.responseList[0]["valid"] as! Bool
+                    
+                    if isSucess {
+                        for primaryBeaconData: [String : Any] in responseList {
+                            self.roadPrimaryList.append(primaryBeaconData["id"] as! String)
+                        }
+                    }
+                    else {
+                        self.message = self.responseList[0]["msg"] as! String
+                        isError.toggle()
+                    }
+                }
+            }
+        }
     }
 }
 
