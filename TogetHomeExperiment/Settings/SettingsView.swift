@@ -50,6 +50,7 @@ struct SettingsView: View {
                             .bold()
                         Divider()
                         TextField("Natural Number", value: $allBeaconNoRSSI, format: .number)
+                            .keyboardType(.decimalPad)
                     }
                     HStack{
                         Text("Scan Time (sec)")
@@ -58,6 +59,7 @@ struct SettingsView: View {
                             .bold()
                         Divider()
                         TextField("Natural Number", value: $allBeaconScanTime, format: .number)
+                            .keyboardType(.decimalPad)
                     }
                 }
                 Section(header: Text("Specific Beacon").bold()) {
@@ -232,10 +234,15 @@ struct SettingsView: View {
                     .buttonStyle(BorderlessButtonStyle())
                 }
             }
+            .onTapGesture {
+                hideKeyboard()
+            }
             .navigationTitle("Settings")
             .toolbar {
                 ToolbarItem {
                     Button {
+                        hideKeyboard()
+                        
                         UserDefaults.standard.setValue(allBeaconNamespaceID, forKey: "allBeaconNamespaceID")
                         UserDefaults.standard.setValue(allBeaconNoRSSI, forKey: "allBeaconNoRSSI")
                         UserDefaults.standard.setValue(allBeaconScanTime, forKey: "allBeaconScanTime")
