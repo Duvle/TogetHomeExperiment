@@ -290,7 +290,7 @@ struct ConnectionTransferView: View, MainStationConnectorDelegate {
                         .sheet(isPresented: $isBeaconRegisterView) {
                             BeaconRegisterView(connector: self.$connector, viewController: $isBeaconRegisterView)
                         }
-                        //.disabled(!isServerConnect)
+                        disabled(!isServerConnect)
                     }
                 }
                 
@@ -670,7 +670,7 @@ struct UserSetupView: View {
     @State private var newUserName: String = ""
     @State private var userList: [UserList] = []
     
-    @State private var isEmprty: Bool = true
+    @State private var isEmpty: Bool = true
     @State private var isError: Bool = false
     
     @State private var message: String = "Unknown"
@@ -724,9 +724,9 @@ struct UserSetupView: View {
                 
                 self.userList = []
                 self.responseList = try await self.connector.userRequest()
-                self.isEmprty = !(responseList[0]["valid"] as! Bool)
+                self.isEmpty = !(responseList[0]["valid"] as! Bool)
                 
-                if !isEmprty {
+                if !isEmpty {
                     for userData: [String : Any] in responseList {
                         let userName: String = userData["user_name"] as! String
                         let userID: String = userData["id"] as! String
@@ -754,7 +754,7 @@ struct UserSetupView: View {
             .frame(width: 350, alignment: .leading)
             .bold()
         
-        if isEmprty {
+        if isEmpty {
             Text("Empty")
                 .font(.custom("SamsungOneKorean-700", size: 25))
                 .foregroundColor(.gray)
@@ -818,9 +818,9 @@ struct UserSetupView: View {
                             
                             self.userList = []
                             self.responseList = try await self.connector.userRequest()
-                            self.isEmprty = !(responseList[0]["valid"] as! Bool)
+                            self.isEmpty = !(responseList[0]["valid"] as! Bool)
                             
-                            if !isEmprty {
+                            if !isEmpty {
                                 for userData: [String : Any] in responseList {
                                     let userName: String = userData["user_name"] as! String
                                     let userID: String = userData["id"] as! String
@@ -859,9 +859,9 @@ struct UserSetupView: View {
             Task {
                 self.userList = []
                 self.responseList = try await self.connector.userRequest()
-                self.isEmprty = !(responseList[0]["valid"] as! Bool)
+                self.isEmpty = !(responseList[0]["valid"] as! Bool)
                 
-                if !isEmprty {
+                if !isEmpty {
                     for userData: [String : Any] in responseList {
                         let userName: String = userData["user_name"] as! String
                         let userID: String = userData["id"] as! String
@@ -892,7 +892,7 @@ struct DeviceSetupView: View {
     @State private var deviceID: String = ""
     @State private var deviceList: [DeviceList] = []
     
-    @State private var isEmprty: Bool = false
+    @State private var isEmpty: Bool = true
     @State private var isError: Bool = false
     
     @State private var message: String = "Unknown"
@@ -964,9 +964,9 @@ struct DeviceSetupView: View {
                     
                     self.deviceList = []
                     self.responseList = try await self.connector.deviceMyRequest(userID: self.userID)
-                    self.isEmprty = !(responseList[0]["valid"] as! Bool)
+                    self.isEmpty = !(responseList[0]["valid"] as! Bool)
                     
-                    if !isEmprty {
+                    if !isEmpty {
                         for deviceData: [String : Any] in responseList {
                             let deviceName: String = deviceData["familiar_name"] as! String
                             let deviceID: String = deviceData["id"] as! String
@@ -995,7 +995,7 @@ struct DeviceSetupView: View {
             .frame(width: 350, alignment: .leading)
             .bold()
         
-        if isEmprty {
+        if isEmpty {
             Text("Empty")
                 .font(.custom("SamsungOneKorean-700", size: 25))
                 .foregroundColor(.gray)
@@ -1055,9 +1055,9 @@ struct DeviceSetupView: View {
                             
                             self.deviceList = []
                             self.responseList = try await self.connector.deviceMyRequest(userID: self.userID)
-                            self.isEmprty = !(responseList[0]["valid"] as! Bool)
+                            self.isEmpty = !(responseList[0]["valid"] as! Bool)
                             
-                            if !isEmprty {
+                            if !isEmpty {
                                 for deviceData: [String : Any] in responseList {
                                     let deviceName: String = deviceData["familiar_name"] as! String
                                     let deviceID: String = deviceData["id"] as! String
@@ -1106,9 +1106,9 @@ struct DeviceSetupView: View {
                 Task {
                     self.deviceList = []
                     self.responseList = try await self.connector.deviceMyRequest(userID: self.userID)
-                    self.isEmprty = !(responseList[0]["valid"] as! Bool)
+                    self.isEmpty = !(responseList[0]["valid"] as! Bool)
                     
-                    if !isEmprty {
+                    if !isEmpty {
                         for deviceData: [String : Any] in responseList {
                             let deviceName: String = deviceData["familiar_name"] as! String
                             let deviceID: String = deviceData["id"] as! String
@@ -1144,6 +1144,7 @@ struct SpaceRegisterView: View {
                 .frame(alignment: .leading)
         }
         .frame(width:400, height:100)
+        
         ScrollView {
             VStack {
                 Image("RoomImg")
@@ -1260,7 +1261,7 @@ struct SpaceSetupView: View {
     @State private var spaceID: String = ""
     @State private var spaceList: [SpaceList] = []
     
-    @State private var isEmprty: Bool = false
+    @State private var isEmpty: Bool = true
     @State private var isError: Bool = false
     
     @State private var message: String = "Unknown"
@@ -1283,7 +1284,7 @@ struct SpaceSetupView: View {
             .frame(width: 350, alignment: .leading)
             .bold()
         
-        if isEmprty {
+        if isEmpty {
             Text("Empty")
                 .font(.custom("SamsungOneKorean-700", size: 25))
                 .foregroundColor(.gray)
@@ -1316,7 +1317,6 @@ struct SpaceSetupView: View {
                     .font(.custom("SamsungOneKorean-400", size: 15))
                     .foregroundColor(.gray)
                     .frame(width: 250, alignment: .leading)
-                    .bold()
                 
                 HStack {
                     Button {
@@ -1347,14 +1347,14 @@ struct SpaceSetupView: View {
                             
                             self.spaceList = []
                             self.responseList = try await self.connector.spaceRequest()
-                            self.isEmprty = !(responseList[0]["valid"] as! Bool)
+                            self.isEmpty = !(responseList[0]["valid"] as! Bool)
                             
-                            if !isEmprty {
+                            if !isEmpty {
                                 for spaceData: [String : Any] in responseList {
                                     let spaceName: String = spaceData["familiar_name"] as! String
                                     let spaceID: String = spaceData["id"] as! String
-                                    let sizeX: Float = spaceData["size_x"] as! Float
-                                    let sizeY: Float = spaceData["size_y"] as! Float
+                                    let sizeX: Float = (spaceData["size_x"] as! NSNumber).floatValue
+                                    let sizeY: Float = (spaceData["size_y"] as! NSNumber).floatValue
                                     self.spaceList.append(SpaceList(familiarName: spaceName, id: spaceID, sizeX: sizeX, sizeY: sizeY))
                                 }
                             }
@@ -1390,14 +1390,14 @@ struct SpaceSetupView: View {
             Task {
                 self.spaceList = []
                 self.responseList = try await self.connector.spaceRequest()
-                self.isEmprty = !(responseList[0]["valid"] as! Bool)
+                self.isEmpty = !(responseList[0]["valid"] as! Bool)
                 
-                if !isEmprty {
+                if !isEmpty {
                     for spaceData: [String : Any] in responseList {
                         let spaceName: String = spaceData["familiar_name"] as! String
                         let spaceID: String = spaceData["id"] as! String
-                        let sizeX: Float = spaceData["size_x"] as! Float
-                        let sizeY: Float = spaceData["size_y"] as! Float
+                        let sizeX: Float = (spaceData["size_x"] as! NSNumber).floatValue
+                        let sizeY: Float = (spaceData["size_y"] as! NSNumber).floatValue
                         self.spaceList.append(SpaceList(familiarName: spaceName, id: spaceID, sizeX: sizeX, sizeY: sizeY))
                     }
                 }
@@ -1406,12 +1406,262 @@ struct SpaceSetupView: View {
     }
 }
 
-struct BeaconRegisterView: View {
+struct BeaconRegisterView: View, BeaconScannerDelegate {
     @Binding var connector: MainStationConnector!
     @Binding var viewController: Bool
     
+    @State var beaconScanner: BeaconScanner!
+    @State private var searchID: String = ""
+    @State private var time: Int = 60
+    
+    @State private var responseValues: [String : Any] = [:]
+    @State private var isSpaceSet: Bool = false
+    @State private var spaceID: String = ""
+    @State private var beaconID: String = ""
+    @State private var beaconState: String = ""
+    @State private var beaconStateHex: String = ""
+    @State private var beaconPower: Int = -62
+    @State private var beaconPrimary: Bool = false
+    @State private var posX: Float = 0.0
+    @State private var posY: Float = 0.0
+    
+    @State private var isScanning: Bool = false
+    @State private var isFilled: Bool = false
+    @State private var isError: Bool = false
+    
+    @State private var message: String = "Unknown"
+    
+    func didFindBeacon(beaconScanner: BeaconScanner, beaconInfo: BeaconInfo) {
+        let _namespaceID = beaconInfo.beaconID?.idtostring(idType: .Namespace) ?? "17fd1cefff705e7f803e"
+        let _instanceID = beaconInfo.beaconID?.idtostring(idType: .Instance) ?? "ffffffffffff"
+        let _state = beaconInfo.beaconState?.deviceState
+        let _stateHex = beaconInfo.beaconState?.deviceStateHex
+        let _batteryLevel = beaconInfo.beaconState?.batteryAmout ?? 0
+        let _txPower = beaconInfo.txPower
+        let stateString: String
+        
+        switch _state {
+        case .Normal:
+            stateString = "Normal"
+        case .Triggered:
+            stateString = "Triggered"
+        case .LowBattery:
+            stateString = "Low Battery"
+        case .Unknown:
+            stateString = "Unknown State"
+        default:
+            stateString = "Default"
+        }
+        
+        if _namespaceID == self.searchID && _state == .Triggered  {
+            self.beaconID = _instanceID
+            self.beaconState = "\(stateString) [Battery :\(_batteryLevel)%]"
+            self.beaconStateHex = _stateHex ?? "FFFF"
+            self.beaconPower = _txPower
+            
+            self.isFilled = true
+            self.isScanning = false
+            self.beaconScanner.stopScanning()
+        }
+    }
+    
     var body: some View {
-        Text("BeaconRegisterView")
+        HStack {
+            Image(systemName: "sensor.tag.radiowaves.forward")
+                .font(.system(size: 30, weight: .bold))
+                .foregroundColor(Color("BeaconDefaultColor"))
+            Text("Beacon Register")
+                .font(.custom("SamsungOneKorean-700", size: 32))
+                .frame(alignment: .leading)
+        }
+        .frame(width:400, height:100)
+        
+        ScrollView {
+            VStack {
+                Image("BeaconSetImg")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 400, height: 350)
+                    .offset(x: 0)
+                    .padding(.bottom, 30.0)
+                
+                // Find Data
+                HStack{
+                    Text("SpaceID")
+                        .frame(width: 120, alignment: .leading)
+                        .foregroundColor(.gray)
+                        .bold()
+                    Divider()
+                    Text("\(spaceID)")
+                        .frame(width: 200, alignment: .leading)
+                }
+                .frame(width: 400, height: 40)
+                .background(Color("BackgroundColor"))
+                .overlay(
+                    Capsule(style: .continuous)
+                        .stroke(Color("OutlineColor"), lineWidth: 2)
+                )
+                
+                HStack{
+                    Text("Beacon ID")
+                        .frame(width: 120, alignment: .leading)
+                        .foregroundColor(.gray)
+                        .bold()
+                    Divider()
+                    Text("\(beaconID)")
+                        .frame(width: 200, alignment: .leading)
+                }
+                .frame(width: 400, height: 40)
+                .background(Color("BackgroundColor"))
+                .overlay(
+                    Capsule(style: .continuous)
+                        .stroke(Color("OutlineColor"), lineWidth: 2)
+                )
+                
+                HStack{
+                    Text("Beacon State")
+                        .frame(width: 120, alignment: .leading)
+                        .foregroundColor(.gray)
+                        .bold()
+                    Divider()
+                    Text("\(beaconID)")
+                        .frame(width: 200, alignment: .leading)
+                }
+                .frame(width: 400, height: 40)
+                .background(Color("BackgroundColor"))
+                .overlay(
+                    Capsule(style: .continuous)
+                        .stroke(Color("OutlineColor"), lineWidth: 2)
+                )
+                
+                Button {
+                    isScanning.toggle()
+                    if isScanning {
+                        self.beaconScanner.startScanning()
+                        DispatchQueue.main.asyncAfter(deadline: .now() + DispatchTimeInterval.seconds(time)) {
+                            self.beaconScanner.stopScanning()
+                        }
+                    }
+                    else {
+                        self.beaconScanner.stopScanning()
+                    }
+                } label: {
+                    Text(isScanning ? "Stop Scan" : "Scan Beacon")
+                        .font(.custom("SamsungOneKorean-700", size: 18))
+                        .frame(width: 400, height: 40)
+                        .background(isScanning ? Color("BeaconLowBatteryColor") : Color("BeaconNormalColor"))
+                        .foregroundColor(Color("BackgroundColor"))
+                        .cornerRadius(20)
+                        .padding(5)
+                }
+                
+                // Input Data
+                HStack{
+                    Text("Primary Beacon")
+                        .frame(width: 120, alignment: .leading)
+                        .foregroundColor(.gray)
+                        .bold()
+                    Divider()
+                    Toggle("", isOn: $beaconPrimary)
+                        .frame(width: 200, alignment: .leading)
+                }
+                .frame(width: 400, height: 40)
+                .background(Color("BackgroundColor"))
+                .overlay(
+                    Capsule(style: .continuous)
+                        .stroke(Color("OutlineColor"), lineWidth: 2)
+                )
+                
+                HStack{
+                    Text("Position X (m)")
+                        .frame(width: 120, alignment: .leading)
+                        .foregroundColor(.gray)
+                        .bold()
+                    Divider()
+                    TextField("Float Value (meter)", value: $posX, format: .number)
+                        .frame(width: 200, alignment: .leading)
+                        .keyboardType(.decimalPad)
+                }
+                .frame(width: 400, height: 40)
+                .background(Color("BackgroundColor"))
+                .overlay(
+                    Capsule(style: .continuous)
+                        .stroke(Color("OutlineColor"), lineWidth: 2)
+                )
+                
+                HStack{
+                    Text("Position Y (m)")
+                        .frame(width: 120, alignment: .leading)
+                        .foregroundColor(.gray)
+                        .bold()
+                    Divider()
+                    TextField("Float Value (meter)", value: $posY, format: .number)
+                        .frame(width: 200, alignment: .leading)
+                        .keyboardType(.decimalPad)
+                }
+                .frame(width: 400, height: 40)
+                .background(Color("BackgroundColor"))
+                .overlay(
+                    Capsule(style: .continuous)
+                        .stroke(Color("OutlineColor"), lineWidth: 2)
+                )
+                
+                Button {
+                    if isFilled {
+                        Task {
+                            self.responseValues = try await self.connector.beaconRegister(beaconID: self.beaconID, state: self.beaconStateHex, spaceID: self.spaceID, posX: self.posX, posY: self.posY, power: beaconPower, isPrimary: beaconPrimary)
+                            let isSuccess: Bool = self.responseValues["valid"] as! Bool
+                            
+                            if isSuccess {
+                                viewController.toggle()
+                            }
+                            else {
+                                self.message = responseValues["msg"] as! String
+                                isError.toggle()
+                            }
+                        }
+                    }
+                    else {
+                        self.message = "Please try to register after Beacon Scan"
+                        isError.toggle()
+                    }
+                } label: {
+                    Text("Add Beacon")
+                        .font(.custom("SamsungOneKorean-700", size: 18))
+                        .frame(width: 400, height: 40)
+                        .background(Color("BluetoothColor"))
+                        .foregroundColor(Color("BackgroundColor"))
+                        .cornerRadius(20)
+                        .padding(5)
+                }
+            }
+        }
+        .onTapGesture {
+            hideKeyboard()
+        }
+        .alert(isPresented: $isError) {
+            Alert(title: Text("Main Station Error"), message: Text(message), dismissButton: .default(Text("Confrim"), action: { viewController.toggle() }))
+        }
+        .onAppear {
+            self.isSpaceSet = UserDefaults.standard.value(forKey: "isSpaceSet") as? Bool ?? false
+            if !isSpaceSet {
+                self.message = "Please set up the space first and run the beacon settings"
+                isError.toggle()
+            }
+            else {
+                self.beaconScanner = BeaconScanner()
+                self.beaconScanner.delegate = self
+                self.searchID = UserDefaults.standard.value(forKey: "allBeaconNamespaceID") as? String ?? "17fd1cefff705e7f803e"
+                self.time = UserDefaults.standard.value(forKey: "allBeaconScanTime") as? Int ?? 60
+                
+                self.spaceID = UserDefaults.standard.value(forKey: "spaceID") as? String ?? ""
+            }
+        }
+        .onDisappear {
+            if isScanning {
+                self.beaconScanner.stopScanning()
+            }
+        }
     }
 }
 

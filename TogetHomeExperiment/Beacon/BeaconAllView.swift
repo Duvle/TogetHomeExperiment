@@ -156,6 +156,11 @@ struct BeaconAllView: View, BeaconScannerDelegate {
             self.noRSSI = UserDefaults.standard.value(forKey: "allBeaconNoRSSI") as? Int ?? 10
             self.time = UserDefaults.standard.value(forKey: "allBeaconScanTime") as? Int ?? 60
         }
+        .onDisappear {
+            if isScanning {
+                self.beaconScanner.stopScanning()
+            }
+        }
     }
 }
 

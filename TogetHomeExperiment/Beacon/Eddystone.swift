@@ -56,7 +56,7 @@ class BeaconID: NSObject {
     private func inttohex(intData: [UInt8]) -> String {
         var retval = ""
         for byte in intData {
-            var s = String(byte, radix: 16, uppercase: false)
+            var s = String(byte, radix: 16, uppercase: true)
             if s.count == 1{
                 s = "0" + s
             }
@@ -81,10 +81,12 @@ class BeaconState: NSObject {
     
     let deviceState: StateType
     let batteryAmout: Int
+    let deviceStateHex: String
     
-    private init(deviceState: StateType, batteryAmout: Int) {
+    private init(deviceState: StateType, batteryAmout: Int, deviceStateHex: String) {
         self.deviceState = deviceState
         self.batteryAmout = batteryAmout
+        self.deviceStateHex = deviceStateHex
     }
     
     // BeaconState description Overriding
@@ -111,6 +113,7 @@ class BeaconState: NSObject {
             
             let deviceState: StateType
             let batteryAmount: Int
+            var deviceStateHex: String = ""
             
             switch stateRawData[0] {
             case StateNormal:
@@ -125,7 +128,15 @@ class BeaconState: NSObject {
             
             batteryAmount = Int(stateRawData[1])
             
-            return BeaconState(deviceState: deviceState, batteryAmout: batteryAmount)
+            for byte in stateRawData {
+                var s = String(byte, radix: 16, uppercase: true)
+                if s.count == 1{
+                    s = "0" + s
+                }
+                deviceStateHex += s
+            }
+            
+            return BeaconState(deviceState: deviceState, batteryAmout: batteryAmount, deviceStateHex: deviceStateHex)
         }
         else {
             NSLog("This BeaconState Data is not available.")
