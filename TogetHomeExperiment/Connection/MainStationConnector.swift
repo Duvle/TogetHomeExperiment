@@ -225,12 +225,12 @@ class MainStationConnector: NSObject, MainStationFinderDelegate {
     }
     
     private func ipsResponse() {
-        // IPS Space Calculate Response -> [[String : Any]...]
+        // IPS Space Calculate Response -> [String : Any]
         self.socket.on("ips_space_response") {dataArray, socketAck in
-            let receivedData = dataArray[0] as! NSArray
-            let transferData = receivedData as! [[String : Any]]
-            self.responseArrayData = transferData
-            self.isArrayDataResponsed = true
+            let receivedData = dataArray[0] as! NSDictionary
+            let transferData = receivedData as! [String : Any]
+            self.responseDictionaryData = transferData
+            self.isDictionaryDataResponsed = true
         }
     }
     
@@ -519,5 +519,45 @@ class MainStationConnector: NSObject, MainStationFinderDelegate {
         receivedData = try await waitResponseDictionaryData()
         
         return receivedData  // valid: Bool, msg: String
+    }
+    
+    // Position Part
+    public func positionDeviceRequest(deviceID: String) async throws -> [String : Any] {
+        let optionData: [String : Any] = ["data_type": "Position Data", "device_id": deviceID]
+        var receivedData: [[String : Any]] = []
+        
+        self.dataRequest(optionData: optionData)
+        receivedData = try await waitResponseArrayData()
+        
+        return receivedData[0]
+    }
+    
+    public func positionAllRequest() async throws -> [[String : Any]] {
+        let optionData: [String : Any] = ["data_type": "Position Data"]
+        var receivedData: [[String : Any]] = []
+        
+        self.dataRequest(optionData: optionData)
+        receivedData = try await waitResponseArrayData()
+        
+        return receivedData
+    }
+    
+    // IPS Part
+    public func ipsSpaceRequest(beaconRssiData: [[String : Any]]) async throws -> [String : Any] {
+        let optionData: [String : Any] = ["beacon_rssi_data": beaconRssiData]
+        var receivedData: [String : Any] = [:]
+        
+        self.socket.emit("ips_space", optionData)
+        receivedData = try await waitResponseDictionaryData()
+        
+        return receivedData  // valid: Bool, msg: String, space_id: String
+    }
+    
+    public func ipsFinalRequest(spaceID: String, beaconRssiData: [[String : Any]]) {
+        let optionData: [String : Any] = ["space_id": spaceID, "beacon_rssi_data": beaconRssiData]
+        
+        self.socket.emit("ips_final", optionData)
+        
+        // NO RETURN VALUES
     }
 }
