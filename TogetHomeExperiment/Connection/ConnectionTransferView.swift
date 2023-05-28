@@ -30,6 +30,8 @@ struct ConnectionTransferView: View, MainStationConnectorDelegate {
     @State private var mainPort: String?
     @State private var udpPort: String?
     
+    @State private var message: String = "Unknown"
+    
     func readyConnector(connector: MainStationConnector) {
         self.isServerFind = true
     }
@@ -87,7 +89,6 @@ struct ConnectionTransferView: View, MainStationConnectorDelegate {
                             .cornerRadius(20)
                             .padding(5)
                     }
-                    
                     .buttonStyle(BorderlessButtonStyle())
                 }
                 
@@ -427,6 +428,9 @@ struct ConnectionTransferView: View, MainStationConnectorDelegate {
             }
         }
         .navigationTitle("Data Transfer")
+        .alert(isPresented: $isError) {
+            Alert(title: Text("Main Station Error"), message: Text(message), dismissButton: .default(Text("Confrim")))
+        }
     }
 }
 
@@ -1837,8 +1841,6 @@ struct BeaconUpdateView: View {
     }
 }
 
-
-
 struct BeaconPowerUpdateView: View, BeaconScannerDelegate {
     @Binding var connector: MainStationConnector!
     @Binding var viewController: Bool
@@ -2071,9 +2073,9 @@ struct PrimaryBeaconSetupView: View, BeaconScannerDelegate {
     @State private var isSpaceSet: Bool = false
     @State private var spaceID: String = ""
     @State private var responseList: [[String : Any]] = []
-    @State private var roadPrimaryList: [String] = []
+    @State private var loadPrimaryList: [String] = []
     @State private var setPrimaryList: [String] = []
-    @State private var primaryBeaconList: [PrimaryBeaconList] = [PrimaryBeaconList(id: "FFFFFFFFFFFF", stateHex: "FFFF", rssi: [-20,-20,-20,-20,-20,-20,-20,-20,-20,-20])]
+    @State private var primaryBeaconList: [PrimaryBeaconList] = []
     
     @State private var isError: Bool = false
     @State private var isScanning: Bool = false
@@ -2087,8 +2089,9 @@ struct PrimaryBeaconSetupView: View, BeaconScannerDelegate {
         let _rssi = (beaconInfo.RSSI < -120 || beaconInfo.RSSI > 0) ? -120 : beaconInfo.RSSI
         
         let indexID = self.setPrimaryList.firstIndex(of: _instanceID)
+        let checkID = self.loadPrimaryList.firstIndex(of: _instanceID)
         
-        if _namespaceID == self.searchID {
+        if (_namespaceID == self.searchID) && (checkID != nil) {
             if indexID != nil {
                 if self.primaryBeaconList[indexID!].rssi.count < self.noRSSI {
                     self.primaryBeaconList[indexID!].rssi.append(_rssi)
@@ -2250,7 +2253,7 @@ struct PrimaryBeaconSetupView: View, BeaconScannerDelegate {
                     
                     if isSucess {
                         for primaryBeaconData: [String : Any] in responseList {
-                            self.roadPrimaryList.append(primaryBeaconData["id"] as! String)
+                            self.loadPrimaryList.append(primaryBeaconData["id"] as! String)
                         }
                     }
                     else {
