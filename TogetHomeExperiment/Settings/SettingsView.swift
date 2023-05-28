@@ -62,24 +62,6 @@ struct SettingsView: View {
                             .keyboardType(.decimalPad)
                     }
                 }
-                Section(header: Text("Specific Beacon").bold()) {
-                    HStack{
-                        Spacer()
-                        Text("Developing features...")
-                            .font(.custom("SamsungOneKorean-400", size: 20))
-                            .foregroundColor(.gray)
-                        Spacer()
-                    }
-                }
-                Section(header: Text("Primary Beacon").bold()) {
-                    HStack{
-                        Spacer()
-                        Text("Developing features...")
-                            .font(.custom("SamsungOneKorean-400", size: 20))
-                            .foregroundColor(.gray)
-                        Spacer()
-                    }
-                }
                 Section(header: Text("Test Connect").bold(),
                         footer: Text("The ip address and port number must be entered correctly.")) {
                     HStack{
@@ -163,15 +145,6 @@ struct SettingsView: View {
                             .bold()
                         Divider()
                         Text("\(isSpaceSet ? "True" : "False") => \(spaceID)")
-                    }
-                }
-                Section(header: Text("Position Calculate").bold()) {
-                    HStack{
-                        Spacer()
-                        Text("Developing features...")
-                            .font(.custom("SamsungOneKorean-400", size: 20))
-                            .foregroundColor(.gray)
-                        Spacer()
                     }
                 }
                 Section(header: Text("System Version").bold()) {
