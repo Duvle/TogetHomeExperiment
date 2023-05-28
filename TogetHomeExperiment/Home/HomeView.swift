@@ -6,25 +6,34 @@
 //
 
 import SwiftUI
+import WebKit
 
 struct HomeView: View {
     var body: some View {
         NavigationStack {
             Form{
-                HStack{
-                    Spacer()
-                    VStack {
-                        Image(systemName: "questionmark.folder")
-                            .font(.system(size: 40, weight: .medium))
-                            .foregroundColor(Color("OutlineColor"))
-                        Text("No Data")
-                            .foregroundColor(.gray)
-                            .bold()
-                    }.frame(height: 500)
-                    Spacer()
-                }
+                WebView(urlString: "https://home.itdice.net")
+                    .frame(height: 600)
             }.navigationTitle("Home")
         }
+    }
+}
+
+
+struct WebView: UIViewRepresentable {
+    let urlString: String
+    
+    func makeUIView(context: Context) -> WKWebView {
+        let webView = WKWebView()
+        if let url = URL(string: urlString) {
+            let request = URLRequest(url: url)
+            webView.load(request)
+        }
+        return webView
+    }
+    
+    func updateUIView(_ uiView: WKWebView, context: Context) {
+        // Update the view if needed
     }
 }
 
